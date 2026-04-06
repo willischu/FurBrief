@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: { token: string } }): Promise<Metadata> {
-  const { data, error } = await supabaseAdmin()
+  const { data, error } = await (supabaseAdmin() as any)
     .from('briefs')
     .select('orders(pet_name, language)')
     .eq('token', params.token)
@@ -52,7 +52,7 @@ interface BriefData {
 
 export default async function BriefPage({ params }: { params: { token: string } }) {
   const { token } = params;
-  const { data, error } = await supabaseAdmin()
+  const { data, error } = await (supabaseAdmin() as any)
     .from('briefs')
     .select(
       `token, day_schedule, medications, warning_signs, normal_things, follow_up, orders(pet_name, species, surgery_type, language)`

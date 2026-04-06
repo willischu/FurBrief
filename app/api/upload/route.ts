@@ -31,15 +31,15 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({ error: 'Rate limit check failed' }), { status: 500 });
   }
 
-  const existingCount = rate.data?.count ?? 0;
+  const existingCount = (rate.data as any)?.count ?? 0;
   if (existingCount >= 10) {
     return new Response(JSON.stringify({ error: 'Too many uploads from this IP. Try again in an hour.' }), { status: 429 });
   }
 
   if (existingCount === 0) {
-    await supabase.from('rate_limits').insert({ ip, window_start: windowStart, count: 1 });
+    await (supabase as any).from('rate_limits').insert({ ip, window_start: windowStart, count: 1 });
   } else {
-    await supabase
+    await (supabase as any)
       .from('rate_limits')
       .update({ count: existingCount + 1 })
       .eq('ip', ip)

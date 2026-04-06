@@ -20,7 +20,7 @@ const processSession = async (session: any) => {
   const orderId = metadata.order_id;
   if (!orderId) return;
 
-  await supabaseAdmin()
+  await (supabaseAdmin() as any)
     .from('orders')
     .update({ status: 'processing', customer_email: session.customer_email })
     .eq('id', orderId);
@@ -41,7 +41,7 @@ const processSession = async (session: any) => {
 
     const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-    await supabaseAdmin().from('briefs').insert({
+    await (supabaseAdmin() as any).from('briefs').insert({
       order_id: orderId,
       token: token,
       day_schedule: brief.day_schedule,
@@ -51,7 +51,7 @@ const processSession = async (session: any) => {
       follow_up: brief.follow_up,
     });
 
-    await supabaseAdmin()
+    await (supabaseAdmin() as any)
       .from('orders')
       .update({ status: 'complete', completed_at: new Date().toISOString() })
       .eq('id', orderId);
@@ -61,7 +61,7 @@ const processSession = async (session: any) => {
     }
   } catch (error) {
     console.error('processing failed', error);
-    await supabaseAdmin().from('orders').update({ status: 'failed' }).eq('id', orderId);
+    await (supabaseAdmin() as any).from('orders').update({ status: 'failed' }).eq('id', orderId);
   } finally {
     if (metadata.blob_url) {
       await deleteBlob(metadata.blob_url);
