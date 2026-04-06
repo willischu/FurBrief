@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Furbrief — Plain English for Pet Parents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFBEE;
+  --butter:#FCF0C8; --butter-dk:#F0DC90;
+  --honey:#FAE0B8;  --honey-dk:#ECC888;
+  --rose:#C4837A;   --rose-dk:#A86860;  --rose-lt:#F9E8E4; --rose-xl:#FDF5F3;
+  --brown:#B8866A;  --brown-dk:#8A5A40;
+  --text:#3A2010;   --muted:#8A6840;    --muted2:#C4A070;
+  --border:#E8D098; --border2:#ECC888;
+  --mint:#6BA888;   --mint-lt:#E4F4EC;  --mint-dk:#3D7A58;
+  --white:#FFFFFF;  --card:#FFFEF8;     --stone:#FFF6DC;
+  /* pink ONLY for cat blush */
+  --blush:#FFB3CF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.65;}
+body.ko{font-family:'Noto Sans KR',sans-serif;}
+body.zh{font-family:'Noto Sans SC',sans-serif;}
+h1,h2,.fredoka{font-family:'Fredoka One',sans-serif;}
+
+/* dot bg */
+.dot-bg{background-image:radial-gradient(circle,rgba(184,134,106,.08) 2px,transparent 2px);background-size:34px 34px;}
+
+/* ── NAV ──────────────────────────────── */
+nav{position:sticky;top:0;z-index:200;background:rgba(255,251,238,.96);backdrop-filter:blur(16px);border-bottom:1.5px solid var(--butter-dk);height:64px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;}
+.bmark{width:36px;height:36px;background:var(--brown);border-radius:13px;display:flex;align-items:center;justify-content:center;}
+.bname{font-family:'Fredoka One',sans-serif;font-size:22px;color:var(--text);letter-spacing:-.3px;}
+.bname em{color:var(--rose);font-style:normal;}
+.nav-r{display:flex;align-items:center;gap:8px;}
+.lang-wrap{position:relative;}
+.globe-btn{display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:50px;border:2px solid var(--butter-dk);background:var(--white);cursor:pointer;font-size:13px;font-weight:700;color:var(--muted);font-family:'Nunito',sans-serif;transition:border-color .15s,color .15s;}
+.globe-btn:hover{border-color:var(--rose);color:var(--rose);}
+.globe-btn svg{width:14px;height:14px;stroke:currentColor;}
+.ldrop{display:none;position:absolute;top:calc(100% + 8px);right:0;background:var(--white);border:2px solid var(--butter-dk);border-radius:20px;padding:6px;min-width:138px;box-shadow:0 8px 32px rgba(184,134,106,.18);}
+.ldrop.open{display:block;}
+.lopt{display:flex;align-items:center;justify-content:space-between;width:100%;padding:8px 12px;border:none;background:none;border-radius:12px;cursor:pointer;font-size:14px;font-weight:700;color:var(--text);font-family:inherit;transition:background .12s;}
+.lopt:hover{background:var(--butter);}
+.lopt.active{color:var(--rose);}
+.lopt.active::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--rose);}
+.lopt.ko{font-family:'Noto Sans KR',sans-serif;}
+.lopt.zh{font-family:'Noto Sans SC',sans-serif;}
+.nav-cta{background:var(--rose);color:#fff;padding:9px 20px;border-radius:50px;text-decoration:none;font-family:'Fredoka One',sans-serif;font-size:15px;display:flex;align-items:center;gap:7px;transition:background .15s;}
+.nav-cta:hover{background:var(--rose-dk);}
+.nprice{background:rgba(255,255,255,.22);font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;}
+
+/* ── HERO ──────────────────────────────── */
+.hero-outer{overflow:hidden;}
+.hero-inner{max-width:1180px;margin:0 auto;padding:60px 5% 52px;display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+@media(max-width:820px){.hero-inner{grid-template-columns:1fr;gap:36px;padding:44px 5% 32px;}}
+
+.eyebrow{display:inline-flex;align-items:center;gap:6px;background:var(--butter);padding:5px 14px;border-radius:50px;margin-bottom:18px;border:1.5px solid var(--butter-dk);}
+.eyebrow-dot{width:6px;height:6px;background:var(--brown);border-radius:50%;}
+.eyebrow-text{font-size:12px;font-weight:700;color:var(--brown-dk);}
+
+.hero-h1{font-size:clamp(28px,4vw,52px);color:var(--text);line-height:1.12;letter-spacing:-.3px;margin-bottom:14px;}
+.hero-h1 em{color:var(--rose);font-style:normal;}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.75;font-weight:600;max-width:430px;margin-bottom:10px;}
+.hero-def{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:26px;padding:10px 14px;border-left:3px solid var(--honey-dk);background:var(--butter);border-radius:0 14px 14px 0;line-height:1.6;font-weight:600;}
+
+/* upload */
+.uzone{background:var(--white);border:2.5px dashed var(--honey-dk);border-radius:24px;padding:26px 18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:12px;}
+.uzone:hover{border-color:var(--brown);background:var(--butter);}
+.uico{width:52px;height:52px;background:var(--butter);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.uico svg{width:24px;height:24px;stroke:var(--brown);}
+.utit{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.uhint{font-size:12px;color:var(--muted);font-weight:600;}
+
+/* brief lang */
+.blang-row{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.blang-lbl{font-size:12px;font-weight:700;color:var(--muted);}
+.bpills{display:flex;gap:5px;flex-wrap:wrap;}
+.bpill{padding:5px 12px;border-radius:50px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid var(--butter-dk);background:var(--white);color:var(--muted);transition:all .15s;font-family:inherit;}
+.bpill:hover{border-color:var(--rose);color:var(--rose);}
+.bpill.on{background:var(--rose);border-color:var(--rose);color:#fff;}
+.bpill.ko-p{font-family:'Noto Sans KR',sans-serif;}
+.bpill.zh-p{font-family:'Noto Sans SC',sans-serif;}
+
+.cbtn{width:100%;background:var(--rose);color:#fff;border:none;border-radius:50px;padding:15px 24px;font-family:'Fredoka One',sans-serif;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .15s,transform .1s;margin-bottom:13px;}
+.cbtn:hover{background:var(--rose-dk);}
+.cbtn:active{transform:scale(.99);}
+.cprice{background:rgba(255,255,255,.22);font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;}
+
+.trust-row{display:flex;gap:12px;flex-wrap:wrap;}
+.titem{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--muted);}
+.tchk{width:16px;height:16px;border-radius:50%;background:var(--butter);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tchk svg{width:8px;height:8px;stroke:var(--brown);}
+
+/* hero right */
+.hero-r{position:relative;}
+.mascot-wrap{position:absolute;top:-54px;right:16px;z-index:10;}
+
+/* decoder */
+.decoder{background:var(--text);border-radius:28px;overflow:hidden;border:2px solid var(--honey-dk);box-shadow:0 12px 48px rgba(184,134,106,.2);}
+.dec-head{background:var(--brown);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;}
+.dec-title{font-family:'Fredoka One',sans-serif;font-size:14px;color:rgba(255,255,255,.95);}
+.dec-live{font-size:10px;font-weight:700;background:rgba(255,255,255,.2);color:#fff;padding:3px 9px;border-radius:20px;letter-spacing:.5px;animation:pulse 3s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.dec-sub{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28);padding:14px 20px 0;}
+.dec-body{padding:8px 20px 20px;}
+.drow{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.07);}
+.drow:last-child{border-bottom:none;padding-bottom:0;}
+.jtag{display:inline-block;background:rgba(184,134,106,.25);color:#ECC888;font-size:11px;font-weight:700;font-family:monospace;padding:3px 9px;border-radius:8px;margin-bottom:6px;}
+.dplain{font-size:13px;color:rgba(255,255,255,.82);line-height:1.6;font-weight:600;}
+.dplain strong{color:#fff;}
+
+.stat-row{display:flex;gap:10px;margin-top:12px;}
+.stat-card{background:var(--white);border:2px solid var(--butter-dk);border-radius:20px;padding:10px 14px;flex:1;text-align:center;}
+.stat-card.accent{background:var(--rose);border-color:var(--rose);}
+.stat-n{font-family:'Fredoka One',sans-serif;font-size:22px;color:var(--rose);}
+.stat-card.accent .stat-n{color:#fff;}
+.stat-l{font-size:11px;font-weight:700;color:var(--muted);}
+.stat-card.accent .stat-l{color:rgba(255,255,255,.8);}
+
+/* ── PROOF BAR ──────────────────────────── */
+.proof-bar{background:var(--butter);border-top:1.5px solid var(--butter-dk);border-bottom:1.5px solid var(--butter-dk);padding:22px 5%;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.pfact{display:flex;align-items:center;gap:10px;background:var(--white);padding:10px 20px;border-radius:50px;border:2px solid var(--honey-dk);}
+.pfn{font-family:'Fredoka One',sans-serif;font-size:20px;color:var(--rose);}
+.pfl{font-size:12px;font-weight:700;color:var(--muted);}
+.pfdot{width:4px;height:4px;border-radius:50%;background:var(--honey-dk);}
+
+/* ── SECTION ────────────────────────────── */
+.sec-ey{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--brown);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.sec-ey::before{content:'';width:16px;height:2.5px;background:var(--brown);border-radius:4px;}
+.sec-h{font-size:clamp(24px,3.2vw,38px);color:var(--text);line-height:1.2;letter-spacing:-.2px;margin-bottom:40px;}
+.sec-h em{color:var(--rose);font-style:normal;}
+
+/* ── PROBLEM ────────────────────────────── */
+.problem{background:var(--honey);border-top:1.5px solid var(--honey-dk);border-bottom:1.5px solid var(--honey-dk);padding:80px 5%;}
+.prob-inner{max-width:900px;margin:0 auto;}
+.paper-card{background:var(--white);border-radius:24px;padding:22px;max-width:520px;border:2px solid var(--honey-dk);}
+.paper-top{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);margin-bottom:12px;}
+.pline{font-size:13px;line-height:1.8;color:var(--muted);font-weight:600;padding:7px 0;border-bottom:1px solid var(--butter-dk);}
+.pline:last-child{border-bottom:none;}
+.phl{color:var(--brown-dk);font-weight:800;background:rgba(184,134,106,.12);padding:1px 6px;border-radius:6px;}
+.prob-body{font-size:15px;color:var(--brown-dk);line-height:1.8;font-weight:600;max-width:620px;margin-bottom:36px;}
+.prob-body p{margin-bottom:12px;}
+.prob-body p:last-child{margin-bottom:0;}
+.prob-body strong{color:var(--text);}
+
+/* ── STEPS ──────────────────────────────── */
+.steps-sec{padding:80px 5%;max-width:1100px;margin:0 auto;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media(max-width:720px){.steps{grid-template-columns:1fr;}}
+.step-card{background:var(--white);border-radius:28px;padding:28px;border:2px solid var(--butter-dk);position:relative;overflow:hidden;}
+.step-card::after{content:'';position:absolute;top:-22px;right:-22px;width:80px;height:80px;border-radius:50%;background:var(--butter);}
+.step-num{width:44px;height:44px;background:var(--rose);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',sans-serif;font-size:20px;color:#fff;margin-bottom:16px;position:relative;z-index:1;}
+.step-title{font-family:'Fredoka One',sans-serif;font-size:18px;color:var(--text);margin-bottom:8px;}
+.step-desc{font-size:14px;color:var(--muted);line-height:1.7;font-weight:600;}
+.step-tags{margin-top:14px;padding-top:14px;border-top:1.5px solid var(--butter-dk);display:flex;flex-wrap:wrap;gap:5px;}
+.stag{font-size:11px;font-weight:700;background:var(--butter);color:var(--brown-dk);padding:3px 10px;border-radius:50px;}
+
+/* ── WHAT YOU GET ───────────────────────── */
+.wyg{background:var(--stone);padding:80px 5%;border-top:1.5px solid var(--butter-dk);border-bottom:1.5px solid var(--butter-dk);}
+.wyg-inner{max-width:1100px;margin:0 auto;}
+.wyg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+@media(max-width:720px){.wyg-grid{grid-template-columns:1fr;}}
+.wcard{background:var(--white);border-radius:28px;padding:26px;border:2px solid var(--butter-dk);}
+.wcard.big{grid-column:1/-1;background:var(--brown);border-color:var(--brown);display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center;}
+@media(max-width:720px){.wcard.big{grid-template-columns:1fr;}}
+.wcard.rose-card{border-color:var(--rose-lt);}
+.wcard.mint-card{border-color:#B8E4CA;}
+.wcard.honey-card{border-color:var(--honey-dk);}
+.wico{width:46px;height:46px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.wico svg{width:22px;height:22px;}
+.wcard .wico{background:var(--butter);}
+.wcard .wico svg{stroke:var(--brown);}
+.wcard.big .wico{background:rgba(255,255,255,.18);}
+.wcard.big .wico svg{stroke:#fff;}
+.wcard.rose-card .wico{background:var(--rose-lt);}
+.wcard.rose-card .wico svg{stroke:var(--rose);}
+.wcard.mint-card .wico{background:var(--mint-lt);}
+.wcard.mint-card .wico svg{stroke:var(--mint-dk);}
+.wcard.honey-card .wico{background:var(--honey);}
+.wcard.honey-card .wico svg{stroke:var(--brown-dk);}
+.wname{font-family:'Fredoka One',sans-serif;font-size:18px;color:var(--text);margin-bottom:7px;}
+.wcard.big .wname{color:#fff;font-size:22px;}
+.wcard.rose-card .wname{color:var(--rose-dk);}
+.wcard.mint-card .wname{color:var(--mint-dk);}
+.wcard.honey-card .wname{color:var(--brown-dk);}
+.wdesc{font-size:14px;color:var(--muted);line-height:1.65;font-weight:600;}
+.wcard.big .wdesc{color:rgba(255,255,255,.78);}
+.dprev{background:rgba(255,255,255,.14);border-radius:16px;padding:14px;}
+.dday{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);align-items:flex-start;}
+.dday:last-child{border-bottom:none;padding-bottom:0;}
+.ddtag{font-size:10px;font-weight:700;background:rgba(255,255,255,.2);color:rgba(255,255,255,.95);padding:3px 8px;border-radius:50px;white-space:nowrap;flex-shrink:0;margin-top:1px;font-family:'Nunito',sans-serif;}
+.ddtxt{font-size:12px;color:rgba(255,255,255,.78);line-height:1.55;font-weight:600;}
+
+/* ── OBJECTIONS ─────────────────────────── */
+.obj-sec{padding:80px 5%;max-width:900px;margin:0 auto;}
+.obj-grid{display:flex;flex-direction:column;gap:12px;}
+.obj{background:var(--white);border-radius:24px;padding:22px 26px;border:2px solid var(--butter-dk);display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:720px){.obj{grid-template-columns:1fr;gap:10px;}}
+.oq{font-family:'Fredoka One',sans-serif;font-size:16px;color:var(--muted);}
+.oa{font-size:14px;color:var(--muted);line-height:1.75;font-weight:600;}
+.oa strong{color:var(--rose);}
+
+/* ── INSURANCE ──────────────────────────── */
+.ins{background:var(--mint-lt);border-top:1.5px solid #B8E4CA;border-bottom:1.5px solid #B8E4CA;padding:26px 5%;}
+.ins-inner{max-width:880px;margin:0 auto;display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
+.ins-ico{width:52px;height:52px;background:var(--white);border-radius:18px;border:2px solid #B8E4CA;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ins-ico svg{width:22px;height:22px;stroke:var(--mint-dk);}
+.ins-body{flex:1;min-width:200px;}
+.ins-t{font-family:'Fredoka One',sans-serif;font-size:15px;color:var(--mint-dk);margin-bottom:3px;}
+.ins-d{font-size:13px;color:var(--mint-dk);opacity:.85;font-weight:600;line-height:1.55;}
+.ins-btn{background:var(--mint-dk);color:#fff;padding:10px 20px;border-radius:50px;font-family:'Fredoka One',sans-serif;font-size:14px;text-decoration:none;white-space:nowrap;transition:background .15s;}
+.ins-btn:hover{background:#2A5C40;}
+
+/* ── FAQ ────────────────────────────────── */
+.faq-sec{padding:80px 5%;}
+.faq-inner{max-width:680px;margin:0 auto;}
+.fitem{background:var(--white);border:2px solid var(--butter-dk);border-radius:20px;padding:18px 22px;margin-bottom:10px;}
+.fq{font-family:'Fredoka One',sans-serif;font-size:15px;color:var(--text);margin-bottom:7px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.fchk{width:22px;height:22px;background:var(--butter);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.fchk svg{width:10px;height:10px;stroke:var(--brown);}
+.fa{font-size:14px;color:var(--muted);line-height:1.7;font-weight:600;}
+
+/* ── FINAL CTA ──────────────────────────── */
+.final{padding:88px 5%;text-align:center;max-width:680px;margin:0 auto;}
+.fin-h{font-size:clamp(28px,4vw,48px);color:var(--text);line-height:1.16;letter-spacing:-.2px;margin-bottom:16px;}
+.fin-h em{color:var(--rose);font-style:normal;}
+.fin-sub{font-size:16px;color:var(--muted);line-height:1.72;font-weight:600;max-width:480px;margin:0 auto 32px;}
+.fin-btn{display:inline-flex;align-items:center;gap:9px;background:var(--rose);color:#fff;padding:16px 38px;border-radius:50px;font-family:'Fredoka One',sans-serif;font-size:18px;text-decoration:none;transition:background .15s,transform .12s;margin-bottom:18px;}
+.fin-btn:hover{background:var(--rose-dk);transform:translateY(-2px);}
+.fin-trust{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.fts{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--muted);}
+.fts svg{width:13px;height:13px;stroke:var(--mint-dk);}
+
+/* ── FOOTER ─────────────────────────────── */
+footer{background:var(--text);padding:32px 5%;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.fbrand{font-family:'Fredoka One',sans-serif;font-size:20px;}
+.fbrand em{color:var(--rose);font-style:normal;}
+.fbrand span{color:rgba(255,255,255,.85);}
+.ftag{font-size:12px;font-weight:600;color:rgba(255,255,255,.35);margin-top:4px;}
+.fdisc{font-size:11px;color:rgba(255,255,255,.28);max-width:480px;line-height:1.65;font-weight:600;}
+
+/* ── ANIM ────────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .55s ease both;}
+.fu2{animation:fadeUp .55s .1s ease both;}
+</style>
+</head>
+<body>
+
+<!-- SHARED CAT SVG -->
+<svg width="0" height="0" style="position:absolute;">
+  <defs>
+    <!-- golden tabby cat — pink only on blush circles -->
+    <g id="cat">
+      <circle cx="50" cy="54" r="44" fill="#FAE0B8" stroke="#ECC888" stroke-width="2"/>
+      <!-- ears -->
+      <polygon points="11,22 23,3 35,22" fill="#FAE0B8" stroke="#ECC888" stroke-width="2"/>
+      <polygon points="15,21 23,9 32,21" fill="#ECC888"/>
+      <polygon points="65,22 77,3 89,22" fill="#FAE0B8" stroke="#ECC888" stroke-width="2"/>
+      <polygon points="68,21 77,9 86,21" fill="#ECC888"/>
+      <!-- tabby stripes — subtle golden-brown -->
+      <path d="M22 18 Q26 22 24 28" fill="none" stroke="#E0A858" stroke-width="1.5" opacity=".4"/>
+      <path d="M28 15 Q30 20 28 26" fill="none" stroke="#E0A858" stroke-width="1.5" opacity=".4"/>
+      <path d="M72 18 Q76 22 74 28" fill="none" stroke="#E0A858" stroke-width="1.5" opacity=".4"/>
+      <path d="M78 15 Q80 20 78 26" fill="none" stroke="#E0A858" stroke-width="1.5" opacity=".4"/>
+      <!-- eyes — warm amber -->
+      <ellipse cx="33" cy="50" rx="9" ry="10" fill="#3A2010"/>
+      <ellipse cx="33" cy="50" rx="5" ry="7" fill="#C47810"/>
+      <ellipse cx="33" cy="50" rx="2.5" ry="5" fill="#1A0C04"/>
+      <circle cx="36" cy="45" r="3" fill="white"/>
+      <circle cx="37.5" cy="43.5" r="1.3" fill="white"/>
+      <ellipse cx="67" cy="50" rx="9" ry="10" fill="#3A2010"/>
+      <ellipse cx="67" cy="50" rx="5" ry="7" fill="#C47810"/>
+      <ellipse cx="67" cy="50" rx="2.5" ry="5" fill="#1A0C04"/>
+      <circle cx="70" cy="45" r="3" fill="white"/>
+      <circle cx="71.5" cy="43.5" r="1.3" fill="white"/>
+      <!-- blush — ONLY pink in the whole design -->
+      <ellipse cx="18" cy="63" rx="12" ry="7.5" fill="#FFB3CF" opacity=".45"/>
+      <ellipse cx="82" cy="63" rx="12" ry="7.5" fill="#FFB3CF" opacity=".45"/>
+      <!-- nose -->
+      <ellipse cx="50" cy="62" rx="5" ry="3.5" fill="#E8A070"/>
+      <!-- mouth -->
+      <path d="M44 67 Q50 74 56 67" fill="none" stroke="#C4714F" stroke-width="1.8" stroke-linecap="round"/>
+      <!-- whiskers -->
+      <line x1="1" y1="58" x2="27" y2="61" stroke="#C49050" stroke-width="1" opacity=".35"/>
+      <line x1="1" y1="64" x2="27" y2="64" stroke="#C49050" stroke-width="1" opacity=".35"/>
+      <line x1="73" y1="61" x2="99" y2="58" stroke="#C49050" stroke-width="1" opacity=".35"/>
+      <line x1="73" y1="64" x2="99" y2="64" stroke="#C49050" stroke-width="1" opacity=".35"/>
+    </g>
+    <!-- small sparkle star -->
+    <g id="spark">
+      <path d="M8 0 L9.6 5.6 L16 8 L9.6 10.4 L8 16 L6.4 10.4 L0 8 L6.4 5.6 Z" fill="#ECC888"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="brand">
+    <div class="bmark">
+      <svg viewBox="0 0 32 42" width="18" height="24">
+        <path d="M3,0 L20,0 L32,12 L32,39 Q32,42 29,42 L3,42 Q0,42 0,39 L0,3 Q0,0 3,0 Z" fill="#FFFBEE"/>
+        <path d="M20,0 L32,12 L20,12 Z" fill="rgba(255,255,255,.3)"/>
+        <line x1="6" y1="20" x2="26" y2="20" stroke="rgba(58,32,16,.2)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="6" y1="27" x2="26" y2="27" stroke="rgba(58,32,16,.2)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="6" y1="34" x2="18" y2="34" stroke="rgba(58,32,16,.2)" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="bname"><em>fur</em>brief</span>
+  </a>
+  <div class="nav-r">
+    <div class="lang-wrap">
+      <button class="globe-btn" onclick="toggleDrop()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span id="globe-lbl">EN</span>
+      </button>
+      <div class="ldrop" id="ldrop">
+        <button class="lopt active" onclick="setLang('en')">English</button>
+        <button class="lopt" onclick="setLang('es')">Español</button>
+        <button class="lopt ko" onclick="setLang('ko')">한국어</button>
+        <button class="lopt zh" onclick="setLang('zh')">中文</button>
+      </div>
+    </div>
+    <a href="#upload" class="nav-cta"><span data-i18n="nav_cta">get my furbrief</span> <span class="nprice">$6</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-outer dot-bg">
+  <div class="hero-inner">
+    <div class="fu">
+      <div class="eyebrow"><div class="eyebrow-dot"></div><span class="eyebrow-text" data-i18n="eyebrow">the briefing your vet forgot to give you</span></div>
+      <h1 class="hero-h1">
+        <span data-i18n="h1a">everything</span><br>
+        <span data-i18n="h1b">your vet said.</span><br>
+        <em data-i18n="h1em">translated.</em>
+      </h1>
+      <p class="hero-sub" data-i18n="sub">upload your discharge papers and get a plain-english care plan in 60 seconds. day by day. no jargon. no panic.</p>
+      <p class="hero-def" data-i18n="def">fur·brief — your vet's discharge papers, translated into language you can actually use at midnight.</p>
+
+      <div class="uzone" id="upload">
+        <div class="uico">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <p class="utit" data-i18n="upload_t">drop your discharge papers here</p>
+        <p class="uhint" data-i18n="upload_h">PDF, photo, or screenshot · any clinic · any format</p>
+      </div>
+
+      <div class="blang-row">
+        <span class="blang-lbl" data-i18n="blang_lbl">furbrief language:</span>
+        <div class="bpills">
+          <button class="bpill on" onclick="setBLang(this)">English</button>
+          <button class="bpill" onclick="setBLang(this)">Español</button>
+          <button class="bpill ko-p" onclick="setBLang(this)">한국어</button>
+          <button class="bpill zh-p" onclick="setBLang(this)">中文</button>
+        </div>
+      </div>
+
+      <button class="cbtn"><span data-i18n="cta">get my furbrief</span> <span class="cprice" data-i18n="price">$6 one-time</span></button>
+
+      <div class="trust-row">
+        <div class="titem"><div class="tchk"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span data-i18n="t1">no subscription</span></div>
+        <div class="titem"><div class="tchk"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span data-i18n="t2">ready in 60 sec</span></div>
+        <div class="titem"><div class="tchk"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><span data-i18n="t3">papers never stored</span></div>
+      </div>
+    </div>
+
+    <div class="hero-r fu2">
+      <!-- tabby cat peeking over the decoder -->
+      <div class="mascot-wrap">
+        <div style="position:relative;display:inline-block;">
+          <svg viewBox="0 0 100 100" width="100" height="100"><use href="#cat"/></svg>
+          <!-- sparkle star top right of cat -->
+          <svg viewBox="0 0 16 16" width="18" height="18" style="position:absolute;top:-4px;right:-8px;"><use href="#spark"/></svg>
+          <svg viewBox="0 0 16 16" width="13" height="13" style="position:absolute;top:10px;right:-18px;"><use href="#spark" style="fill:#C4837A;"/></svg>
+        </div>
+      </div>
+
+      <div class="decoder">
+        <div class="dec-head">
+          <span class="dec-title" data-i18n="dec_t">your furbrief decodes things like this…</span>
+          <span class="dec-live" data-i18n="dec_live">LIVE</span>
+        </div>
+        <p class="dec-sub" data-i18n="dec_sub">from your papers → into plain english</p>
+        <div class="dec-body">
+          <div class="drow"><div><span class="jtag">monitor for dehiscence</span></div><p class="dplain" data-i18n="d1">watch for the <strong>wound opening back up</strong> — gaps in stitches or skin separating. call vet immediately.</p></div>
+          <div class="drow"><div><span class="jtag">Carprofen 25mg BID with food</span></div><p class="dplain" data-i18n="d2">give <strong>one pain tablet twice a day, always with a meal.</strong> never on an empty stomach.</p></div>
+          <div class="drow"><div><span class="jtag">subcutaneous sutures</span></div><p class="dplain" data-i18n="d3">stitches are <strong>under the skin</strong> — they <strong>dissolve on their own.</strong> no removal needed.</p></div>
+          <div class="drow"><div><span class="jtag">seroma may develop</span></div><p class="dplain" data-i18n="d4">a <strong>soft squishy fluid pocket</strong> may form near the wound. usually harmless.</p></div>
+          <div class="drow"><div><span class="jtag">restrict activity 10–14 days</span></div><p class="dplain" data-i18n="d5"><strong>no running, jumping, or stairs.</strong> leash walks only — even when they look fine.</p></div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-card"><div class="stat-n" data-i18n="p1n">60s</div><div class="stat-l" data-i18n="p1l">turnaround</div></div>
+        <div class="stat-card"><div class="stat-n" data-i18n="p2n">any vet</div><div class="stat-l" data-i18n="p2l">no login</div></div>
+        <div class="stat-card accent"><div class="stat-n">$6</div><div class="stat-l" data-i18n="p3l">one-time</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="pfact"><span class="pfn" data-i18n="pf1n">60s</span><div class="pfdot"></div><span class="pfl" data-i18n="pf1l">average turnaround</span></div>
+  <div class="pfact"><span class="pfn" data-i18n="pf2n">any vet</span><div class="pfdot"></div><span class="pfl" data-i18n="pf2l">no clinic login</span></div>
+  <div class="pfact"><span class="pfn">$6</span><div class="pfdot"></div><span class="pfl" data-i18n="pf3l">one-time only</span></div>
+  <div class="pfact"><span class="pfn" data-i18n="pf4n">100%</span><div class="pfdot"></div><span class="pfl" data-i18n="pf4l">refund guarantee</span></div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="prob-inner">
+    <div class="sec-ey" data-i18n="prob_ey">the problem</div>
+    <h2 class="sec-h" style="margin-bottom:20px;"><span data-i18n="prob_h1">vets are brilliant.</span><br><em data-i18n="prob_h2">their paperwork is not written for you.</em></h2>
+    <div class="prob-body">
+      <p data-i18n="prob_p1">you just got home. your pet is groggy. you have three pages of clinical shorthand and no idea what half of it means. the clinic is closed.</p>
+      <p data-i18n="prob_p2">you're not a vet. you shouldn't need to be. your vet told you everything — they just wrote it in a language you can't use at 9pm when you're exhausted.</p>
+      <p><strong data-i18n="prob_p3">a furbrief is that same document, translated into plain english. ready in 60 seconds.</strong></p>
+    </div>
+    <div class="paper-card">
+      <div class="paper-top" data-i18n="paper_lbl">what actual discharge papers look like</div>
+      <p class="pline">administer <span class="phl">Carprofen 25mg PO BID</span> with food × 5 days. do not give if <span class="phl">anorexic or vomiting.</span></p>
+      <p class="pline">monitor surgical site for <span class="phl">erythema, exudate,</span> or <span class="phl">dehiscence.</span> e-collar to remain in place.</p>
+      <p class="pline"><span class="phl">restrict activity</span> 10–14 days. <span class="phl">leash walks only</span> for elimination.</p>
+      <p class="pline"><span class="phl">amoxicillin 250mg BID</span> × 7 days. <span class="phl">recheck</span> in 14 days.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="steps-sec">
+  <div class="sec-ey" data-i18n="how_ey">how it works</div>
+  <h2 class="sec-h" data-i18n="how_h">three steps. one furbrief.</h2>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <p class="step-title" data-i18n="s1t">upload your papers</p>
+      <p class="step-desc" data-i18n="s1d">photo, PDF, or screenshot — any format from any clinic. blurry midnight photos totally fine.</p>
+      <div class="step-tags"><span class="stag">PDF</span><span class="stag" data-i18n="st_photo">photo</span><span class="stag" data-i18n="st_ss">screenshot</span><span class="stag" data-i18n="st_hw">handwritten</span></div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <p class="step-title" data-i18n="s2t">tell us about your pet</p>
+      <p class="step-desc" data-i18n="s2d">name, species, surgery type. 30 seconds. makes your furbrief feel personal, not generic.</p>
+      <div class="step-tags"><span class="stag" data-i18n="st_dog">dogs</span><span class="stag" data-i18n="st_cat">cats</span><span class="stag">spay/neuter</span><span class="stag">TPLO</span><span class="stag" data-i18n="st_dental">dental</span></div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <p class="step-title" data-i18n="s3t">get your furbrief</p>
+      <p class="step-desc" data-i18n="s3d">plain english, day by day. meds decoded. warning signs clear. save, print, or share it.</p>
+      <div class="step-tags"><span class="stag" data-i18n="st_sched">daily schedule</span><span class="stag" data-i18n="st_meds">meds guide</span><span class="stag" data-i18n="st_warn">warnings</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section class="wyg">
+  <div class="wyg-inner">
+    <div class="sec-ey" data-i18n="wyg_ey">what's in your furbrief</div>
+    <h2 class="sec-h" data-i18n="wyg_h">four things. all of them useful.</h2>
+    <div class="wyg-grid">
+      <div class="wcard big">
+        <div>
+          <div class="wico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <p class="wname" data-i18n="w1n">day-by-day schedule</p>
+          <p class="wdesc" data-i18n="w1d">not generic — pulled from your actual papers. know what to expect today, days 1–3, 4–7, and when you can finally breathe.</p>
+        </div>
+        <div class="dprev">
+          <div class="dday"><span class="ddtag" data-i18n="d_today">today</span><span class="ddtxt" data-i18n="d_today_t">may be groggy for hours. half meal. e-collar on always.</span></div>
+          <div class="dday"><span class="ddtag" data-i18n="d_1_3">days 1–3</span><span class="ddtxt" data-i18n="d_1_3_t">leash walks only. check incision twice. carprofen with food.</span></div>
+          <div class="dday"><span class="ddtag" data-i18n="d_4_7">days 4–7</span><span class="ddtxt" data-i18n="d_4_7_t">may seem fine — don't be fooled. still no running or jumping.</span></div>
+          <div class="dday"><span class="ddtag" data-i18n="d_8_14">days 8–14</span><span class="ddtxt" data-i18n="d_8_14_t">gradually increase walks. vet recheck on day 14.</span></div>
+        </div>
+      </div>
+      <div class="wcard rose-card">
+        <div class="wico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
+        <p class="wname" data-i18n="w2n">medication guide</p>
+        <p class="wdesc" data-i18n="w2d">every medication decoded — what it's for, how to give it, and what "BID with food" means when you're in the kitchen at midnight.</p>
+      </div>
+      <div class="wcard honey-card">
+        <div class="wico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <p class="wname" data-i18n="w3n">warning signs</p>
+        <p class="wdesc" data-i18n="w3d">"call your vet if you see this" — specific to your surgery. only the flags that actually apply to your situation.</p>
+      </div>
+      <div class="wcard mint-card">
+        <div class="wico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <p class="wname" data-i18n="w4n">don't panic section</p>
+        <p class="wdesc" data-i18n="w4d">things that look scary but are completely expected. know what's normal so you can actually sleep tonight.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIONS -->
+<section class="obj-sec">
+  <div class="sec-ey" data-i18n="obj_ey">fair questions</div>
+  <h2 class="sec-h" style="margin-bottom:20px;" data-i18n="obj_h">a few things worth knowing</h2>
+  <div class="obj-grid">
+    <div class="obj"><p class="oq" data-i18n="oq1">"is this replacing my vet?"</p><p class="oa" data-i18n="oa1"><strong>not even slightly.</strong> everything in your furbrief comes from the papers your vet already gave you. we translate — we don't add anything.</p></div>
+    <div class="obj"><p class="oq" data-i18n="oq2">"is my pet's info safe?"</p><p class="oa" data-i18n="oa2"><strong>your papers are processed and immediately deleted.</strong> nothing stored. once your furbrief is ready, it's gone from our end.</p></div>
+    <div class="obj"><p class="oq" data-i18n="oq3">"what if my papers are blurry?"</p><p class="oa" data-i18n="oa3"><strong>that's exactly what furbrief was built for.</strong> blurry photos, handwritten notes, any clinic's pdf. if unreadable we'll tell you — not guess.</p></div>
+    <div class="obj"><p class="oq" data-i18n="oq4">"is the $6 refundable?"</p><p class="oa" data-i18n="oa4"><strong>yes — within 24 hours, no questions.</strong> if it's not useful, email us and we'll refund immediately.</p></div>
+  </div>
+</section>
+
+<!-- INSURANCE -->
+<div class="ins">
+  <div class="ins-inner">
+    <div class="ins-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+    <div class="ins-body">
+      <p class="ins-t" data-i18n="ins_t">surgery like this typically costs $2,000–$6,000 without insurance</p>
+      <p class="ins-d" data-i18n="ins_d">most pet owners get insurance right after their first emergency. if you're thinking about it now — which is exactly the right time — here's where we'd start.</p>
+    </div>
+    <a href="#" class="ins-btn" data-i18n="ins_btn">compare pet insurance →</a>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq-sec">
+  <div class="faq-inner">
+    <div class="sec-ey" data-i18n="faq_ey">FAQ</div>
+    <h2 class="sec-h" style="margin-bottom:20px;" data-i18n="faq_h">quick answers</h2>
+    <div class="fitem"><div class="fq"><span data-i18n="fq1">what surgeries does this work for?</span><div class="fchk"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div><p class="fa" data-i18n="fa1">any surgery where your vet gave you discharge papers — spays, neuters, TPLO, dental extractions, tumour removals, emergency procedures.</p></div>
+    <div class="fitem"><div class="fq"><span data-i18n="fq2">does it work for cats?</span><div class="fchk"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div><p class="fa" data-i18n="fa2">yes — dogs, cats, and most other pets. just tell us the species when you upload.</p></div>
+    <div class="fitem"><div class="fq"><span data-i18n="fq3">can i share it with a partner or dog sitter?</span><div class="fchk"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div><p class="fa" data-i18n="fa3">yes — your furbrief is a clean printable page. save as pdf, screenshot it, or share the link with anyone helping with recovery.</p></div>
+    <div class="fitem"><div class="fq"><span data-i18n="fq4">my vet's papers are already pretty clear — do i need this?</span><div class="fchk"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div></div><p class="fa" data-i18n="fa4">probably not! furbrief is for the 90% of discharge papers written in clinical shorthand. if yours is already clear — you're all set!</p></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final dot-bg">
+  <!-- celebrating tabby with sparkles -->
+  <div style="position:relative;width:120px;height:120px;margin:0 auto 24px;">
+    <svg viewBox="0 0 100 100" width="120" height="120"><use href="#cat"/></svg>
+    <svg viewBox="0 0 16 16" width="20" height="20" style="position:absolute;top:-6px;right:-6px;"><use href="#spark"/></svg>
+    <svg viewBox="0 0 16 16" width="14" height="14" style="position:absolute;bottom:10px;left:-10px;"><path d="M8 0 L9.6 5.6 L16 8 L9.6 10.4 L8 16 L6.4 10.4 L0 8 L6.4 5.6 Z" fill="#C4837A"/></svg>
+    <svg viewBox="0 0 16 16" width="11" height="11" style="position:absolute;top:5px;left:-12px;"><use href="#spark"/></svg>
+  </div>
+  <h2 class="fin-h"><span data-i18n="fin_h1">you've already done</span><br><em data-i18n="fin_h2">the hard part.</em></h2>
+  <p class="fin-sub" data-i18n="fin_sub">your pet is home. your vet did their job. now you just need to know what to do next — in language you can actually use tonight.</p>
+  <a href="#upload" class="fin-btn"><span data-i18n="cta">get my furbrief</span> <span class="cprice" style="background:rgba(255,255,255,.2);" data-i18n="price">$6 one-time</span></a>
+  <div class="fin-trust">
+    <div class="fts"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="t1">no subscription</span></div>
+    <div class="fts"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="t2">ready in 60 sec</span></div>
+    <div class="fts"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="t3">papers never stored</span></div>
+    <div class="fts"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="t4">refund if it doesn't help</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="fbrand"><em>fur</em><span>brief</span></div>
+    <div class="ftag" data-i18n="foot_tag">everything your vet said, in plain english.</div>
+  </div>
+  <p class="fdisc" data-i18n="foot_disc">furbrief translates vet discharge papers for pet owners. not veterinary advice. not a substitute for professional care. always contact your vet in an emergency.</p>
+</footer>
+
+<script>
+const T={en:{nav_cta:"get my furbrief",eyebrow:"the briefing your vet forgot to give you",h1a:"everything",h1b:"your vet said.",h1em:"translated.",sub:"upload your discharge papers and get a plain-english care plan in 60 seconds. day by day. no jargon. no panic.",def:"fur·brief — your vet's discharge papers, translated into language you can actually use at midnight.",upload_t:"drop your discharge papers here",upload_h:"PDF, photo, or screenshot · any clinic · any format",blang_lbl:"furbrief language:",cta:"get my furbrief",price:"$6 one-time",t1:"no subscription",t2:"ready in 60 sec",t3:"papers never stored",t4:"refund if it doesn't help",dec_t:"your furbrief decodes things like this…",dec_live:"LIVE",dec_sub:"from your papers → into plain english",d1:"watch for the <strong>wound opening back up</strong> — gaps in stitches or skin separating. call vet immediately.",d2:"give <strong>one pain tablet twice a day, always with a meal.</strong> never on an empty stomach.",d3:"stitches are <strong>under the skin</strong> — they <strong>dissolve on their own.</strong> no removal needed.",d4:"a <strong>soft squishy fluid pocket</strong> may form near the wound. usually harmless.",d5:"<strong>no running, jumping, or stairs.</strong> leash walks only — even when they look fine.",pf1n:"60s",pf1l:"average turnaround",pf2n:"any vet",pf2l:"no clinic login",pf3l:"one-time only",pf4n:"100%",pf4l:"refund guarantee",p1n:"60s",p1l:"turnaround",p2n:"any vet",p2l:"no login",p3l:"one-time",prob_ey:"the problem",prob_h1:"vets are brilliant.",prob_h2:"their paperwork is not written for you.",prob_p1:"you just got home. your pet is groggy. you have three pages of clinical shorthand and no idea what half of it means. the clinic is closed.",prob_p2:"you're not a vet. you shouldn't need to be. your vet told you everything — they just wrote it in a language you can't use at 9pm when you're exhausted.",prob_p3:"a furbrief is that same document, translated into plain english. ready in 60 seconds.",paper_lbl:"what actual discharge papers look like",how_ey:"how it works",how_h:"three steps. one furbrief.",s1t:"upload your papers",s1d:"photo, PDF, or screenshot — any format from any clinic. blurry midnight photos totally fine.",s2t:"tell us about your pet",s2d:"name, species, surgery type. 30 seconds. makes your furbrief feel personal, not generic.",s3t:"get your furbrief",s3d:"plain english, day by day. meds decoded. warning signs clear. save, print, or share it.",st_photo:"photo",st_ss:"screenshot",st_hw:"handwritten",st_dog:"dogs",st_cat:"cats",st_dental:"dental",st_sched:"daily schedule",st_meds:"meds guide",st_warn:"warnings",wyg_ey:"what's in your furbrief",wyg_h:"four things. all of them useful.",w1n:"day-by-day schedule",w1d:"not generic — pulled from your actual papers. know what to expect today, days 1–3, 4–7, and when you can finally breathe.",d_today:"today",d_today_t:"may be groggy for hours. half meal. e-collar on always.",d_1_3:"days 1–3",d_1_3_t:"leash walks only. check incision twice. carprofen with food.",d_4_7:"days 4–7",d_4_7_t:"may seem fine — don't be fooled. still no running or jumping.",d_8_14:"days 8–14",d_8_14_t:"gradually increase walks. vet recheck on day 14.",w2n:"medication guide",w2d:"every medication decoded — what it's for, how to give it, and what \"BID with food\" means when you're in the kitchen at midnight.",w3n:"warning signs",w3d:"\"call your vet if you see this\" — specific to your surgery. only the flags that actually apply.",w4n:"don't panic section",w4d:"things that look scary but are completely expected. know what's normal so you can actually sleep tonight.",obj_ey:"fair questions",obj_h:"a few things worth knowing",oq1:'"is this replacing my vet?"',oa1:"<strong>not even slightly.</strong> everything comes from the papers your vet already gave you. we translate — we don't add anything.",oq2:'"is my pet\'s info safe?"',oa2:"<strong>your papers are processed and immediately deleted.</strong> nothing stored. once your furbrief is ready, it's gone.",oq3:'"what if my papers are blurry?"',oa3:"<strong>that's exactly what furbrief was built for.</strong> blurry photos, handwritten notes, any clinic's pdf. if unreadable we'll tell you.",oq4:'"is the $6 refundable?"',oa4:"<strong>yes — within 24 hours, no questions.</strong> if it's not useful, email us and we'll refund immediately.",ins_t:"surgery like this typically costs $2,000–$6,000 without insurance",ins_d:"most pet owners get insurance right after their first emergency. if you're thinking about it now — which is exactly the right time — here's where we'd start.",ins_btn:"compare pet insurance →",faq_ey:"FAQ",faq_h:"quick answers",fq1:"what surgeries does this work for?",fa1:"any surgery where your vet gave you discharge papers — spays, neuters, TPLO, dental extractions, tumour removals, emergency procedures.",fq2:"does it work for cats?",fa2:"yes — dogs, cats, and most other pets. just tell us the species when you upload.",fq3:"can i share it with a partner or dog sitter?",fa3:"yes — your furbrief is a clean printable page. save as pdf, screenshot it, or share the link.",fq4:"my vet's papers are already pretty clear — do i need this?",fa4:"probably not! furbrief is for the 90% of discharge papers written in clinical shorthand.",fin_h1:"you've already done",fin_h2:"the hard part.",fin_sub:"your pet is home. your vet did their job. now you just need to know what to do next — in language you can actually use tonight.",foot_tag:"everything your vet said, in plain english.",foot_disc:"furbrief translates vet discharge papers for pet owners. not veterinary advice. not a substitute for professional care. always contact your vet in an emergency."},
+es:{nav_cta:"obtener mi furbrief",eyebrow:"el resumen que tu vet olvidó darte",h1a:"todo",h1b:"lo que dijo tu vet.",h1em:"traducido.",sub:"sube tus papeles de alta y recibe un plan de cuidado en español en 60 segundos. día a día. sin jerga médica.",def:"fur·brief — los papeles de alta de tu vet, traducidos a un lenguaje que puedes usar a medianoche.",upload_t:"arrastra tus papeles aquí",upload_h:"PDF, foto o captura · cualquier clínica · cualquier formato",blang_lbl:"idioma del furbrief:",cta:"obtener mi furbrief",price:"$6 pago único",t1:"sin suscripción",t2:"listo en 60 seg",t3:"papeles no almacenados",t4:"reembolso si no ayuda",dec_t:"tu furbrief descifra cosas como esta…",dec_live:"EN VIVO",dec_sub:"de tus papeles → en lenguaje claro",d1:"vigila que la <strong>herida no se abra</strong> — separación en puntos. llama al vet inmediatamente.",d2:"da <strong>una pastilla dos veces al día, siempre con comida.</strong> nunca con el estómago vacío.",d3:"los puntos están <strong>bajo la piel</strong> — se <strong>disuelven solos.</strong> no hace falta quitarlos.",d4:"puede formarse una <strong>bolsa suave de líquido</strong> cerca de la herida. normalmente inofensiva.",d5:"<strong>nada de correr, saltar ni escaleras.</strong> solo paseos con correa.",pf1n:"60s",pf1l:"tiempo promedio",pf2n:"cualquier vet",pf2l:"sin inicio de sesión",pf3l:"pago único",pf4n:"100%",pf4l:"garantía de reembolso",p1n:"60s",p1l:"tiempo",p2n:"cualquier vet",p2l:"sin login",p3l:"pago único",prob_ey:"el problema",prob_h1:"los vets son brillantes.",prob_h2:"sus papeles no están escritos para ti.",prob_p1:"acabas de llegar a casa. tu mascota está aturdida. tienes tres páginas de jerga clínica y no entiendes la mitad. la clínica está cerrada.",prob_p2:"no eres vet. no deberías necesitar serlo. tu vet te dijo todo — solo lo escribió en un idioma que no puedes usar a las 9pm agotado/a.",prob_p3:"un furbrief es ese mismo documento, traducido a lenguaje claro. listo en 60 segundos.",paper_lbl:"cómo se ven los papeles de alta reales",how_ey:"cómo funciona",how_h:"tres pasos. un furbrief.",s1t:"sube tus papeles",s1d:"foto, PDF o captura — cualquier formato. fotos borrosas de medianoche también.",s2t:"cuéntanos sobre tu mascota",s2d:"nombre, especie, tipo de cirugía. 30 segundos. hace tu furbrief personal, no genérico.",s3t:"recibe tu furbrief",s3d:"en español, día a día. medicamentos descifrados. señales claras. guárdalo o compártelo.",st_photo:"foto",st_ss:"captura",st_hw:"manuscrito",st_dog:"perros",st_cat:"gatos",st_dental:"dental",st_sched:"plan diario",st_meds:"guía de meds",st_warn:"señales de alerta",wyg_ey:"qué incluye tu furbrief",wyg_h:"cuatro cosas. todas útiles.",w1n:"plan día a día",w1d:"no genérico — extraído de tus papeles. sabe qué esperar hoy, días 1–3, 4–7 y cuándo puedes relajarte.",d_today:"hoy",d_today_t:"puede estar aturdido/a horas. mitad de comida. collar isabelino siempre.",d_1_3:"días 1–3",d_1_3_t:"solo paseos con correa. revisa la incisión dos veces. carprofen con comida.",d_4_7:"días 4–7",d_4_7_t:"puede parecer recuperado/a — no te confíes. aún nada de correr.",d_8_14:"días 8–14",d_8_14_t:"aumenta paseos gradualmente. regresa al vet el día 14.",w2n:"guía de medicamentos",w2d:"cada medicamento descifrado — para qué es, cómo darlo, y qué significa \"BID con comida\" a medianoche.",w3n:"señales de alerta",w3d:"\"llama al vet si ves esto\" — específico para tu cirugía. solo las señales que aplican.",w4n:"sección no te asustes",w4d:"cosas que parecen aterradoras pero son normales. sabe qué esperar para poder dormir.",obj_ey:"preguntas frecuentes",obj_h:"algunas cosas que vale la pena saber",oq1:'"¿esto reemplaza a mi vet?"',oa1:"<strong>para nada.</strong> todo viene de los papeles que tu vet ya te dio. solo traducimos — no añadimos nada.",oq2:'"¿es segura la info de mi mascota?"',oa2:"<strong>tus papeles se procesan y se eliminan inmediatamente.</strong> nada se almacena. una vez listo, desaparece.",oq3:'"¿y si mis papeles son borrosos?"',oa3:"<strong>para eso existe furbrief.</strong> fotos borrosas, notas manuscritas, cualquier pdf. si ilegible te lo decimos.",oq4:'"¿se puede reembolsar el $6?"',oa4:"<strong>sí — dentro de 24 horas, sin preguntas.</strong> si no es útil, escríbenos y te devolvemos el dinero.",ins_t:"una cirugía así suele costar $2,000–$6,000 sin seguro",ins_d:"la mayoría contrata seguro después de su primera emergencia. si lo estás considerando ahora — es el momento ideal.",ins_btn:"comparar seguros para mascotas →",faq_ey:"FAQ",faq_h:"respuestas rápidas",fq1:"¿para qué cirugías funciona?",fa1:"cualquier cirugía con papeles de alta — esterilizaciones, rodilla, extracciones dentales, emergencias.",fq2:"¿funciona para gatos?",fa2:"sí — perros, gatos y la mayoría de mascotas. solo indícanos la especie.",fq3:"¿puedo compartirlo con mi pareja o cuidador?",fa3:"sí — página limpia e imprimible. guárdala como pdf o comparte el enlace.",fq4:"los papeles de mi vet ya son claros — ¿necesito esto?",fa4:"¡probablemente no! furbrief es para los papeles escritos en jerga clínica.",fin_h1:"ya hiciste",fin_h2:"lo más difícil.",fin_sub:"tu mascota está en casa. ahora solo necesitas saber qué hacer esta noche — en un lenguaje que puedas usar.",foot_tag:"todo lo que dijo tu vet, en lenguaje claro.",foot_disc:"furbrief traduce papeles de alta veterinaria. no es consejo médico. no reemplaza la atención profesional. en emergencias contacta a tu vet."},
+ko:{nav_cta:"퍼브리프 받기",eyebrow:"수의사가 설명 못한 내용",h1a:"수의사가",h1b:"한 말, 전부.",h1em:"번역됩니다.",sub:"퇴원 서류를 올리면 60초 안에 쉬운 한국어 케어 플랜을 받아보세요. 날짜별로. 전문 용어 없이.",def:"퍼브리프 — 반려동물의 퇴원 서류를 자정에도 이해할 수 있는 말로 번역해드립니다.",upload_t:"퇴원 서류를 여기에 끌어다 놓으세요",upload_h:"PDF · 사진 · 스크린샷 · 모든 클리닉",blang_lbl:"퍼브리프 언어:",cta:"퍼브리프 받기",price:"$6 일회 결제",t1:"정기결제 없음",t2:"60초 안에 완성",t3:"서류 저장 안 함",t4:"불만족 시 환불",dec_t:"퍼브리프가 이런 것들을 해석해드려요…",dec_live:"실제 예시",dec_sub:"서류 → 쉬운 말로",d1:"<strong>상처가 벌어지는지</strong> 확인하세요. 봉합 분리 시 즉시 수의사에게 연락.",d2:"<strong>매일 두 번, 반드시 식사와 함께</strong> 진통제를 주세요. 공복에는 절대 안 됩니다.",d3:"봉합실은 <strong>피부 아래</strong> — <strong>저절로 녹습니다.</strong> 제거 불필요.",d4:"상처 근처에 <strong>말랑말랑한 체액 주머니</strong>가 생길 수 있어요. 보통 무해합니다.",d5:"<strong>달리기, 점프, 계단 금지.</strong> 배변 시에만 짧은 줄로 산책.",pf1n:"60초",pf1l:"평균 처리 시간",pf2n:"모든 병원",pf2l:"로그인 불필요",pf3l:"일회 결제",pf4n:"100%",pf4l:"환불 보장",p1n:"60초",p1l:"소요 시간",p2n:"모든 병원",p2l:"로그인 없음",p3l:"일회 결제",prob_ey:"문제",prob_h1:"수의사는 훌륭해요.",prob_h2:"하지만 서류는 다른 수의사를 위해 쓰여졌어요.",prob_p1:"방금 집에 도착했어요. 반려동물은 아직 마취에서 깨어나는 중이고, 이해하기 어려운 의학 용어가 가득한 서류 세 장이 있어요. 병원은 문을 닫았고요.",prob_p2:"수의사가 아닌 건 당연해요. 수의사가 될 필요도 없어요. 수의사가 필요한 말은 다 했어요 — 다만 지친 밤 9시에 쓰기 어려운 언어로 썼을 뿐이에요.",prob_p3:"퍼브리프는 그 서류를 이해하기 쉬운 말로 번역한 것입니다. 60초 안에 준비됩니다.",paper_lbl:"실제 퇴원 서류는 이렇게 생겼어요",how_ey:"이용 방법",how_h:"세 단계. 하나의 퍼브리프.",s1t:"서류 업로드",s1d:"사진, PDF, 스크린샷. 어떤 형식이든 OK — 밤에 찍은 흐린 사진도 괜찮아요.",s2t:"반려동물 정보 입력",s2d:"이름, 종류, 수술 유형. 30초면 됩니다. 맞춤형 퍼브리프를 위한 정보예요.",s3t:"퍼브리프 받기",s3d:"쉬운 말로. 날짜별로. 약 복용 안내 포함. 저장, 인쇄, 공유 가능.",st_photo:"사진",st_ss:"스크린샷",st_hw:"손글씨",st_dog:"강아지",st_cat:"고양이",st_dental:"치과",st_sched:"일별 일정",st_meds:"약 안내",st_warn:"주의 신호",wyg_ey:"퍼브리프에 포함된 내용",wyg_h:"네 가지. 모두 유용해요.",w1n:"일별 회복 일정",w1d:"일반 안내가 아닌 — 실제 서류에서 추출. 오늘, 1–3일, 4–7일, 안심할 수 있는 시점을 정확히 알 수 있어요.",d_today:"오늘",d_today_t:"몇 시간 동안 몽롱할 수 있어요. 식사 절반. 넥카라 항상 착용.",d_1_3:"1–3일",d_1_3_t:"짧은 줄 산책만. 봉합 부위 하루 두 번 확인. 카프로펜은 식사와 함께.",d_4_7:"4–7일",d_4_7_t:"멀쩡해 보여도 방심 금물. 아직 달리기와 점프는 안 돼요.",d_8_14:"8–14일",d_8_14_t:"산책을 조금씩 늘려가세요. 14일째 재진 예정.",w2n:"약 복용 안내",w2d:"모든 약을 해석해드려요 — 어떤 약인지, 어떻게 투여하는지, 'BID with food'가 무슨 뜻인지.",w3n:"주의 신호",w3d:"\"이럴 때는 바로 수의사에게 전화하세요\" — 수술에 맞게 맞춤화. 실제로 해당하는 신호만.",w4n:"걱정 마세요 섹션",w4d:"무섭게 보이지만 완전히 정상적인 것들. 미리 알아두면 잠을 잘 수 있어요.",obj_ey:"자주 묻는 질문",obj_h:"알아두면 좋은 것들",oq1:'"수의사를 대신하는 건가요?"',oa1:"<strong>전혀 아니에요.</strong> 수의사가 이미 준 서류의 내용만 번역합니다. 새로운 내용을 추가하지 않아요.",oq2:'"반려동물 정보는 안전한가요?"',oa2:"<strong>서류는 처리 후 즉시 삭제됩니다.</strong> 아무것도 저장하지 않아요. 퍼브리프 완성 후 우리 쪽에는 아무것도 남지 않아요.",oq3:'"서류가 흐리거나 손글씨면요?"',oa3:"<strong>그런 상황을 위해 만들었어요.</strong> 흐린 사진, 손글씨, 어떤 병원의 PDF든 OK.",oq4:'"$6 환불이 되나요?"',oa4:"<strong>네 — 24시간 내, 묻지 않고요.</strong> 도움이 안 됐다면 이메일 주시면 바로 환불해드려요.",ins_t:"이런 수술은 보험 없이 $2,000–$6,000이 들어요",ins_d:"대부분의 보호자는 첫 응급상황 이후에 보험에 가입해요. 지금 생각하고 계신다면 — 딱 맞는 타이밍이에요.",ins_btn:"반려동물 보험 비교하기 →",faq_ey:"자주 묻는 질문",faq_h:"빠른 답변",fq1:"어떤 수술에 사용할 수 있나요?",fa1:"수의사가 퇴원 서류를 준 모든 수술 — 중성화, 슬개골, 치과, 종양 제거, 응급 처치 등.",fq2:"고양이도 되나요?",fa2:"네 — 강아지, 고양이, 대부분의 반려동물. 업로드 시 종류를 알려주세요.",fq3:"파트너나 펫시터와 공유할 수 있나요?",fa3:"네 — 깔끔하게 인쇄할 수 있는 페이지예요. PDF로 저장하거나 링크를 공유하세요.",fq4:"우리 병원 서류는 이미 이해하기 쉬운데 필요한가요?",fa4:"아마 필요 없을 거예요! 퍼브리프는 의학 전문 용어로 가득한 서류를 위한 거예요.",fin_h1:"가장 힘든 부분은",fin_h2:"이미 끝났어요.",fin_sub:"반려동물이 집에 왔어요. 이제 오늘 밤 무엇을 해야 할지만 알면 돼요.",foot_tag:"수의사가 한 말, 전부. 쉬운 말로.",foot_disc:"퍼브리프는 수의사 퇴원 서류를 번역합니다. 수의학적 조언이 아닙니다. 응급상황에서는 항상 수의사에게 연락하세요."},
+zh:{nav_cta:"获取我的毛简报",eyebrow:"兽医忘记解释的那部分",h1a:"兽医说的",h1b:"一切。",h1em:"已翻译。",sub:"上传出院文件，60秒内获取简明中文护理计划。按天分类。无专业术语。",def:"毛简报 — 将宠物出院文件翻译成您在深夜也能读懂的语言。",upload_t:"将出院文件拖放到这里",upload_h:"PDF · 照片 · 截图 · 任何诊所",blang_lbl:"毛简报语言：",cta:"获取我的毛简报",price:"$6 一次性付款",t1:"无需订阅",t2:"60秒内完成",t3:"文件不存储",t4:"不满意可退款",dec_t:"您的毛简报会解读这类内容…",dec_live:"实际示例",dec_sub:"从文件 → 转为通俗语言",d1:"观察<strong>伤口是否裂开</strong> — 缝合处分离请立即联系兽医。",d2:"<strong>每天两次随餐服用</strong>一片止痛药。切勿空腹服用。",d3:"缝合线在<strong>皮肤下方</strong> — 会<strong>自行溶解</strong>，无需拆线。",d4:"伤口附近可能出现<strong>柔软的液体囊肿</strong>，通常无害。",d5:"<strong>禁止奔跑、跳跃和爬楼梯。</strong>只能短绳遛弯。",pf1n:"60秒",pf1l:"平均处理时间",pf2n:"任何诊所",pf2l:"无需登录",pf3l:"一次性付款",pf4n:"100%",pf4l:"退款保证",p1n:"60秒",p1l:"处理时间",p2n:"任何诊所",p2l:"无需登录",p3l:"一次性",prob_ey:"问题所在",prob_h1:"兽医很专业。",prob_h2:"但他们的文件是写给其他兽医看的。",prob_p1:"你刚到家。宠物还在麻醉中恢复。手里拿着三页专业术语文件，一半都看不懂。诊所已经关门了。",prob_p2:"你不是兽医，也不应该需要成为兽医。兽医已经告诉了你需要知道的一切——只是用了在晚上9点精疲力竭时根本用不上的语言。",prob_p3:"毛简报就是把同一份文件翻译成清晰易懂的语言。60秒内完成。",paper_lbl:"实际出院文件长这样",how_ey:"使用方法",how_h:"三个步骤。一份毛简报。",s1t:"上传文件",s1d:"照片、PDF或截图。任何格式，任何诊所 — 包括深夜拍的模糊照片。",s2t:"填写宠物信息",s2d:"名字、种类、手术类型。30秒搞定。让毛简报更贴近您的宠物。",s3t:"获取毛简报",s3d:"简明易懂。按天分类。用药解读。警示明确。可保存、打印或分享。",st_photo:"照片",st_ss:"截图",st_hw:"手写",st_dog:"狗狗",st_cat:"猫咪",st_dental:"口腔",st_sched:"每日计划",st_meds:"用药指南",st_warn:"警示信号",wyg_ey:"毛简报包含什么",wyg_h:"四项内容。全部实用。",w1n:"每日康复计划",w1d:"非通用模板 — 直接从您的文件提取。准确了解今天、第1–3天、4–7天该做什么。",d_today:"今天",d_today_t:"可能昏沉好几个小时。喂平时一半食量。伊丽莎白圈始终佩戴。",d_1_3:"第1–3天",d_1_3_t:"只能短绳遛弯。每天检查伤口两次。卡洛芬随餐服用。",d_4_7:"第4–7天",d_4_7_t:"看起来恢复了——别大意。仍然禁止奔跑和跳跃。",d_8_14:"第8–14天",d_8_14_t:"逐渐增加散步时间。第14天返回诊所复诊。",w2n:"用药指南",w2d:"每种药物全面解读 — 用途、用法，以及'BID with food'是什么意思。",w3n:"警示信号",w3d:"\"出现这种情况请立即联系兽医\" — 针对您的手术定制，非通用清单。",w4n:"别担心专区",w4d:"看起来吓人但其实完全正常的情况。提前了解，才能安心入睡。",obj_ey:"常见问题",obj_h:"几点值得了解的事",oq1:'"这会取代我的兽医吗？"',oa1:"<strong>完全不会。</strong>毛简报的所有内容都来自兽医已经给您的文件。我们只是翻译——不添加任何内容。",oq2:'"宠物的信息安全吗？"',oa2:"<strong>文件处理后立即删除。</strong>不存储任何内容。毛简报生成后，我们这边什么都不留。",oq3:'"文件模糊或是手写的怎么办？"',oa3:"<strong>毛简报就是为这种情况而生的。</strong>模糊照片、手写笔记、任何诊所的PDF都可以。",oq4:'"$6可以退款吗？"',oa4:"<strong>可以 — 24小时内，无需说明原因。</strong>如果毛简报没有帮助，请发邮件，我们立即退款。",ins_t:"此类手术通常花费$2,000–$6,000（无保险情况下）",ins_d:"大多数宠物主人在第一次紧急情况后才购买保险。如果您正在考虑——现在正是最佳时机。",ins_btn:"比较宠物保险 →",faq_ey:"常见问题",faq_h:"快速解答",fq1:"适用于哪些手术？",fa1:"任何兽医给您出院文件的手术 — 绝育、膝关节手术、拔牙、肿瘤切除、急诊手术等。",fq2:"适用于猫咪吗？",fa2:"是的 — 狗狗、猫咪和大多数宠物都适用。上传时告诉我们宠物种类即可。",fq3:"可以与伴侣或宠物护理员分享吗？",fa3:"可以 — 毛简报是一份清晰的可打印页面。可保存为PDF或分享链接。",fq4:"我家兽医的文件已经很清楚了，还需要这个吗？",fa4:"可能不需要！毛简报适用于90%使用临床专业术语的出院文件。",fin_h1:"最难的部分",fin_h2:"已经完成了。",fin_sub:"宠物已经回家了。现在只需要知道今晚要做什么——用您能理解的语言。",foot_tag:"兽医说的一切，用你能懂的语言。",foot_disc:"毛简报翻译兽医出院文件。非兽医建议。不能替代专业医疗护理。紧急情况请务必联系您的兽医。"}};
+
+let lang='en';
+function toggleDrop(){document.getElementById('ldrop').classList.toggle('open');}
+document.addEventListener('click',e=>{if(!e.target.closest('.lang-wrap'))document.getElementById('ldrop').classList.remove('open');});
+function setLang(l){
+  lang=l;document.documentElement.lang=l;
+  document.body.className=l==='ko'?'ko':l==='zh'?'zh':'';
+  document.getElementById('globe-lbl').textContent={en:'EN',es:'ES',ko:'KO',zh:'ZH'}[l];
+  document.querySelectorAll('.lopt').forEach((el,i)=>el.classList.toggle('active',['en','es','ko','zh'][i]===l));
+  const t=T[l];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(t[k]!=null)el.innerHTML=t[k];});
+  const bmap={en:0,es:1,ko:2,zh:3};
+  document.querySelectorAll('.bpill').forEach((p,i)=>p.classList.toggle('on',i===bmap[l]));
+  document.getElementById('ldrop').classList.remove('open');
+}
+function setBLang(el){document.querySelectorAll('.bpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
+</script>
+</body>
+</html>
