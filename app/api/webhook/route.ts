@@ -4,20 +4,12 @@ import { extractContent, detectMimeType } from '../../../lib/extract';
 import { generateFurbrief } from '../../../lib/claude';
 import { sendBriefEmail } from '../../../lib/email';
 
-const BLOB_BASE_URL = process.env.VERCEL_BLOB_URL || 'https://blob.vercel.com/v1/files';
-const BLOB_TOKEN = process.env.BLOB_READ_WRITE_TOKEN;
-
 const deleteBlob = async (blobUrl: string) => {
-  if (!BLOB_TOKEN) return;
   try {
     const url = new URL(blobUrl);
-    const path = url.pathname.replace('/v1/files/', '');
-    await fetch(`${BLOB_BASE_URL}/${path}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${BLOB_TOKEN}`,
-      },
-    });
+    const pathParts = url.pathname.split('/');
+    const fileName = pathParts[pathParts.length - 1];
+    await supabaseAdmin().storage.from('uploads').remove([fileName]);
   } catch (error) {
     console.error('failed to delete blob', error);
   }
@@ -28,18 +20,14 @@ const processSession = async (session: any) => {
   const orderId = metadata.order_id;
   if (!orderId) return;
 
-  await (supabaseAdmin() as any)
+  await supabaseAdmin()
     .from('orders')
     .update({ status: 'processing', customer_email: session.customer_email })
     .eq('id', orderId);
 
   try {
     const blobUrl = metadata.blob_url;
-    const fileRes = await fetch(blobUrl, {
-      headers: {
-        Authorization: `Bearer ${BLOB_TOKEN}`,
-      },
-    });
+    const fileRes = await fetch(blobUrl);
     const buffer = await fileRes.arrayBuffer();
     const mimeType = fileRes.headers.get('content-type') || detectMimeType(buffer);
     const content = await extractContent(buffer, mimeType);
@@ -51,8 +39,11 @@ const processSession = async (session: any) => {
       metadata.language
     );
 
-    await (supabaseAdmin() as any).from('briefs').insert({
+    const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+    await supabaseAdmin().from('briefs').insert({
       order_id: orderId,
+      token: token,
       day_schedule: brief.day_schedule,
       medications: brief.medications,
       warning_signs: brief.warning_signs,
@@ -60,17 +51,17 @@ const processSession = async (session: any) => {
       follow_up: brief.follow_up,
     });
 
-    await (supabaseAdmin() as any)
+    await supabaseAdmin()
       .from('orders')
       .update({ status: 'complete', completed_at: new Date().toISOString() })
       .eq('id', orderId);
 
     if (session.customer_email) {
-      await sendBriefEmail(session.customer_email, metadata.pet_name, metadata.language, metadata.share_token);
+      await sendBriefEmail(session.customer_email, metadata.pet_name, metadata.language, token);
     }
   } catch (error) {
     console.error('processing failed', error);
-    await (supabaseAdmin() as any).from('orders').update({ status: 'failed' }).eq('id', orderId);
+    await supabaseAdmin().from('orders').update({ status: 'failed' }).eq('id', orderId);
   } finally {
     if (metadata.blob_url) {
       await deleteBlob(metadata.blob_url);

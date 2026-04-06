@@ -1,8 +1,5 @@
 import { supabaseAdmin } from '../../../lib/supabase';
 
-const BLOB_BASE_URL = process.env.VERCEL_BLOB_URL || 'https://blob.vercel.com/v1/files';
-const BLOB_TOKEN = process.env.BLOB_READ_WRITE_TOKEN;
-
 const getIp = (request: Request) => {
   const forwarded = request.headers.get('x-forwarded-for');
   if (forwarded) {
@@ -18,14 +15,12 @@ const getHourWindow = () => {
 };
 
 export async function POST(request: Request) {
-  if (!BLOB_TOKEN) {
-    return new Response(JSON.stringify({ error: 'Missing blob token' }), { status: 500 });
-  }
+  const supabase = supabaseAdmin();
 
   const ip = getIp(request);
   const windowStart = getHourWindow();
 
-  const rate = await (supabaseAdmin() as any)
+  const rate = await supabase
     .from('rate_limits')
     .select('count')
     .eq('ip', ip)
@@ -42,9 +37,9 @@ export async function POST(request: Request) {
   }
 
   if (existingCount === 0) {
-    await (supabaseAdmin() as any).from('rate_limits').insert({ ip, window_start: windowStart, count: 1 });
+    await supabase.from('rate_limits').insert({ ip, window_start: windowStart, count: 1 });
   } else {
-    await (supabaseAdmin() as any)
+    await supabase
       .from('rate_limits')
       .update({ count: existingCount + 1 })
       .eq('ip', ip)
@@ -61,7 +56,7 @@ export async function POST(request: Request) {
 
   let buffer: ArrayBuffer;
   let mimeType = 'application/octet-stream';
-  let name = `furbrief-${Date.now()}`;
+  let fileName = `furbrief-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 
   if (file) {
     if (file.size > 10 * 1024 * 1024) {
@@ -69,30 +64,28 @@ export async function POST(request: Request) {
     }
     buffer = await file.arrayBuffer();
     mimeType = file.type || mimeType;
-    name += file.name.includes('.') ? `-${file.name}` : `.${file.type.split('/')[1] || 'dat'}`;
+    fileName += file.name.includes('.') ? `-${file.name}` : `.${file.type.split('/')[1] || 'dat'}`;
   } else {
     const text = (pastedText ?? '').trim();
     buffer = new TextEncoder().encode(text).buffer;
     mimeType = 'text/plain';
-    name += '.txt';
+    fileName += '.txt';
   }
 
-  const fileName = `furbrief-${Date.now()}-${Math.random().toString(36).slice(2, 10)}.${mimeType.split('/')[1] || 'txt'}`;
-  const uploadUrl = `${BLOB_BASE_URL}/${encodeURIComponent(fileName)}`;
+  const { data, error } = await supabase.storage
+    .from('uploads')
+    .upload(fileName, buffer, {
+      contentType: mimeType,
+      upsert: false
+    });
 
-  const uploadRes = await fetch(uploadUrl, {
-    method: 'PUT',
-    headers: {
-      Authorization: `Bearer ${BLOB_TOKEN}`,
-      'Content-Type': mimeType,
-    },
-    body: buffer,
-  });
-
-  if (!uploadRes.ok) {
-    const errorText = await uploadRes.text();
-    return new Response(JSON.stringify({ error: `Blob upload failed: ${errorText}` }), { status: 500 });
+  if (error) {
+    return new Response(JSON.stringify({ error: `Upload failed: ${error.message}` }), { status: 500 });
   }
 
-  return new Response(JSON.stringify({ blob_url: uploadUrl }), { status: 200 });
+  const { data: { publicUrl } } = supabase.storage
+    .from('uploads')
+    .getPublicUrl(fileName);
+
+  return new Response(JSON.stringify({ blob_url: publicUrl }), { status: 200 });
 }

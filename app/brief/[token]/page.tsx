@@ -6,20 +6,20 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: { params: { token: string } }): Promise<Metadata> {
-  const { data, error } = await (supabaseAdmin() as any)
-    .from('orders')
-    .select('pet_name, language')
-    .eq('share_token', params.token)
+  const { data, error } = await supabaseAdmin()
+    .from('briefs')
+    .select('orders(pet_name, language)')
+    .eq('token', params.token)
     .single();
 
-  if (error || !data) {
+  if (error || !data || !data.orders) {
     return { title: 'Furbrief' };
   }
 
   return {
-    title: `${data.pet_name}'s furbrief is ready`,
+    title: `${data.orders.pet_name}'s furbrief is ready`,
     openGraph: {
-      title: `${data.pet_name}'s furbrief is ready`,
+      title: `${data.orders.pet_name}'s furbrief is ready`,
       images: ['/og-image.png'],
     },
   };
@@ -52,15 +52,15 @@ interface BriefData {
 
 export default async function BriefPage({ params }: { params: { token: string } }) {
   const { token } = params;
-  const { data, error } = await (supabaseAdmin() as any)
-    .from('orders')
+  const { data, error } = await supabaseAdmin()
+    .from('briefs')
     .select(
-      `pet_name, species, surgery_type, language, share_token, briefs(day_schedule,medications,warning_signs,normal_things,follow_up)`
+      `token, day_schedule, medications, warning_signs, normal_things, follow_up, orders(pet_name, species, surgery_type, language)`
     )
-    .eq('share_token', token)
+    .eq('token', token)
     .single();
 
-  if (error || !data || !data.briefs) {
+  if (error || !data || !data.orders) {
     return (
       <main className="hero-outer dot-bg" style={{ padding: '80px 5%' }}>
         <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center' }}>
@@ -74,23 +74,14 @@ export default async function BriefPage({ params }: { params: { token: string } 
     );
   }
 
-  const briefData = Array.isArray(data.briefs) ? data.briefs[0] : data.briefs;
-  if (!briefData) {
-    return (
-      <main className="hero-outer dot-bg" style={{ padding: '80px 5%' }}>
-        <div style={{ maxWidth: 680, margin: '0 auto', textAlign: 'center' }}>
-          <h1 className="hero-h1">furbrief not available</h1>
-          <p className="hero-sub">This furbrief is still processing, or it could not be retrieved yet.</p>
-          <a href="/upload" className="cbtn" style={{ display: 'inline-flex' }}>
-            get a new furbrief
-          </a>
-        </div>
-      </main>
-    );
-  }
-
-  const brief = briefData as BriefData['briefs'];
-  const language = (data.language || 'en') as 'en' | 'es' | 'ko' | 'zh';
+  const brief = {
+    day_schedule: data.day_schedule,
+    medications: data.medications,
+    warning_signs: data.warning_signs,
+    normal_things: data.normal_things,
+    follow_up: data.follow_up,
+  } as BriefData['briefs'];
+  const language = (data.orders.language || 'en') as 'en' | 'es' | 'ko' | 'zh';
   const labelSet = labels[language];
   const followUp = brief.follow_up;
 
@@ -99,11 +90,11 @@ export default async function BriefPage({ params }: { params: { token: string } 
       <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 320px', gap: '28px' }}>
         <div id="furbrief-content">
           <div style={{ marginBottom: 24 }}>
-            <p className="sec-ey">{data.pet_name}'s furbrief</p>
+            <p className="sec-ey">{data.orders.pet_name}'s furbrief</p>
             <h1 className="sec-h" style={{ marginBottom: 8 }}>
-              {data.pet_name}'s recovery plan
+              {data.orders.pet_name}'s recovery plan
             </h1>
-            <p className="hero-sub">{languageNames[language]} furbrief · {data.species}</p>
+            <p className="hero-sub">{languageNames[language]} furbrief · {data.orders.species}</p>
           </div>
 
           <section className="wcard big" style={{ borderColor: '#B8866A', background: '#3A2010' }}>
