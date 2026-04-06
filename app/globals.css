@@ -228,9 +228,10 @@ nav {
   margin: 0 auto;
   padding: 60px 5% 52px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 52px;
   align-items: center;
+  justify-items: center;
 }
 
 @media (max-width: 820px) {
@@ -238,6 +239,7 @@ nav {
     grid-template-columns: 1fr;
     gap: 36px;
     padding: 44px 5% 32px;
+    align-items: start;
   }
 }
 

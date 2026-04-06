@@ -136,16 +136,9 @@ export default function UploadPage() {
 
   return (
     <>
-      <style>{`
-        @media (min-width: 768px) {
-          .hero-inner { flex-direction: column !important; align-items: center !important; }
-          .fu { text-align: center !important; }
-          .hero-r { margin-top: 40px !important; }
-        }
-      `}</style>
       <main className="hero-outer dot-bg">
       <div className="hero-inner">
-        <section className="fu" style={{ width: '100%', maxWidth: 720 }}>
+        <section className="fu">
           <div className="eyebrow">
             <div className="eyebrow-dot" />
             <span className="eyebrow-text">the briefing your vet forgot to give you</span>
@@ -163,7 +156,7 @@ export default function UploadPage() {
           </p>
         </section>
 
-        <section className="hero-r fu2" style={{ width: '100%', maxWidth: 560 }}>
+        <section className="hero-r fu2">
           <div
             className="uzone"
             onDragOver={(event) => event.preventDefault()}
