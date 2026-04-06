@@ -135,7 +135,15 @@ export default function UploadPage() {
   const hasUpload = Boolean(blobUrl);
 
   return (
-    <main className="hero-outer dot-bg">
+    <>
+      <style>{`
+        @media (min-width: 768px) {
+          .hero-inner { flex-direction: column !important; align-items: center !important; }
+          .fu { text-align: center !important; }
+          .hero-r { margin-top: 40px !important; }
+        }
+      `}</style>
+      <main className="hero-outer dot-bg">
       <div className="hero-inner">
         <section className="fu" style={{ width: '100%', maxWidth: 720 }}>
           <div className="eyebrow">
@@ -289,7 +297,7 @@ export default function UploadPage() {
               </p>
               <p className="pline">price <span className="phl">$6.00 one-time</span></p>
             </div>
-            <button type="button" className="cbtn" onClick={handleCheckout} disabled={isLoading}>
+            <button type="button" className="cbtn" style={{ marginTop: 16 }} onClick={handleCheckout} disabled={isLoading}>
               get my furbrief →
             </button>
             {checkoutError && <p style={{ color: '#A86860', marginTop: 12 }}>{checkoutError}</p>}
@@ -297,5 +305,6 @@ export default function UploadPage() {
         </section>
       </div>
     </main>
+    </>
   );
 }
