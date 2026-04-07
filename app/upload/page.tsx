@@ -166,14 +166,16 @@ export default function UploadPage() {
   const [species, setSpecies] = useState<'dog' | 'cat' | 'other'>('dog');
   const [surgeryType, setSurgeryType] = useState('');
   const [language, setLanguage] = useState<Lang>('en');
-  const [showLangMenu, setShowLangMenu] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const tx = useMemo(() => t[language], [language]);
   const selectedLanguage = useMemo(() => languages.find((item) => item.value === language), [language]);
+
+  useEffect(() => { setHydrated(true); }, []);
 
   // Pre-populate from landing page drop
   useEffect(() => {
@@ -185,15 +187,6 @@ export default function UploadPage() {
       setFileName(fileNameStored || 'your file');
       setFileSize(fileSizeStored || '');
     }
-  }, []);
-
-  // Close lang menu on outside click
-  useEffect(() => {
-    const handle = (e: MouseEvent) => {
-      if (!(e.target as HTMLElement).closest('.lang-wrap')) setShowLangMenu(false);
-    };
-    document.addEventListener('click', handle);
-    return () => document.removeEventListener('click', handle);
   }, []);
 
   // Sync body class for CJK fonts
@@ -277,7 +270,7 @@ export default function UploadPage() {
   };
 
   return (
-    <main className="hero-outer dot-bg">
+    <main className="hero-outer dot-bg" data-hydrated={hydrated ? 'true' : undefined}>
       <div className="hero-inner">
         <section className="fu">
           <div className="eyebrow">
@@ -290,23 +283,16 @@ export default function UploadPage() {
           <p className="hero-sub">{tx.sub}</p>
           <p className="hero-def">{tx.def}</p>
 
-          {/* Language selector */}
-          <div className="lang-wrap" style={{ marginTop: 20 }}>
-            <button className="globe-btn" type="button" onClick={() => setShowLangMenu(!showLangMenu)}>
-              <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="2" y1="12" x2="22" y2="12" />
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-              </svg>
-              <span>{selectedLanguage?.label}</span>
-            </button>
-            <div className={`ldrop ${showLangMenu ? 'open' : ''}`}>
+          {/* Language selector — always visible pills */}
+          <div style={{ marginTop: 20 }}>
+            <div className="blang-lbl">{tx.lang_lbl}</div>
+            <div className="bpills" style={{ marginTop: 10 }}>
               {languages.map((item) => (
                 <button
                   key={item.value}
-                  className={`lopt ${language === item.value ? 'active' : ''} ${item.className}`}
                   type="button"
-                  onClick={() => { setLanguage(item.value); setShowLangMenu(false); }}
+                  className={`bpill ${language === item.value ? 'on' : ''} ${item.className}`}
+                  onClick={() => setLanguage(item.value)}
                 >
                   {item.label}
                 </button>
@@ -441,16 +427,6 @@ export default function UploadPage() {
                 placeholder={tx.surgery_ph}
               />
             </label>
-            <div style={{ marginTop: 16 }}>
-              <div className="blang-lbl">{tx.lang_lbl}</div>
-              <div className="bpills" style={{ marginTop: 10 }}>
-                {languages.map((option) => (
-                  <button key={option.value} type="button" className={`bpill ${language === option.value ? 'on' : ''} ${option.className}`} onClick={() => setLanguage(option.value)}>
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Step 3 */}
