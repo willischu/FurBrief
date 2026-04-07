@@ -61,22 +61,6 @@ const processSession = async (session: any) => {
 
     const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-    await (supabaseAdmin() as any).from('briefs').insert({
-      order_id: orderId,
-      token,
-      day_schedule: brief.day_schedule,
-      medications: brief.medications,
-      warning_signs: brief.warning_signs,
-      normal_things: brief.normal_things,
-      follow_up: brief.follow_up,
-    });
-
-    // write token back to orders so polling page can redirect
-    await (supabaseAdmin() as any)
-      .from('orders')
-      .update({ status: 'complete', completed_at: new Date().toISOString(), share_token: token })
-      .eq('id', orderId);
-
     const insertResult = await (supabaseAdmin() as any).from('briefs').insert({
       order_id: orderId,
       token,
@@ -85,17 +69,12 @@ const processSession = async (session: any) => {
       warning_signs: brief.warning_signs,
       normal_things: brief.normal_things,
       follow_up: brief.follow_up,
-    }).select('token').single();
-
-    // if token already exists, fetch it instead
-    const finalToken = insertResult.error?.code === '23505'
-      ? (await (supabaseAdmin() as any).from('briefs').select('token').eq('order_id', orderId).single()).data?.token
-      : token;
+    });
     console.log('💾 brief insert result', insertResult.error ?? 'ok');
 
     const updateResult = await (supabaseAdmin() as any)
       .from('orders')
-      .update({ status: 'complete', completed_at: new Date().toISOString() })
+      .update({ status: 'complete', completed_at: new Date().toISOString(), share_token: token })
       .eq('id', orderId);
     console.log('💾 order update result', updateResult.error ?? 'ok');
 

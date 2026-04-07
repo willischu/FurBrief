@@ -453,11 +453,30 @@ export default function HomePage() {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [storedFileName, setStoredFileName] = useState<string | null>(null);
+  const [storedFileSize, setStoredFileSize] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const t = translations[lang];
 
+  // On mount, check if user already uploaded a file
+  useEffect(() => {
+    const name = sessionStorage.getItem('furbrief_file_name');
+    const size = sessionStorage.getItem('furbrief_file_size');
+    if (name) { setStoredFileName(name); setStoredFileSize(size); }
+  }, []);
+
+  const clearStored = () => {
+    sessionStorage.removeItem('furbrief_blob_url');
+    sessionStorage.removeItem('furbrief_file_name');
+    sessionStorage.removeItem('furbrief_file_size');
+    setStoredFileName(null);
+    setStoredFileSize(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
   const handleLandingFile = async (file: File) => {
     if (file.size > 10 * 1024 * 1024) { setUploadError('File must be 10MB or smaller.'); return; }
+    clearStored();
     setIsUploading(true);
     setUploadError(null);
     try {
@@ -558,33 +577,52 @@ useEffect(() => {
             <p className="hero-sub">{t.sub}</p>
             <p className="hero-def">{t.def}</p>
 
-            <div
-              className={`uzone${isDragging ? ' drag-over' : ''}`}
-              id="upload"
-              role="button"
-              tabIndex={0}
-              onClick={() => !isUploading && fileInputRef.current?.click()}
-              onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-              onDragLeave={() => setIsDragging(false)}
-              onDrop={async (e) => { e.preventDefault(); setIsDragging(false); if (e.dataTransfer.files[0]) await handleLandingFile(e.dataTransfer.files[0]); }}
-              onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
-            >
-              <div className="uico">
-                {isUploading ? (
-                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
-                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+            {storedFileName ? (
+              <div className="flex items-center gap-4 p-5 rounded-3xl border-2 border-[#6BA888] bg-[#E4F4EC] mb-3">
+                <div className="w-12 h-12 rounded-2xl bg-[#6BA888] flex items-center justify-center flex-shrink-0">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
                   </svg>
-                ) : (
-                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="17 8 12 3 7 8" />
-                    <line x1="12" y1="3" x2="12" y2="15" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-bold text-[#3D7A58] text-sm truncate">{storedFileName}</p>
+                  <p className="text-[#6BA888] text-xs font-semibold mt-0.5">{storedFileSize} · ready to translate</p>
+                </div>
+                <button onClick={clearStored} className="text-[#6BA888] hover:text-[#3D7A58] p-1 flex-shrink-0" title="Upload a different file">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
-                )}
+                </button>
               </div>
-              <p className="utit">{isUploading ? 'uploading…' : t.upload_t}</p>
-              <p className="uhint">{t.upload_h}</p>
-            </div>
+            ) : (
+              <div
+                className={`uzone${isDragging ? ' drag-over' : ''}`}
+                id="upload"
+                role="button"
+                tabIndex={0}
+                onClick={() => fileInputRef.current?.click()}
+                onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={async (e) => { e.preventDefault(); setIsDragging(false); if (e.dataTransfer.files[0]) await handleLandingFile(e.dataTransfer.files[0]); }}
+                onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
+              >
+                <div className="uico">
+                  {isUploading ? (
+                    <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
+                      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                  )}
+                </div>
+                <p className="utit">{isUploading ? 'uploading…' : t.upload_t}</p>
+                <p className="uhint">{t.upload_h}</p>
+              </div>
+            )}
             <input
               ref={fileInputRef}
               type="file"

@@ -166,11 +166,11 @@ export async function generateFurbrief(
         ];
 
   const response = await getClaudeClient().messages.create({
-    model: 'claude-sonnet-4-5',
+    model: 'claude-sonnet-4-6',
     system: SYSTEM,
     messages: [{ role: 'user', content: userMessageContent }],
     temperature: 0.18,
-    max_tokens: 1400,
+    max_tokens: 4096,
   });
 
   const outputText = response.content

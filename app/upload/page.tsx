@@ -184,9 +184,6 @@ export default function UploadPage() {
       setBlobUrl(blobUrlStored);
       setFileName(fileNameStored || 'your file');
       setFileSize(fileSizeStored || '');
-      sessionStorage.removeItem('furbrief_blob_url');
-      sessionStorage.removeItem('furbrief_file_name');
-      sessionStorage.removeItem('furbrief_file_size');
     }
   }, []);
 
