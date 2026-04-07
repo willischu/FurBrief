@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '../../../lib/supabase';
 import BriefPageClient from '../../../components/BriefPageClient';
+import Footer from '../../../components/Footer';
 import { labels, languageNames } from '../../../i18n/strings';
 import type { Metadata } from 'next';
 
@@ -121,7 +122,7 @@ export default async function BriefPage({ params }: { params: { token: string } 
                     </span>
                     {med.with_food && (
                       <span style={{ fontSize: 11, fontWeight: 700, background: '#E4F4EC', color: '#3D7A58', padding: '3px 10px', borderRadius: 50 }}>
-                        with food
+                        {labelSet.withFood}
                       </span>
                     )}
                   </div>
@@ -175,10 +176,20 @@ export default async function BriefPage({ params }: { params: { token: string } 
             </div>
           </section>
 
+          {/* disclaimer */}
+          <section style={{ marginBottom: 20 }}>
+            <div style={{ background: '#FEF9EE', borderRadius: 16, padding: '16px 20px', border: '1px solid #E8D098', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>⚕️</span>
+              <p style={{ fontSize: 12, fontWeight: 600, color: '#8A6840', lineHeight: 1.7, margin: 0 }}>
+                {labelSet.disclaimer}
+              </p>
+            </div>
+          </section>
+
           {/* follow up */}
           <section style={{ marginBottom: 40 }}>
             <div style={{ background: '#FCF0C8', borderRadius: 20, padding: '20px 24px', border: '2px solid #E8D098' }}>
-              <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 16, color: '#8A5A40', marginBottom: 6 }}>follow-up appointment</p>
+              <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 16, color: '#8A5A40', marginBottom: 6 }}>{labelSet.followUp}</p>
               <p style={{ fontSize: 16, fontWeight: 800, color: '#3A2010', marginBottom: 6 }}>{follow_up.when}</p>
               <p style={{ fontSize: 14, fontWeight: 600, color: '#8A6840' }}>{follow_up.notes}</p>
             </div>
@@ -200,23 +211,24 @@ export default async function BriefPage({ params }: { params: { token: string } 
               </svg>
             </div>
             <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 15, color: '#2D5A3D', marginBottom: 6, lineHeight: 1.3 }}>
-              surgery like this typically costs $2,000–$6,000 without insurance
+              {labelSet.insuranceHeadline}
             </p>
             <p style={{ fontSize: 12, fontWeight: 600, color: '#3D7A58', lineHeight: 1.6, marginBottom: 14 }}>
-              most owners consider insurance after their first emergency. this furbrief is a simple shareable recovery plan while you decide.
+              {labelSet.insuranceBody}
             </p>
             <a href="#" style={{ display: 'block', background: '#3D7A58', color: '#fff', borderRadius: 50, padding: '10px 16px', fontFamily: 'Fredoka One, sans-serif', fontSize: 13, textAlign: 'center', textDecoration: 'none', marginBottom: 8 }}>
-              compare pet insurance →
+              {labelSet.insuranceCta}
             </a>
           </div>
 
           {/* get another furbrief */}
           <a href="/upload" style={{ display: 'block', background: '#C4837A', color: '#fff', borderRadius: 50, padding: '13px 16px', fontFamily: 'Fredoka One, sans-serif', fontSize: 15, textAlign: 'center', textDecoration: 'none' }}>
-            get a furbrief for another pet →
+            {labelSet.anotherPet}
           </a>
 
         </aside>
       </div>
+      <Footer language={language} />
     </main>
   );
 }

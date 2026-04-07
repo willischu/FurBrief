@@ -59,7 +59,7 @@ const processSession = async (session: any) => {
     );
     console.log('✅ brief generated');
 
-    const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const token = metadata.share_token || (Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
 
     const insertResult = await (supabaseAdmin() as any).from('briefs').insert({
       order_id: orderId,

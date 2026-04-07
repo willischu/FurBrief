@@ -786,6 +786,12 @@ nav {
   border: 2px solid #FCF0C8;
   position: relative;
   overflow: hidden;
+  transition: border-color .3s, background .3s;
+}
+
+.step-card.done {
+  background: #F2FAF5;
+  border-color: #B8E4CA;
 }
 
 .step-card::after {
@@ -797,6 +803,19 @@ nav {
   height: 80px;
   border-radius: 50%;
   background: #FCF0C8;
+  transition: background .3s;
+}
+
+.step-card.done::after {
+  background: #D4EFE0;
+}
+
+.step-card.done .step-num {
+  background: #6BA888;
+}
+
+.step-card.done .step-title {
+  color: #2D5A3D;
 }
 
 .step-num {

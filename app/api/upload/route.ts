@@ -90,7 +90,7 @@ export async function POST(request: Request) {
 
 const { data: signedData, error: signedError } = await supabase.storage
   .from('uploads')
-  .createSignedUrl(fileName, 60 * 60); // 1 hour expiry
+  .createSignedUrl(fileName, 60 * 60 * 24); // 24 hour expiry
 
 if (signedError || !signedData?.signedUrl) {
   return new Response(JSON.stringify({ error: 'Failed to get file URL' }), { status: 500 });

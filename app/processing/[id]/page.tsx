@@ -3,6 +3,7 @@
 import './../../processing/processing.css';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Footer from '../../../components/Footer';
 
 type Lang = 'en' | 'es' | 'ko' | 'zh';
 
@@ -71,6 +72,9 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
         if (data.status === 'complete' && data.share_token) {
           clearInterval(timerRef.current);
           clearInterval(pollRef.current);
+          sessionStorage.removeItem('furbrief_blob_url');
+          sessionStorage.removeItem('furbrief_file_name');
+          sessionStorage.removeItem('furbrief_file_size');
           router.push(`/brief/${data.share_token}`);
         } else if (data.status === 'failed') {
           clearInterval(timerRef.current);
@@ -83,10 +87,21 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
     poll();
     pollRef.current = setInterval(poll, 3000);
 
-    // timeout after 3 min
-    const timeout = setTimeout(() => {
+    // timeout after 3 min — do one final check before showing failure
+    const timeout = setTimeout(async () => {
       clearInterval(timerRef.current);
       clearInterval(pollRef.current);
+      try {
+        const res = await fetch(`/api/brief/${params.id}`);
+        const data = await res.json();
+        if (data.status === 'complete' && data.share_token) {
+          sessionStorage.removeItem('furbrief_blob_url');
+          sessionStorage.removeItem('furbrief_file_name');
+          sessionStorage.removeItem('furbrief_file_size');
+          router.push(`/brief/${data.share_token}`);
+          return;
+        }
+      } catch {}
       setFailed(true);
     }, 180_000);
 
@@ -105,8 +120,8 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
         <p className="step-title" style={{ color: '#A86860' }}>{copy.failed_title}</p>
         <p className="step-desc" style={{ marginTop: 8 }}>
           {copy.failed_desc}{' '}email us at{' '}
-          <a href={`mailto:help@furbrief.com?subject=Refund request&body=Order ID: ${params.id}`} style={{ color: '#C4837A', fontWeight: 700 }}>
-            help@furbrief.com
+          <a href={`mailto:furbrief@proton.me?subject=Refund request&body=Order ID: ${params.id}`} style={{ color: '#C4837A', fontWeight: 700 }}>
+            furbrief@proton.me
           </a>{' '}
           and we'll refund you immediately.
         </p>
@@ -177,6 +192,7 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
         </div>
       </div>
 
+      <Footer language={lang} />
     </main>
   );
 }

@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
+import { unstable_noStore as noStore } from 'next/cache';
 import { supabaseAdmin } from '../../../../lib/supabase';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(_request: Request, { params }: { params: { id: string } }) {
+  noStore();
   const orderId = params.id;
   const { data, error } = await (supabaseAdmin() as any)
     .from('orders')

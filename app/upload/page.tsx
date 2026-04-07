@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import Footer from '../../components/Footer';
+import { labels } from '../../i18n/strings';
 
 const languages = [
   { value: 'en', label: 'English', className: '' },
@@ -175,6 +177,10 @@ export default function UploadPage() {
   const tx = useMemo(() => t[language], [language]);
   const selectedLanguage = useMemo(() => languages.find((item) => item.value === language), [language]);
 
+  const step1Done = !!(blobUrl);
+  const step2Done = !!(petName.trim());
+  const allDone = step1Done && step2Done;
+
   useEffect(() => { setHydrated(true); }, []);
 
   // Pre-populate from landing page drop
@@ -271,6 +277,22 @@ export default function UploadPage() {
 
   return (
     <main className="hero-outer dot-bg" data-hydrated={hydrated ? 'true' : undefined}>
+      <nav>
+        <a href="/" className="brand">
+          <div className="bmark">
+            <svg viewBox="0 0 32 42" width="18" height="24">
+              <path d="M3,0 L20,0 L32,12 L32,39 Q32,42 29,42 L3,42 Q0,42 0,39 L0,3 Q0,0 3,0 Z" fill="#FFFBEE" />
+              <path d="M20,0 L32,12 L20,12 Z" fill="rgba(255,255,255,.3)" />
+              <line x1="6" y1="20" x2="26" y2="20" stroke="rgba(58,32,16,.2)" strokeWidth="2" strokeLinecap="round" />
+              <line x1="6" y1="27" x2="26" y2="27" stroke="rgba(58,32,16,.2)" strokeWidth="2" strokeLinecap="round" />
+              <line x1="6" y1="34" x2="18" y2="34" stroke="rgba(58,32,16,.2)" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </div>
+          <span className="bname">
+            <em>fur</em>brief
+          </span>
+        </a>
+      </nav>
       <div className="hero-inner">
         <section className="fu">
           <div className="eyebrow">
@@ -358,7 +380,7 @@ export default function UploadPage() {
           />
 
           {/* Step 1 */}
-          <div className="step-card" style={{ marginTop: 16 }}>
+          <div className={`step-card${step1Done ? ' done' : ''}`} style={{ marginTop: 16 }}>
             <div className="step-num">1</div>
             <p className="step-title">{tx.s1t}</p>
             <p className="step-desc">{tx.s1d}</p>
@@ -395,7 +417,7 @@ export default function UploadPage() {
           </div>
 
           {/* Step 2 */}
-          <div className="step-card" style={{ marginTop: 20 }}>
+          <div className={`step-card${step2Done ? ' done' : ''}`} style={{ marginTop: 20 }}>
             <div className="step-num">2</div>
             <p className="step-title">{tx.s2t}</p>
             <p className="step-desc">{tx.s2d}</p>
@@ -430,7 +452,7 @@ export default function UploadPage() {
           </div>
 
           {/* Step 3 */}
-          <div className="step-card" style={{ marginTop: 20 }}>
+          <div className={`step-card${allDone ? ' done' : ''}`} style={{ marginTop: 20 }}>
             <div className="step-num">3</div>
             <p className="step-title">{tx.s3t}</p>
             <p className="step-desc">{tx.s3d}</p>
@@ -439,13 +461,17 @@ export default function UploadPage() {
               <p className="pline">{tx.order_for(petName, selectedLanguage?.label ?? '')}</p>
               <p className="pline">{tx.order_price} <span className="phl">{tx.order_price_val}</span></p>
             </div>
-            <button type="button" className="cbtn" style={{ marginTop: 16 }} onClick={handleCheckout} disabled={isLoading}>
+            <p style={{ fontSize: 11, color: '#8A6840', fontWeight: 600, lineHeight: 1.6, marginTop: 16, padding: '10px 14px', background: '#FEF9EE', borderRadius: 12, border: '1px solid #E8D098' }}>
+              {labels[language].disclaimerCheckout}
+            </p>
+            <button type="button" className="cbtn" style={{ marginTop: 12, opacity: allDone ? 1 : 0.45, cursor: allDone ? 'pointer' : 'not-allowed' }} onClick={handleCheckout} disabled={isLoading || !allDone}>
               {isLoading ? tx.cta_loading : tx.cta}
             </button>
           </div>
 
         </section>
       </div>
+      <Footer language={language} />
     </main>
   );
 }

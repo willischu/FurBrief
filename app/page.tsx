@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Footer from '../components/Footer';
 
 const languages = ['en', 'es', 'ko', 'zh'] as const;
 const langLabels: Record<typeof languages[number], string> = {
@@ -1056,16 +1057,7 @@ useEffect(() => {
         </div>
       </section>
 
-      <footer>
-        <div>
-          <div className="fbrand">
-            <em>fur</em>
-            <span>brief</span>
-          </div>
-          <div className="ftag">{t.foot_tag}</div>
-        </div>
-        <p className="fdisc">{t.foot_disc}</p>
-      </footer>
+      <Footer language={lang} />
 
       <svg width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
