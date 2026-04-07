@@ -318,6 +318,16 @@ nav {
   background: #FCF0C8;
 }
 
+.uzone.drag-over {
+  border-color: #6BA888;
+  background: #E4F4EC;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .uico {
   width: 52px;
   height: 52px;

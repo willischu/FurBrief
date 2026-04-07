@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const languages = ['en', 'es', 'ko', 'zh'] as const;
 const langLabels: Record<typeof languages[number], string> = {
@@ -450,17 +450,38 @@ type Lang = keyof typeof translations;
 export default function HomePage() {
   const [lang, setLang] = useState<Lang>('en');
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const t = translations[lang];
+
+  const handleLandingFile = async (file: File) => {
+    if (file.size > 10 * 1024 * 1024) { setUploadError('File must be 10MB or smaller.'); return; }
+    setIsUploading(true);
+    setUploadError(null);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/upload', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || 'Upload failed');
+      sessionStorage.setItem('furbrief_blob_url', data.blob_url);
+      sessionStorage.setItem('furbrief_file_name', file.name);
+      sessionStorage.setItem('furbrief_file_size', `${(file.size / 1024 / 1024).toFixed(2)} MB`);
+      window.location.assign('/upload');
+    } catch (err) {
+      setUploadError((err as Error).message);
+      setIsUploading(false);
+    }
+  };
 
   useEffect(() => {
     document.documentElement.lang = lang;
     document.body.className = lang === 'ko' ? 'ko' : lang === 'zh' ? 'zh' : '';
   }, [lang]);
 
-  const pillClasses = (value: Lang) =>
-    `bpill ${lang === value ? 'on' : ''} ${value === 'ko' ? 'ko-p' : value === 'zh' ? 'zh-p' : ''}`;
-
-  useEffect(() => {
+useEffect(() => {
     const handle = (event: MouseEvent) => {
       if (!(event.target as HTMLElement).closest('.lang-wrap')) {
         setShowLangMenu(false);
@@ -537,28 +558,41 @@ export default function HomePage() {
             <p className="hero-sub">{t.sub}</p>
             <p className="hero-def">{t.def}</p>
 
-            <div className="uzone" id="upload">
+            <div
+              className={`uzone${isDragging ? ' drag-over' : ''}`}
+              id="upload"
+              role="button"
+              tabIndex={0}
+              onClick={() => !isUploading && fileInputRef.current?.click()}
+              onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+              onDragLeave={() => setIsDragging(false)}
+              onDrop={async (e) => { e.preventDefault(); setIsDragging(false); if (e.dataTransfer.files[0]) await handleLandingFile(e.dataTransfer.files[0]); }}
+              onKeyDown={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
+            >
               <div className="uico">
-                <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" y1="3" x2="12" y2="15" />
-                </svg>
+                {isUploading ? (
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                )}
               </div>
-              <p className="utit">{t.upload_t}</p>
+              <p className="utit">{isUploading ? 'uploading…' : t.upload_t}</p>
               <p className="uhint">{t.upload_h}</p>
             </div>
-
-            <div className="blang-row">
-              <span className="blang-lbl">{t.blang_lbl}</span>
-              <div className="bpills">
-                {(Object.keys(langLabels) as Lang[]).map((key) => (
-                  <button key={key} className={pillClasses(key)} type="button" onClick={() => setLang(key)}>
-                    {langLabels[key]}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/pdf,image/jpeg,image/png,image/heic"
+              className="hidden"
+              onChange={(e) => e.target.files?.[0] && handleLandingFile(e.target.files[0])}
+            />
+            {uploadError && <p className="text-sm font-semibold mt-2" style={{ color: '#A86860' }}>{uploadError}</p>}
 
             <button className="cbtn" type="button" onClick={() => window.location.assign('/upload')}>
               <span>{t.cta}</span>
