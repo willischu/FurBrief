@@ -145,6 +145,7 @@ nav {
   padding: 6px;
   min-width: 138px;
   box-shadow: 0 8px 32px rgba(184, 134, 106, 0.18);
+  z-index: 300;
 }
 
 .ldrop.open {
@@ -1321,6 +1322,8 @@ footer {
 
 .fu {
   animation: fadeUp 0.55s ease both;
+  position: relative;
+  z-index: 1;
 }
 
 .fu2 {
