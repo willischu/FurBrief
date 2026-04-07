@@ -3,6 +3,8 @@ import { stripe } from '../../../lib/stripe';
 import { supabaseAdmin } from '../../../lib/supabase';
 
 export async function POST(request: Request) {
+  console.log('STRIPE_PRICE_ID:', process.env.STRIPE_PRICE_ID)
+  console.log('NEXT_PUBLIC_APP_URL:', process.env.NEXT_PUBLIC_APP_URL)
   const body = await request.json();
   const { blobUrl, petName, species, surgeryType, language } = body;
 
@@ -16,15 +18,16 @@ export async function POST(request: Request) {
 
   const shareToken = crypto.randomUUID();
   const insertResult = await (supabaseAdmin() as any).from('orders').insert({
-    pet_name: petName,
-    species,
-    surgery_type: surgeryType || '',
-    language,
-    blob_url: blobUrl,
-    share_token: shareToken,
-  }).select('id').single();
+      pet_name: petName,
+      species,
+      surgery_type: surgeryType || '',
+      language,
+      blob_url: blobUrl,
+      share_token: shareToken,
+    }).select('id').single();
 
   if (insertResult.error || !insertResult.data?.id) {
+    console.error('Supabase insert error:', insertResult.error)
     return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
   }
 

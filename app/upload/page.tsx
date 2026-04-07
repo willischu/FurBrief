@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 const languages = [
   { value: 'en', label: 'English', className: '' },
@@ -28,8 +28,16 @@ export default function UploadPage() {
   const [language, setLanguage] = useState<'en' | 'es' | 'ko' | 'zh'>('en');
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const selectedLanguage = useMemo(() => languages.find((item) => item.value === language), [language]);
+
+  const clearFile = () => {
+    setBlobUrl(null);
+    setFileName('');
+    setFileSize('');
+    if (inputRef.current) inputRef.current.value = '';
+  };
 
   const handleFile = async (file: File) => {
     if (!file) return;
@@ -37,20 +45,14 @@ export default function UploadPage() {
       setCheckoutError('File must be 10MB or smaller.');
       return;
     }
-
     const formData = new FormData();
     formData.append('file', file);
     setIsLoading(true);
     setCheckoutError(null);
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch('/api/upload', { method: 'POST', body: formData });
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data?.error || 'Upload failed');
-      }
+      if (!response.ok) throw new Error(data?.error || 'Upload failed');
       setBlobUrl(data.blob_url);
       setFileName(file.name);
       setFileSize(`${(file.size / 1024 / 1024).toFixed(2)} MB`);
@@ -63,9 +65,7 @@ export default function UploadPage() {
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (event.dataTransfer.files.length) {
-      await handleFile(event.dataTransfer.files[0]);
-    }
+    if (event.dataTransfer.files.length) await handleFile(event.dataTransfer.files[0]);
   };
 
   const handlePasteSubmit = async () => {
@@ -78,17 +78,12 @@ export default function UploadPage() {
     const formData = new FormData();
     formData.append('text', textFallback.trim());
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch('/api/upload', { method: 'POST', body: formData });
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data?.error || 'Upload failed');
-      }
+      if (!response.ok) throw new Error(data?.error || 'Upload failed');
       setBlobUrl(data.blob_url);
       setFileName('pasted notes');
-      setFileSize('text fallback');
+      setFileSize('text');
     } catch (error) {
       setCheckoutError((error as Error).message);
     } finally {
@@ -97,33 +92,18 @@ export default function UploadPage() {
   };
 
   const handleCheckout = async () => {
-    if (!blobUrl) {
-      setCheckoutError('Please upload your papers first.');
-      return;
-    }
-    if (!petName.trim()) {
-      setCheckoutError('Please tell us your pet\'s name.');
-      setStep(2);
-      return;
-    }
+    if (!blobUrl) { setCheckoutError('Please upload your papers first.'); return; }
+    if (!petName.trim()) { setCheckoutError("Please tell us your pet's name."); setStep(2); return; }
     setIsLoading(true);
     setCheckoutError(null);
     try {
       const response = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          blobUrl,
-          petName,
-          species,
-          surgeryType,
-          language,
-        }),
+        body: JSON.stringify({ blobUrl, petName, species, surgeryType, language }),
       });
       const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data?.error || 'Checkout failed');
-      }
+      if (!response.ok) throw new Error(data?.error || 'Checkout failed');
       window.location.assign(data.url);
     } catch (error) {
       setCheckoutError((error as Error).message);
@@ -132,11 +112,8 @@ export default function UploadPage() {
     }
   };
 
-  const hasUpload = Boolean(blobUrl);
-
   return (
-    <>
-      <main className="hero-outer dot-bg">
+    <main className="hero-outer dot-bg">
       <div className="hero-inner">
         <section className="fu">
           <div className="eyebrow">
@@ -144,9 +121,7 @@ export default function UploadPage() {
             <span className="eyebrow-text">the briefing your vet forgot to give you</span>
           </div>
           <h1 className="hero-h1">
-            get your<br />
-            pet's<br />
-            <em>furbrief</em>
+            get your<br />pet's<br /><em>furbrief</em>
           </h1>
           <p className="hero-sub">
             upload vet discharge papers, choose your language, then pay $6 for a plain-English care plan.
@@ -157,32 +132,55 @@ export default function UploadPage() {
         </section>
 
         <section className="hero-r fu2">
-          <div
-            className="uzone"
-            onDragOver={(event) => event.preventDefault()}
-            onDrop={handleDrop}
-            onClick={() => document.getElementById('file-input')?.click()}
-            role="button"
-            tabIndex={0}
-          >
-            <div className="uico">
-              <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" y1="3" x2="12" y2="15" />
-              </svg>
-            </div>
-            <p className="utit">drop your discharge papers here</p>
-            <p className="uhint">PDF, photo, or screenshot · any clinic · any format</p>
-            <input
-              type="file"
-              id="file-input"
-              accept="application/pdf,image/jpeg,image/png,image/heic"
-              style={{ display: 'none' }}
-              onChange={(event) => event.target.files?.[0] && handleFile(event.target.files[0])}
-            />
-          </div>
 
+          {/* Upload zone — swaps to success card once uploaded */}
+          {blobUrl ? (
+            <div className="flex items-center gap-4 p-5 rounded-3xl border-2 border-[#6BA888] bg-[#E4F4EC] mb-4">
+              <div className="w-12 h-12 rounded-2xl bg-[#6BA888] flex items-center justify-center flex-shrink-0">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-[#3D7A58] text-sm truncate">{fileName}</p>
+                <p className="text-[#6BA888] text-xs font-semibold mt-0.5">{fileSize} · ready to translate</p>
+              </div>
+              <button onClick={clearFile} className="text-[#6BA888] hover:text-[#3D7A58] p-1 flex-shrink-0" title="Remove file">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+          ) : (
+            <div
+              className="uzone"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={handleDrop}
+              onClick={() => inputRef.current?.click()}
+              role="button"
+              tabIndex={0}
+            >
+              <div className="uico">
+                <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+              </div>
+              <p className="utit">drop your discharge papers here</p>
+              <p className="uhint">PDF, photo, or screenshot · any clinic · any format</p>
+            </div>
+          )}
+
+          <input
+            ref={inputRef}
+            type="file"
+            accept="application/pdf,image/jpeg,image/png,image/heic"
+            className="hidden"
+            onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])}
+          />
+
+          {/* Step 1 */}
           <div className="step-card" style={{ marginTop: 16 }}>
             <div className="step-num">1</div>
             <p className="step-title">upload your papers</p>
@@ -202,28 +200,24 @@ export default function UploadPage() {
               {useTextFallback ? 'hide paste field' : 'or paste the text instead'}
             </button>
             {useTextFallback && (
-              <textarea
-                value={textFallback}
-                onChange={(event) => setTextFallback(event.target.value)}
-                placeholder="Paste your discharge notes here"
-                rows={6}
-                className="border border-[#ECC888] rounded-[16px] p-4 w-full mt-4"
-                style={{ fontFamily: 'Nunito, sans-serif', fontSize: 15, minHeight: 160 }}
-              />
+              <>
+                <textarea
+                  value={textFallback}
+                  onChange={(e) => setTextFallback(e.target.value)}
+                  placeholder="Paste your discharge notes here"
+                  rows={6}
+                  className="border border-[#ECC888] rounded-[16px] p-4 w-full mt-4"
+                  style={{ fontFamily: 'Nunito, sans-serif', fontSize: 15, minHeight: 160 }}
+                />
+                <button type="button" className="cbtn" onClick={handlePasteSubmit} disabled={isLoading}>
+                  {isLoading ? 'uploading…' : 'upload text'}
+                </button>
+              </>
             )}
-            {useTextFallback && (
-              <button type="button" className="cbtn" onClick={handlePasteSubmit} disabled={isLoading}>
-                upload text
-              </button>
-            )}
-            {hasUpload && (
-              <div style={{ marginTop: 16, color: '#3A2010', fontWeight: 700 }}>
-                <div>{fileName}</div>
-                <div style={{ fontSize: 13, color: '#8A6840' }}>{fileSize}</div>
-              </div>
-            )}
+            {checkoutError && <p className="text-sm font-semibold mt-3" style={{ color: '#A86860' }}>{checkoutError}</p>}
           </div>
 
+          {/* Step 2 */}
           <div className="step-card" style={{ marginTop: 20 }}>
             <div className="step-num">2</div>
             <p className="step-title">tell us about your pet</p>
@@ -233,7 +227,7 @@ export default function UploadPage() {
               <input
                 className="mt-2 w-full rounded-[18px] border border-[#ECC888] bg-white px-4 py-3 text-base"
                 value={petName}
-                onChange={(event) => setPetName(event.target.value)}
+                onChange={(e) => setPetName(e.target.value)}
                 placeholder="e.g. luna"
               />
             </label>
@@ -241,12 +235,7 @@ export default function UploadPage() {
               <div className="blang-lbl">species</div>
               <div className="bpills" style={{ marginTop: 10 }}>
                 {speciesOptions.map((item) => (
-                  <button
-                    key={item.value}
-                    type="button"
-                    className={`bpill ${species === item.value ? 'on' : ''}`}
-                    onClick={() => setSpecies(item.value)}
-                  >
+                  <button key={item.value} type="button" className={`bpill ${species === item.value ? 'on' : ''}`} onClick={() => setSpecies(item.value)}>
                     {item.label}
                   </button>
                 ))}
@@ -257,7 +246,7 @@ export default function UploadPage() {
               <input
                 className="mt-2 w-full rounded-[18px] border border-[#ECC888] bg-white px-4 py-3 text-base"
                 value={surgeryType}
-                onChange={(event) => setSurgeryType(event.target.value)}
+                onChange={(e) => setSurgeryType(e.target.value)}
                 placeholder="e.g. dental extraction"
               />
             </label>
@@ -265,12 +254,7 @@ export default function UploadPage() {
               <div className="blang-lbl">furbrief language</div>
               <div className="bpills" style={{ marginTop: 10 }}>
                 {languages.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    className={`bpill ${language === option.value ? 'on' : ''} ${option.className}`}
-                    onClick={() => setLanguage(option.value)}
-                  >
+                  <button key={option.value} type="button" className={`bpill ${language === option.value ? 'on' : ''} ${option.className}`} onClick={() => setLanguage(option.value)}>
                     {option.label}
                   </button>
                 ))}
@@ -278,26 +262,23 @@ export default function UploadPage() {
             </div>
           </div>
 
+          {/* Step 3 */}
           <div className="step-card" style={{ marginTop: 20 }}>
             <div className="step-num">3</div>
             <p className="step-title">checkout</p>
             <p className="step-desc">review your order, then pay $6 and get routed to the processing page.</p>
             <div className="paper-card" style={{ marginTop: 14 }}>
               <div className="paper-top">order summary</div>
-              <p className="pline">
-                furbrief for <span className="phl">{petName || 'your pet'}</span> — language{' '}
-                <span className="phl">{selectedLanguage?.label}</span>
-              </p>
+              <p className="pline">furbrief for <span className="phl">{petName || 'your pet'}</span> — language <span className="phl">{selectedLanguage?.label}</span></p>
               <p className="pline">price <span className="phl">$6.00 one-time</span></p>
             </div>
             <button type="button" className="cbtn" style={{ marginTop: 16 }} onClick={handleCheckout} disabled={isLoading}>
-              get my furbrief →
+              {isLoading ? 'redirecting…' : 'get my furbrief →'}
             </button>
-            {checkoutError && <p style={{ color: '#A86860', marginTop: 12 }}>{checkoutError}</p>}
           </div>
+
         </section>
       </div>
     </main>
-    </>
   );
 }

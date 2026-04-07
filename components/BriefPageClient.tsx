@@ -25,7 +25,7 @@ export default function BriefPageClient({ shareToken, language }: BriefPageClien
     const element = document.getElementById('furbrief-content');
     if (!element) return;
     html2pdf()
-      .set({ margin: 16, filename: `furbrief-${shareToken}.pdf`, jsPDF: { unit: 'mm', format: 'a4' } })
+      .set({ margin: 16, filename: `furbrief-${shareToken}.pdf`, jsPDF: { unit: 'mm', format: 'a4' }, pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }})
       .from(element)
       .save();
   };

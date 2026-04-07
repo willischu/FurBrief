@@ -1,0 +1,57 @@
+@keyframes bounce {
+  from { transform: translateX(-50%) translateY(0) }
+  to   { transform: translateX(-50%) translateY(-5px) }
+}
+@keyframes groundScroll {
+  from { background-position: 0 0 }
+  to   { background-position: -20px 0 }
+}
+@keyframes pawFade {
+  0%,100% { opacity: 0; transform: scale(.8) }
+  40%     { opacity: 1; transform: scale(1) }
+}
+@keyframes shimmer {
+  from { left: -60px }
+  to   { left: 120% }
+}
+.cat-run {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  animation: bounce .4s ease-in-out infinite alternate;
+}
+.ground-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, #ECC888 0, #ECC888 12px, transparent 12px, transparent 20px);
+  animation: groundScroll .4s linear infinite;
+}
+.paw-print {
+  position: absolute;
+  bottom: 4px;
+  width: 12px; height: 10px;
+  background: #ECC888;
+  border-radius: 50% 50% 40% 40%;
+  opacity: 0;
+}
+.paw-print:nth-child(1) { left: 20%; animation: pawFade .8s 0s ease-in-out infinite; }
+.paw-print:nth-child(2) { left: 35%; animation: pawFade .8s .2s ease-in-out infinite; }
+.paw-print:nth-child(3) { left: 50%; animation: pawFade .8s .4s ease-in-out infinite; }
+.prog-fill-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #C4837A, #ECC888);
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  transition: width 1s linear;
+}
+.prog-fill-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -60px;
+  width: 40px; height: 100%;
+  background: rgba(255,255,255,.35);
+  transform: skewX(-20deg);
+  animation: shimmer 1.5s ease-in-out infinite;
+}

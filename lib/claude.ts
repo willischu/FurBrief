@@ -2,6 +2,33 @@ import { Anthropic } from '@anthropic-ai/sdk';
 import type { TextCitation } from '@anthropic-ai/sdk/resources/messages/messages';
 import { PapersContent } from './extract';
 
+const MOCK_BRIEF = {
+  day_schedule: [
+    { period: 'Today', instructions: ['Keep your pet calm and rested', 'Feed half their normal meal tonight', 'E-collar on at all times — even when sleeping'] },
+    { period: 'Days 1–3', instructions: ['Leash walks only for bathroom breaks', 'Check incision twice daily for redness or swelling', 'Give pain medication with food'] },
+    { period: 'Days 4–7', instructions: ['May seem totally fine — still restrict activity', 'No running, jumping, or stairs'] },
+    { period: 'Days 8–14', instructions: ['Gradually increase walk length', 'Return to vet on Day 14 for recheck'] },
+  ],
+  medications: [
+    { name: 'pain relief tablet', clinical_name: 'Carprofen 25mg', dose: 'one tablet', frequency: 'twice a day', with_food: true, duration: '5 days', notes: 'Never give on an empty stomach' },
+    { name: 'antibiotic', clinical_name: 'Amoxicillin 250mg', dose: 'one capsule', frequency: 'twice a day', with_food: false, duration: '7 days', notes: 'Finish the full course even if your pet seems better' },
+  ],
+  warning_signs: [
+    { sign: 'Wound opening or stitches separating', urgency: 'call_now' },
+    { sign: 'Discharge that is yellow, green, or has a bad smell', urgency: 'call_now' },
+    { sign: 'Swelling that gets worse after day 3', urgency: 'call_now' },
+    { sign: 'Not eating after 24 hours', urgency: 'watch_closely' },
+    { sign: 'Lethargy lasting more than 48 hours', urgency: 'watch_closely' },
+  ],
+  normal_things: [
+    'Groggy and sleepy for the first 12–24 hours — this is the anaesthesia wearing off',
+    'Small amount of redness right around the incision edges',
+    'Soft fluid pocket forming near the wound — usually harmless and resolves on its own',
+    'Not wanting to eat the first night — totally normal',
+  ],
+  follow_up: { when: 'Day 14', notes: 'Recheck to inspect healing and confirm stitches have dissolved properly' }
+};
+
 let client: Anthropic | null = null;
 
 function getClaudeClient() {
@@ -110,6 +137,12 @@ export async function generateFurbrief(
   surgeryType: string,
   language: string
 ) {
+  if (process.env.MOCK_CLAUDE === 'true') {
+    console.log('🐱 MOCK MODE — skipping Claude API');
+    await new Promise(r => setTimeout(r, 3000));
+    return MOCK_BRIEF;
+  }
+
   const text =
     content.type === 'text'
       ? content.text
@@ -135,12 +168,7 @@ export async function generateFurbrief(
   const response = await getClaudeClient().messages.create({
     model: 'claude-sonnet-4-5',
     system: SYSTEM,
-    messages: [
-      {
-        role: 'user',
-        content: userMessageContent,
-      },
-    ],
+    messages: [{ role: 'user', content: userMessageContent }],
     temperature: 0.18,
     max_tokens: 1400,
   });

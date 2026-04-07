@@ -64,7 +64,12 @@ export async function POST(request: Request) {
     }
     buffer = await file.arrayBuffer();
     mimeType = file.type || mimeType;
-    fileName += file.name.includes('.') ? `-${file.name}` : `.${file.type.split('/')[1] || 'dat'}`;
+    const safeName = file.name
+      .replace(/\s+/g, '-')
+      .replace(/[^a-zA-Z0-9.\-_]/g, '')
+      .toLowerCase()
+
+    fileName += safeName.includes('.') ? `-${safeName}` : `.${file.type.split('/')[1] || 'dat'}`
   } else {
     const text = (pastedText ?? '').trim();
     buffer = new TextEncoder().encode(text).buffer;
@@ -83,9 +88,12 @@ export async function POST(request: Request) {
     return new Response(JSON.stringify({ error: `Upload failed: ${error.message}` }), { status: 500 });
   }
 
-  const { data: { publicUrl } } = supabase.storage
-    .from('uploads')
-    .getPublicUrl(fileName);
+const { data: signedData, error: signedError } = await supabase.storage
+  .from('uploads')
+  .createSignedUrl(fileName, 60 * 60); // 1 hour expiry
 
-  return new Response(JSON.stringify({ blob_url: publicUrl }), { status: 200 });
+if (signedError || !signedData?.signedUrl) {
+  return new Response(JSON.stringify({ error: 'Failed to get file URL' }), { status: 500 });
+}
+  return new Response(JSON.stringify({ blob_url: signedData.signedUrl }), { status: 200 });
 }

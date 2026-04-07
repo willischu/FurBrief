@@ -1,103 +1,145 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { labels } from '../../../i18n/strings';
+import './../../processing/processing.css';
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-const mailto = 'mailto:help@furbrief.com?subject=Refund%20request';
+const MESSAGES = [
+  'reading your discharge papers',
+  'decoding the jargon…',
+  'building your day-by-day plan…',
+  'almost ready — hang tight!',
+];
+const STEP_LABELS = ['reading papers', 'decoding jargon', 'building plan', 'finishing up'];
+const TOTAL_SECS = 45;
 
-export default function ProcessingPage() {
-  const params = useParams();
+export default function ProcessingPage({ params }: { params: { id: string } }) {
   const router = useRouter();
-  const orderId = params.id as string;
-  const [status, setStatus] = useState<'pending' | 'processing' | 'complete' | 'failed'>('processing');
-  const [messageIndex, setMessageIndex] = useState(0);
-  const [error, setError] = useState<string | null>(null);
-  const [language, setLanguage] = useState<'en' | 'es' | 'ko' | 'zh'>('en');
-  const [timeoutReached, setTimeoutReached] = useState(false);
+  const [elapsed, setElapsed] = useState(0);
+  const [failed, setFailed] = useState(false);
+  const pollRef = useRef<NodeJS.Timeout>();
+  const timerRef = useRef<NodeJS.Timeout>();
 
-  const labelSet = labels[language] || labels.en;
-  const text = useMemo(() => labelSet.processing[messageIndex % labelSet.processing.length], [labelSet, messageIndex]);
+  const pct = Math.min(Math.round((elapsed / TOTAL_SECS) * 100), 95);
+  const stepIndex = elapsed < 10 ? 0 : elapsed < 22 ? 1 : elapsed < 35 ? 2 : 3;
 
   useEffect(() => {
-    const rotate = setInterval(() => setMessageIndex((value) => value + 1), 4000);
-    return () => clearInterval(rotate);
-  }, []);
+    // progress timer
+    timerRef.current = setInterval(() => setElapsed(e => e + 1), 1000);
 
-  useEffect(() => {
-    let poll: NodeJS.Timeout;
-    const start = Date.now();
-
-    const refresh = async () => {
+    // poll for completion
+    const poll = async () => {
       try {
-        const response = await fetch(`/api/brief/${orderId}`);
-        if (!response.ok) {
-          throw new Error('Unable to check status');
-        }
-        const data = await response.json();
-        if (data.language) {
-          setLanguage(data.language);
-        }
-        setStatus(data.status);
+        const res = await fetch(`/api/brief/${params.id}`);
+        const data = await res.json();
+        console.log('poll response:', data)
         if (data.status === 'complete' && data.share_token) {
-          router.replace(`/brief/${data.share_token}`);
-          return;
+          clearInterval(timerRef.current);
+          clearInterval(pollRef.current);
+          router.push(`/brief/${data.share_token}`);
+        } else if (data.status === 'failed') {
+          clearInterval(timerRef.current);
+          clearInterval(pollRef.current);
+          setFailed(true);
         }
-        if (data.status === 'failed') {
-          setError('Something went wrong while creating your furbrief.');
-          return;
-        }
-        if (Date.now() - start > 180000) {
-          setTimeoutReached(true);
-          setError('Processing timed out.');
-          return;
-        }
-      } catch (err) {
-        setError('Unable to reach processing service.');
-      }
-      if (!timeoutReached && status !== 'failed') {
-        poll = setTimeout(refresh, 3000);
-      }
+      } catch {}
     };
 
-    refresh();
-    return () => clearTimeout(poll);
-  }, [orderId, router, status, timeoutReached]);
+    poll();
+    pollRef.current = setInterval(poll, 3000);
+
+    // timeout after 3 min
+    const timeout = setTimeout(() => {
+      clearInterval(timerRef.current);
+      clearInterval(pollRef.current);
+      setFailed(true);
+    }, 180_000);
+
+    return () => {
+      clearInterval(timerRef.current);
+      clearInterval(pollRef.current);
+      clearTimeout(timeout);
+    };
+  }, [params.id, router]);
+
+  if (failed) return (
+    <main className="hero-outer dot-bg" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="step-card" style={{ maxWidth: 420, textAlign: 'center' }}>
+        <p className="step-title" style={{ color: '#A86860' }}>something went wrong</p>
+        <p className="step-desc" style={{ marginTop: 8 }}>
+          your furbrief didn't generate. email us at{' '}
+          <a href={`mailto:help@furbrief.com?subject=Refund request&body=Order ID: ${params.id}`} style={{ color: '#C4837A', fontWeight: 700 }}>
+            help@furbrief.com
+          </a>{' '}
+          and we'll refund you immediately.
+        </p>
+      </div>
+    </main>
+  );
 
   return (
-    <main className="hero-outer dot-bg">
-      <div className="hero-inner" style={{ paddingTop: 80, paddingBottom: 80 }}>
-        <section style={{ width: '100%', maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ marginBottom: 32 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#FCF0C8', padding: '5px 14px', borderRadius: 50, border: '1.5px solid #F0DC90' }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#B8866A' }} />
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#8A6840' }}>furbrief is being built</span>
-            </div>
-          </div>
-          <div style={{ marginBottom: 24 }}>
-            <div style={{ width: 160, height: 160, margin: '0 auto', position: 'relative' }}>
-              <svg viewBox="0 0 100 100" width="160" height="160">
-                <use href="#cat" />
-              </svg>
-            </div>
-          </div>
-          <h1 className="hero-h1" style={{ fontSize: 'clamp(32px, 5vw, 48px)', marginBottom: 16 }}>
-            {text}
-          </h1>
-          <p className="hero-sub" style={{ maxWidth: 560, margin: '0 auto' }}>
-            {error
-              ? `${error} ${timeoutReached ? 'If this keeps happening, email us for a refund.' : 'This should be ready in under 3 minutes.'}`
-              : 'Your papers are being read and translated into a care plan for your pet.'}
-          </p>
-          {error && (
-            <div style={{ marginTop: 24 }}>
-              <a href={mailto} className="cbtn" style={{ display: 'inline-flex' }}>
-                request refund
-              </a>
-            </div>
-          )}
-        </section>
+    <main className="hero-outer dot-bg" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
+
+      <h1 className="fredoka" style={{ fontSize: 26, color: '#3A2010', marginBottom: 8, textAlign: 'center' }}>
+        translating your papers…
+      </h1>
+      <p style={{ fontSize: 14, fontWeight: 700, color: '#8A6840', marginBottom: 36, textAlign: 'center', minHeight: 22 }}>
+        {MESSAGES[stepIndex]}
+      </p>
+
+      {/* running cat scene */}
+      <div style={{ width: 320, height: 90, position: 'relative', overflow: 'hidden', marginBottom: 28 }}>
+        <div className="cat-run">
+          <svg viewBox="0 0 80 60" width="80" height="60">
+            <ellipse cx="40" cy="35" rx="22" ry="14" fill="#FAE0B8" stroke="#ECC888" strokeWidth="1.5"/>
+            <circle cx="58" cy="22" r="14" fill="#FAE0B8" stroke="#ECC888" strokeWidth="1.5"/>
+            <polygon points="48,12 52,2 58,12" fill="#FAE0B8" stroke="#ECC888" strokeWidth="1.2"/>
+            <polygon points="50,11 53,4 57,11" fill="#ECC888"/>
+            <polygon points="62,12 66,2 70,12" fill="#FAE0B8" stroke="#ECC888" strokeWidth="1.2"/>
+            <polygon points="63,11 66,4 69,11" fill="#ECC888"/>
+            <ellipse cx="54" cy="20" rx="3" ry="3.5" fill="#3A2010"/>
+            <circle cx="55.2" cy="18.5" r="1.2" fill="white"/>
+            <ellipse cx="63" cy="20" rx="3" ry="3.5" fill="#3A2010"/>
+            <circle cx="64.2" cy="18.5" r="1.2" fill="white"/>
+            <ellipse cx="49" cy="24" rx="5" ry="3" fill="#FFB3CF" opacity={0.45}/>
+            <ellipse cx="68" cy="24" rx="5" ry="3" fill="#FFB3CF" opacity={0.45}/>
+            <ellipse cx="58" cy="26" rx="2.5" ry="1.8" fill="#E8A070"/>
+            <path d="M18 32 Q8 20 12 10" fill="none" stroke="#ECC888" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="32" y1="46" x2="25" y2="58" stroke="#ECC888" strokeWidth="3.5" strokeLinecap="round"/>
+            <line x1="38" y1="47" x2="44" y2="58" stroke="#ECC888" strokeWidth="3.5" strokeLinecap="round"/>
+            <line x1="22" y1="44" x2="16" y2="56" stroke="#FAE0B8" strokeWidth="3.5" strokeLinecap="round"/>
+            <line x1="28" y1="46" x2="34" y2="56" stroke="#FAE0B8" strokeWidth="3.5" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <div className="paw-print"/>
+        <div className="paw-print"/>
+        <div className="paw-print"/>
+        <div className="ground-line"/>
       </div>
+
+      {/* progress bar */}
+      <div style={{ width: 320 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#8A6840' }}>{STEP_LABELS[stepIndex]}</span>
+          <span style={{ fontSize: 12, fontWeight: 700, color: '#8A6840' }}>{pct}%</span>
+        </div>
+        <div style={{ width: '100%', height: 10, background: '#FAE0B8', borderRadius: 50, overflow: 'hidden' }}>
+          <div className="prog-fill-bar" style={{ width: `${pct}%` }}/>
+        </div>
+        <div style={{ display: 'flex', gap: 6, marginTop: 12, flexWrap: 'wrap' as const, justifyContent: 'center' }}>
+          {['reading', 'decoding', 'building plan', 'finishing up'].map((label, i) => (
+            <span key={label} style={{
+              fontSize: 11, fontWeight: 700, padding: '4px 10px', borderRadius: 50,
+              background: i < stepIndex ? '#E4F4EC' : i === stepIndex ? '#C4837A' : '#FCF0C8',
+              color: i < stepIndex ? '#3D7A58' : i === stepIndex ? '#fff' : '#8A6840',
+              transition: 'all .3s'
+            }}>
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
+
     </main>
   );
 }
