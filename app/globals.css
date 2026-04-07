@@ -1348,3 +1348,9 @@ footer {
 .fu2 {
   animation: fadeUp 0.55s 0.1s ease both;
 }
+
+@media print {
+  .two-col-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}

@@ -3,7 +3,6 @@
 import './../../processing/processing.css';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Footer from '../../../components/Footer';
 
 type Lang = 'en' | 'es' | 'ko' | 'zh';
 
@@ -192,7 +191,6 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      <Footer language={lang} />
     </main>
   );
 }

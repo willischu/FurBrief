@@ -91,6 +91,20 @@ const translations = {
     w3d: '"call your vet if you see this" — specific to your surgery. only the flags that actually apply to your situation.',
     w4n: "don't panic section",
     w4d: 'things that look scary but are completely expected. know what\'s normal so you can actually sleep tonight.',
+    samp_ey: 'real example',
+    samp_h: 'this is what you get',
+    samp_sub: 'Luna had a spay. Here\'s a condensed version of her furbrief — generated from a real discharge sheet.',
+    samp_pet: 'Luna · dog · spay',
+    samp_med_name: 'pain relief tablet',
+    samp_med_clin: 'Carprofen 25mg',
+    samp_med_dose: '1 tablet · twice a day · 5 days',
+    samp_med_note: 'Always give with food — never on an empty stomach.',
+    samp_w1: 'Wound opening or stitches separating',
+    samp_w2: 'Yellow or green discharge from incision',
+    samp_w3: 'Not eating after 24 hours',
+    samp_n1: 'Groggy for 12–24 hours after surgery — this is the anaesthesia wearing off, not a problem.',
+    samp_n2: 'Small amount of redness right at the incision edge — normal in the first 48 hours.',
+    samp_cta: 'get a furbrief for your pet →',
     obj_ey: 'fair questions',
     obj_h: 'a few things worth knowing',
     oq1: '"is this replacing my vet?"',
@@ -199,6 +213,20 @@ const translations = {
     w3d: '"llama al vet si ves esto" — específico para tu cirugía. solo las señales que aplican.',
     w4n: 'sección no te asustes',
     w4d: 'cosas que parecen aterradoras pero son normales. sabe qué esperar para poder dormir.',
+    samp_ey: 'ejemplo real',
+    samp_h: 'esto es lo que obtienes',
+    samp_sub: 'Luna tuvo una esterilización. Aquí tienes una versión condensada de su furbrief — generada a partir de un papel de alta real.',
+    samp_pet: 'Luna · perra · esterilización',
+    samp_med_name: 'pastilla para el dolor',
+    samp_med_clin: 'Carprofen 25mg',
+    samp_med_dose: '1 pastilla · dos veces al día · 5 días',
+    samp_med_note: 'Da siempre con comida — nunca con el estómago vacío.',
+    samp_w1: 'La herida se abre o los puntos se separan',
+    samp_w2: 'Secreción amarilla o verde en la incisión',
+    samp_w3: 'Sin comer después de 24 horas',
+    samp_n1: 'Aturdida 12–24 horas después de la cirugía — es la anestesia pasando, no un problema.',
+    samp_n2: 'Algo de enrojecimiento en el borde de la incisión — normal en las primeras 48 horas.',
+    samp_cta: 'obtener un furbrief para tu mascota →',
     obj_ey: 'preguntas frecuentes',
     obj_h: 'algunas cosas que vale la pena saber',
     oq1: '"¿esto reemplaza a mi vet?"',
@@ -307,6 +335,20 @@ const translations = {
     w3d: '"이럴 때는 바로 수의사에게 전화하세요" — 수술에 맞게 맞춤화. 실제로 해당하는 신호만.',
     w4n: '걱정 마세요 섹션',
     w4d: '무섭게 보이지만 완전히 정상적인 것들. 미리 알아두면 잠을 잘 수 있어요.',
+    samp_ey: '실제 예시',
+    samp_h: '이런 결과물을 받게 돼요',
+    samp_sub: '루나는 중성화 수술을 받았어요. 실제 퇴원 서류로 만든 퍼브리프의 축약 버전입니다.',
+    samp_pet: '루나 · 강아지 · 중성화',
+    samp_med_name: '진통제',
+    samp_med_clin: 'Carprofen 25mg',
+    samp_med_dose: '1정 · 하루 2회 · 5일',
+    samp_med_note: '항상 음식과 함께 주세요 — 절대 공복에 주지 마세요.',
+    samp_w1: '상처가 벌어지거나 봉합사가 분리됨',
+    samp_w2: '절개 부위에서 노란색 또는 초록색 분비물',
+    samp_w3: '24시간 후에도 식욕 없음',
+    samp_n1: '수술 후 12–24시간 동안 멍한 것 — 마취가 깨는 과정이에요, 문제가 아니에요.',
+    samp_n2: '절개 부위 가장자리의 약간의 발적 — 처음 48시간 동안은 정상이에요.',
+    samp_cta: '우리 반려동물 퍼브리프 받기 →',
     obj_ey: '자주 묻는 질문',
     obj_h: '알아두면 좋은 것들',
     oq1: '"수의사를 대신하는 건가요?"',
@@ -415,6 +457,20 @@ const translations = {
     w3d: '"出现这种情况请立即联系兽医" — 针对您的手术定制，非通用清单。',
     w4n: '别担心专区',
     w4d: '看起来吓人但其实完全正常的情况。提前了解，才能安心入睡。',
+    samp_ey: '真实示例',
+    samp_h: '这就是您将获得的内容',
+    samp_sub: '露娜接受了绝育手术。这是根据真实出院文件生成的毛简报浓缩版。',
+    samp_pet: '露娜 · 狗 · 绝育',
+    samp_med_name: '止痛片',
+    samp_med_clin: 'Carprofen 25mg',
+    samp_med_dose: '1片 · 每天两次 · 5天',
+    samp_med_note: '必须随餐服用 — 绝不能空腹服用。',
+    samp_w1: '伤口裂开或缝线脱落',
+    samp_w2: '切口处出现黄色或绿色分泌物',
+    samp_w3: '24小时后仍不进食',
+    samp_n1: '术后12–24小时昏昏沉沉 — 这是麻醉代谢的过程，不是问题。',
+    samp_n2: '切口边缘轻微发红 — 前48小时内属于正常现象。',
+    samp_cta: '为您的宠物获取毛简报 →',
     obj_ey: '常见问题',
     obj_h: '几点值得了解的事',
     oq1: '"这会取代我的兽医吗？"',
@@ -903,6 +959,92 @@ useEffect(() => {
               <p className="wname">{t.w4n}</p>
               <p className="wdesc">{t.w4d}</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SAMPLE BRIEF ── */}
+      <section style={{ background: '#FFF6DC', padding: '72px 5%', borderTop: '2px solid #E8D098', borderBottom: '2px solid #E8D098' }}>
+        <div style={{ maxWidth: 860, margin: '0 auto' }}>
+          <div className="sec-ey">{t.samp_ey}</div>
+          <h2 className="sec-h" style={{ marginBottom: 8 }}>{t.samp_h}</h2>
+          <p style={{ fontSize: 15, color: '#8A6840', fontWeight: 600, marginBottom: 36, lineHeight: 1.6 }}>{t.samp_sub}</p>
+
+          {/* mock brief card */}
+          <div style={{ background: '#FFFBEE', borderRadius: 28, border: '2px solid #E8D098', overflow: 'hidden', boxShadow: '0 8px 40px rgba(58,32,16,.08)' }}>
+
+            {/* brief header */}
+            <div style={{ background: '#FCF0C8', padding: '20px 28px', borderBottom: '2px solid #E8D098', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+              <div>
+                <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 22, color: '#3A2010' }}>Luna's recovery plan</p>
+                <p style={{ fontSize: 13, fontWeight: 700, color: '#8A6840', marginTop: 2 }}>{t.samp_pet}</p>
+              </div>
+              <span style={{ fontSize: 11, fontWeight: 800, background: '#C4837A', color: '#fff', padding: '5px 14px', borderRadius: 50, letterSpacing: '.04em', textTransform: 'uppercase' as const }}>
+                sample
+              </span>
+            </div>
+
+            <div style={{ padding: '24px 28px', display: 'grid', gap: 20 }}>
+
+              {/* day schedule */}
+              <div style={{ background: '#FFF6DC', borderRadius: 20, overflow: 'hidden', border: '1.5px solid #E8D098' }}>
+                <div style={{ padding: '14px 20px', background: '#FCF0C8', borderBottom: '1px solid #E8D098' }}>
+                  <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 16, color: '#3A2010' }}>{t.d_today.charAt(0).toUpperCase() + t.d_today.slice(1)} — {t.d_4_7}</p>
+                </div>
+                {[
+                  { tag: t.d_today, txt: t.d_today_t },
+                  { tag: t.d_1_3, txt: t.d_1_3_t },
+                  { tag: t.d_4_7, txt: t.d_4_7_t },
+                ].map((row, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 12, padding: '12px 20px', borderBottom: i < 2 ? '1px solid #ECC888' : 'none', alignItems: 'flex-start' }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, background: '#B8866A', color: '#fff', padding: '3px 10px', borderRadius: 50, whiteSpace: 'nowrap' as const, flexShrink: 0, marginTop: 2 }}>{row.tag}</span>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: '#3A2010', lineHeight: 1.6 }}>{row.txt}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* medication */}
+              <div style={{ background: '#fff', borderRadius: 20, padding: '18px 20px', border: '1.5px solid #F9E8E4' }}>
+                <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 17, color: '#C4837A', marginBottom: 4 }}>{t.samp_med_name}</p>
+                <p style={{ fontSize: 13, fontWeight: 700, color: '#3A2010', marginBottom: 10 }}>{t.samp_med_dose}</p>
+                <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, background: '#FAE0B8', color: '#8A5A40', padding: '3px 10px', borderRadius: 8, fontFamily: 'monospace' }}>{t.samp_med_clin}</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, background: '#E4F4EC', color: '#3D7A58', padding: '3px 10px', borderRadius: 50 }}>with food</span>
+                </div>
+                <p style={{ fontSize: 13, fontWeight: 700, color: '#8A6840', paddingTop: 10, borderTop: '1px solid #FAE0B8' }}>{t.samp_med_note}</p>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                {/* warning signs */}
+                <div>
+                  <p style={{ fontSize: 12, fontWeight: 800, color: '#8A6840', textTransform: 'uppercase' as const, letterSpacing: '.06em', marginBottom: 10 }}>⚠️ warning signs</p>
+                  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 8 }}>
+                    {[
+                      { txt: t.samp_w1, color: '#C4837A', bg: '#F9E8E4' },
+                      { txt: t.samp_w2, color: '#C4837A', bg: '#F9E8E4' },
+                      { txt: t.samp_w3, color: '#D4A030', bg: '#FEF9EE' },
+                    ].map((w, i) => (
+                      <div key={i} style={{ background: w.bg, borderRadius: 12, padding: '10px 14px', border: `1.5px solid ${w.color}30`, fontSize: 13, fontWeight: 700, color: '#3A2010', lineHeight: 1.5 }}>{w.txt}</div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* don't panic */}
+                <div>
+                  <p style={{ fontSize: 12, fontWeight: 800, color: '#8A6840', textTransform: 'uppercase' as const, letterSpacing: '.06em', marginBottom: 10 }}>✅ don't panic</p>
+                  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 8 }}>
+                    {[t.samp_n1, t.samp_n2].map((n, i) => (
+                      <div key={i} style={{ background: '#E4F4EC', borderRadius: 12, padding: '10px 14px', border: '1.5px solid #B8E4CA', fontSize: 13, fontWeight: 600, color: '#1A3325', lineHeight: 1.5 }}>{n}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: 32 }}>
+            <a href="/upload" className="cbtn" style={{ display: 'inline-flex' }}>{t.samp_cta}</a>
           </div>
         </div>
       </section>
