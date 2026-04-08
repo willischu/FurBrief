@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Footer from '../../components/Footer';
 import { labels } from '../../i18n/strings';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const languages = [
   { value: 'en', label: 'English', className: '' },
@@ -167,7 +168,7 @@ export default function UploadPage() {
   const [petName, setPetName] = useState('');
   const [species, setSpecies] = useState<'dog' | 'cat' | 'other'>('dog');
   const [surgeryType, setSurgeryType] = useState('');
-  const [language, setLanguage] = useState<Lang>('en');
+  const [language, setLanguage] = useLanguage();
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -471,7 +472,7 @@ export default function UploadPage() {
 
         </section>
       </div>
-      <Footer language={language} />
+      <Footer />
     </main>
   );
 }

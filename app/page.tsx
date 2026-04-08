@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Footer from '../components/Footer';
+import { useLanguage, type Lang } from '../contexts/LanguageContext';
 
 const languages = ['en', 'es', 'ko', 'zh'] as const;
 const langLabels: Record<typeof languages[number], string> = {
@@ -502,10 +503,8 @@ const translations = {
   },
 };
 
-type Lang = keyof typeof translations;
-
 export default function HomePage() {
-  const [lang, setLang] = useState<Lang>('en');
+  const [lang, setLang] = useLanguage();
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -593,7 +592,7 @@ useEffect(() => {
                 <line x1="2" y1="12" x2="22" y2="12" />
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
               </svg>
-              <span id="globe-lbl">{lang.toUpperCase()}</span>
+              <span id="globe-lbl" suppressHydrationWarning>{lang.toUpperCase()}</span>
             </button>
             <div className={`ldrop ${showLangMenu ? 'open' : ''}`} id="ldrop">
               {(Object.keys(translations) as Lang[]).map((key) => (
@@ -983,7 +982,7 @@ useEffect(() => {
         </div>
       </section>
 
-      <Footer language={lang} />
+      <Footer />
 
       <svg width="0" height="0" style={{ position: 'absolute' }}>
         <defs>

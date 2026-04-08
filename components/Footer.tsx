@@ -1,8 +1,10 @@
+'use client';
+
 import { footerStrings } from '../i18n/strings';
+import { useLanguage } from '../contexts/LanguageContext';
 
-type Lang = 'en' | 'es' | 'ko' | 'zh';
-
-export default function Footer({ language = 'en' }: { language?: Lang }) {
+export default function Footer() {
+  const [language] = useLanguage();
   const f = footerStrings[language];
   return (
     <footer>
@@ -11,7 +13,7 @@ export default function Footer({ language = 'en' }: { language?: Lang }) {
           <em>fur</em>
           <span>brief</span>
         </div>
-        <div className="ftag">{f.tag}</div>
+        <div className="ftag" suppressHydrationWarning>{f.tag}</div>
         <div style={{ display: 'flex', gap: 16, marginTop: 12, flexWrap: 'wrap' }}>
           {f.links.map((link) => (
             <a
@@ -26,7 +28,7 @@ export default function Footer({ language = 'en' }: { language?: Lang }) {
           ))}
         </div>
       </div>
-      <p className="fdisc">{f.disc}</p>
+      <p className="fdisc" suppressHydrationWarning>{f.disc}</p>
     </footer>
   );
 }

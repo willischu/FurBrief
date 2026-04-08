@@ -213,7 +213,7 @@ export default async function BriefPage({ params }: { params: { token: string } 
 
         </aside>
       </div>
-      <Footer language={language} />
+      <Footer />
     </main>
   );
 }
