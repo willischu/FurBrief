@@ -8,6 +8,7 @@ type Lang = 'en' | 'es' | 'ko' | 'zh';
 
 const COPY: Record<Lang, {
   h1: string;
+  time_note: string;
   messages: string[];
   steps: string[];
   failed_title: string;
@@ -15,20 +16,23 @@ const COPY: Record<Lang, {
 }> = {
   en: {
     h1: 'translating your papers…',
-    messages: ['reading your discharge papers', 'decoding the jargon…', 'building your day-by-day plan…', 'almost ready — hang tight!'],
+    time_note: 'usually done in under 60 seconds',
+    messages: ['reading your discharge papers…', 'decoding the jargon…', 'building your day-by-day plan…', 'almost ready — hang tight!'],
     steps: ['reading papers', 'decoding jargon', 'building plan', 'finishing up'],
     failed_title: 'something went wrong',
     failed_desc: "your furbrief didn't generate.",
   },
   es: {
     h1: 'traduciendo tus papeles…',
-    messages: ['leyendo tus papeles…', 'descifando la jerga…', 'construyendo tu plan diario…', '¡casi listo!'],
-    steps: ['leyendo', 'descifando', 'construyendo', 'finalizando'],
+    time_note: 'normalmente listo en menos de 60 segundos',
+    messages: ['leyendo tus papeles…', 'descifrando la jerga…', 'construyendo tu plan diario…', '¡casi listo!'],
+    steps: ['leyendo', 'descifrando', 'construyendo', 'finalizando'],
     failed_title: 'algo salió mal',
     failed_desc: 'tu furbrief no se generó.',
   },
   ko: {
     h1: '서류 번역 중…',
+    time_note: '보통 60초 이내에 완료됩니다',
     messages: ['서류를 읽는 중…', '의학 용어 해석 중…', '일별 계획 작성 중…', '거의 다 됐어요!'],
     steps: ['읽는 중', '해석 중', '작성 중', '마무리 중'],
     failed_title: '문제가 발생했습니다',
@@ -36,6 +40,7 @@ const COPY: Record<Lang, {
   },
   zh: {
     h1: '正在翻译您的文件…',
+    time_note: '通常 60 秒内完成',
     messages: ['正在阅读您的文件…', '正在解读专业术语…', '正在制定日程计划…', '即将完成，请稍候！'],
     steps: ['阅读中', '解读中', '制作中', '完成中'],
     failed_title: '出现了问题',
@@ -50,8 +55,11 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
   const [elapsed, setElapsed] = useState(0);
   const [failed, setFailed] = useState(false);
   const [lang, setLang] = useState<Lang>('en');
+  const [msgIndex, setMsgIndex] = useState(0);
+  const [msgVisible, setMsgVisible] = useState(true);
   const pollRef = useRef<NodeJS.Timeout>();
   const timerRef = useRef<NodeJS.Timeout>();
+  const msgRef = useRef<NodeJS.Timeout>();
 
   const pct = Math.min(Math.round((elapsed / TOTAL_SECS) * 100), 95);
   const stepIndex = elapsed < 10 ? 0 : elapsed < 22 ? 1 : elapsed < 35 ? 2 : 3;
@@ -83,6 +91,15 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
       } catch {}
     };
 
+    // cycle status messages every 4 seconds with fade
+    msgRef.current = setInterval(() => {
+      setMsgVisible(false);
+      setTimeout(() => {
+        setMsgIndex(i => (i + 1) % 4);
+        setMsgVisible(true);
+      }, 300);
+    }, 4000);
+
     poll();
     pollRef.current = setInterval(poll, 3000);
 
@@ -107,6 +124,7 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
     return () => {
       clearInterval(timerRef.current);
       clearInterval(pollRef.current);
+      clearInterval(msgRef.current);
       clearTimeout(timeout);
     };
   }, [params.id, router]);
@@ -131,15 +149,21 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
   return (
     <main className="hero-outer dot-bg" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 24px' }}>
 
-      <h1 className="fredoka" style={{ fontSize: 26, color: '#3A2010', marginBottom: 8, textAlign: 'center' }}>
+      <h1 className="fredoka" style={{ fontSize: 26, color: '#3A2010', marginBottom: 6, textAlign: 'center' }}>
         {copy.h1}
       </h1>
-      <p style={{ fontSize: 14, fontWeight: 700, color: '#8A6840', marginBottom: 36, textAlign: 'center', minHeight: 22 }}>
-        {copy.messages[stepIndex]}
+      <p style={{ fontSize: 13, fontWeight: 700, color: '#C4837A', marginBottom: 20, textAlign: 'center', letterSpacing: '.01em' }}>
+        ⏱ {copy.time_note}
+      </p>
+      <p style={{
+        fontSize: 15, fontWeight: 700, color: '#8A6840', marginBottom: 32, textAlign: 'center', minHeight: 24,
+        opacity: msgVisible ? 1 : 0, transition: 'opacity .3s ease',
+      }}>
+        {copy.messages[msgIndex]}
       </p>
 
       {/* running cat scene */}
-      <div style={{ width: 320, height: 90, position: 'relative', overflow: 'hidden', marginBottom: 28 }}>
+      <div style={{ width: '100%', maxWidth: 320, height: 90, position: 'relative', overflow: 'hidden', marginBottom: 28 }}>
         <div className="cat-run">
           <svg viewBox="0 0 80 60" width="80" height="60">
             <ellipse cx="40" cy="35" rx="22" ry="14" fill="#FAE0B8" stroke="#ECC888" strokeWidth="1.5"/>
@@ -169,7 +193,7 @@ export default function ProcessingPage({ params }: { params: { id: string } }) {
       </div>
 
       {/* progress bar */}
-      <div style={{ width: 320 }}>
+      <div style={{ width: '100%', maxWidth: 320 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
           <span style={{ fontSize: 12, fontWeight: 700, color: '#8A6840' }}>{copy.steps[stepIndex]}</span>
           <span style={{ fontSize: 12, fontWeight: 700, color: '#8A6840' }}>{pct}%</span>

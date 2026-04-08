@@ -57,7 +57,7 @@ export default async function BriefPage({ params }: { params: { token: string } 
 
   return (
     <main style={{ background: '#FFFBEE', minHeight: '100vh', padding: '40px 5% 80px' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 300px', gap: 32, alignItems: 'start' }}>
+      <div className="brief-main-grid">
 
         {/* ── LEFT COLUMN ── */}
         <div id="furbrief-content">
@@ -131,7 +131,7 @@ export default async function BriefPage({ params }: { params: { token: string } 
 
           {/* warning signs + don't panic — 2-col grid */}
           <section style={{ marginBottom: 20 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }} className="two-col-grid">
+            <div className="two-col-grid">
               <div>
                 <div className="sec-ey" style={{ marginBottom: 12 }}>{labelSet.warnings}</div>
                 <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 8 }}>

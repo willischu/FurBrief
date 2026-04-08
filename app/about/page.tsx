@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Footer from '../../components/Footer';
+import CatSvg from '../../components/CatSvg';
 import { useLanguage, type Lang } from '../../contexts/LanguageContext';
 
 const languages = ['en', 'es', 'ko', 'zh'] as const;
@@ -280,7 +281,7 @@ export default function AboutPage() {
             </div>
           </div>
           <a href="/upload" className="nav-cta">
-            <span>{t.nav_cta}</span>
+            <span className="nav-cta-label">{t.nav_cta}</span>
             <span className="nprice">$6</span>
           </a>
         </div>
@@ -288,6 +289,15 @@ export default function AboutPage() {
 
       <section className="problem">
         <div className="prob-inner">
+          <div style={{ position: 'relative', width: 100, height: 100, margin: '0 0 24px' }}>
+            <CatSvg size={100} />
+            <svg viewBox="0 0 16 16" width="16" height="16" style={{ position: 'absolute', top: -6, right: -6, fill: '#ECC888' }}>
+              <path d="M8 0 L9.6 5.6 L16 8 L9.6 10.4 L8 16 L6.4 10.4 L0 8 L6.4 5.6 Z" />
+            </svg>
+            <svg viewBox="0 0 16 16" width="11" height="11" style={{ position: 'absolute', bottom: 8, left: -12, fill: '#C4837A' }}>
+              <path d="M8 0 L9.6 5.6 L16 8 L9.6 10.4 L8 16 L6.4 10.4 L0 8 L6.4 5.6 Z" />
+            </svg>
+          </div>
           <div className="sec-ey">{t.prob_ey}</div>
           <h2 className="sec-h" style={{ marginBottom: 20 }}>
             <span>{t.prob_h1}</span>

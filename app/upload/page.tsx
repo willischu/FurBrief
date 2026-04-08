@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Footer from '../../components/Footer';
+import CatSvg from '../../components/CatSvg';
 import { labels } from '../../i18n/strings';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -54,6 +55,9 @@ const t = {
     ready: 'ready to translate',
     uploading: 'uploading…',
     order_for: (name: string, lang: string) => `furbrief for ${name || 'your pet'} — language ${lang}`,
+    next_note: "you'll be redirected to Stripe — your brief is ready in ~60 seconds.",
+    trust: 'papers deleted after processing · refundable within 24h',
+    pdf_label: 'PDF document',
   },
   es: {
     eyebrow: 'el resumen que tu vet olvidó darte',
@@ -88,6 +92,9 @@ const t = {
     ready: 'listo para traducir',
     uploading: 'subiendo…',
     order_for: (name: string, lang: string) => `furbrief para ${name || 'tu mascota'} — idioma ${lang}`,
+    next_note: 'serás redirigido a Stripe — tu furbrief estará listo en ~60 segundos.',
+    trust: 'papeles eliminados tras el procesamiento · reembolsable en 24h',
+    pdf_label: 'documento PDF',
   },
   ko: {
     eyebrow: '수의사가 설명 못한 내용',
@@ -122,6 +129,9 @@ const t = {
     ready: '번역 준비 완료',
     uploading: '업로드 중…',
     order_for: (name: string, lang: string) => `${name || '반려동물'}의 퍼브리프 — 언어: ${lang}`,
+    next_note: 'Stripe 결제 페이지로 이동합니다 — 퍼브리프는 약 60초 내에 준비됩니다.',
+    trust: '처리 후 즉시 삭제 · 24시간 내 환불 가능',
+    pdf_label: 'PDF 문서',
   },
   zh: {
     eyebrow: '兽医忘记告诉你的内容',
@@ -156,6 +166,9 @@ const t = {
     ready: '准备翻译',
     uploading: '上传中…',
     order_for: (name: string, lang: string) => `${name || '您的宠物'}的毛简报 — 语言：${lang}`,
+    next_note: '您将跳转至 Stripe 付款页面 — 毛简报约 60 秒内完成。',
+    trust: '文件处理后立即删除 · 24小时内可退款',
+    pdf_label: 'PDF 文件',
   },
 };
 
@@ -173,6 +186,8 @@ export default function UploadPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [hydrated, setHydrated] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [fileType, setFileType] = useState<'image' | 'pdf' | 'other'>('other');
   const inputRef = useRef<HTMLInputElement>(null);
 
   const tx = useMemo(() => t[language], [language]);
@@ -205,12 +220,17 @@ export default function UploadPage() {
     setBlobUrl(null);
     setFileName('');
     setFileSize('');
+    if (previewUrl) { URL.revokeObjectURL(previewUrl); setPreviewUrl(null); }
+    setFileType('other');
     if (inputRef.current) inputRef.current.value = '';
   };
 
   const handleFile = async (file: File) => {
     if (!file) return;
     if (file.size > 10 * 1024 * 1024) { setCheckoutError('File must be 10MB or smaller.'); return; }
+    const type = file.type.startsWith('image/') ? 'image' : file.type === 'application/pdf' ? 'pdf' : 'other';
+    setFileType(type);
+    if (type === 'image') setPreviewUrl(URL.createObjectURL(file));
     const formData = new FormData();
     formData.append('file', file);
     setIsLoading(true);
@@ -300,9 +320,20 @@ export default function UploadPage() {
             <div className="eyebrow-dot" />
             <span className="eyebrow-text">{tx.eyebrow}</span>
           </div>
-          <h1 className="hero-h1">
-            {tx.h1[0]}<br />{tx.h1[1]}<br /><em>{tx.h1[2]}</em>
-          </h1>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16 }}>
+            <h1 className="hero-h1" style={{ flex: 1 }}>
+              {tx.h1[0]}<br />{tx.h1[1]}<br /><em>{tx.h1[2]}</em>
+            </h1>
+            <div style={{ position: 'relative', flexShrink: 0, marginTop: 8 }}>
+              <CatSvg size={90} />
+              <svg viewBox="0 0 16 16" width="14" height="14" style={{ position: 'absolute', top: -4, right: -6, fill: '#ECC888' }}>
+                <path d="M8 0 L9.6 5.6 L16 8 L9.6 10.4 L8 16 L6.4 10.4 L0 8 L6.4 5.6 Z" />
+              </svg>
+              <svg viewBox="0 0 16 16" width="10" height="10" style={{ position: 'absolute', bottom: 10, left: -10, fill: '#C4837A' }}>
+                <path d="M8 0 L9.6 5.6 L16 8 L9.6 10.4 L8 16 L6.4 10.4 L0 8 L6.4 5.6 Z" />
+              </svg>
+            </div>
+          </div>
           <p className="hero-sub">{tx.sub}</p>
           <p className="hero-def">{tx.def}</p>
 
@@ -329,14 +360,30 @@ export default function UploadPage() {
           {/* Upload zone — swaps to success card once uploaded */}
           {blobUrl ? (
             <div className="flex items-center gap-4 p-5 rounded-3xl border-2 border-[#6BA888] bg-[#E4F4EC] mb-4">
-              <div className="w-12 h-12 rounded-2xl bg-[#6BA888] flex items-center justify-center flex-shrink-0">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
+              {previewUrl ? (
+                <img src={previewUrl} alt="file preview" className="w-14 h-14 rounded-2xl object-cover flex-shrink-0" style={{ border: '2px solid #B8E4CA' }} />
+              ) : fileType === 'pdf' ? (
+                <div className="w-14 h-14 rounded-2xl bg-white flex flex-col items-center justify-center flex-shrink-0" style={{ border: '2px solid #B8E4CA', gap: 2 }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4837A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="9" y1="13" x2="15" y2="13" />
+                    <line x1="9" y1="17" x2="13" y2="17" />
+                  </svg>
+                  <span style={{ fontSize: 9, fontWeight: 800, color: '#C4837A', letterSpacing: '.04em' }}>PDF</span>
+                </div>
+              ) : (
+                <div className="w-14 h-14 rounded-2xl bg-[#6BA888] flex items-center justify-center flex-shrink-0">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+              )}
               <div className="flex-1 min-w-0">
                 <p className="font-bold text-[#3D7A58] text-sm truncate">{fileName}</p>
-                <p className="text-[#6BA888] text-xs font-semibold mt-0.5">{fileSize} · {tx.ready}</p>
+                <p className="text-[#6BA888] text-xs font-semibold mt-0.5">
+                  {fileType === 'pdf' ? tx.pdf_label : fileSize} · {tx.ready}
+                </p>
               </div>
               <button onClick={clearFile} className="text-[#6BA888] hover:text-[#3D7A58] p-1 flex-shrink-0" title="Remove file">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -465,9 +512,15 @@ export default function UploadPage() {
             <p style={{ fontSize: 11, color: '#8A6840', fontWeight: 600, lineHeight: 1.6, marginTop: 16, padding: '10px 14px', background: '#FEF9EE', borderRadius: 12, border: '1px solid #E8D098' }}>
               {labels[language].disclaimerCheckout}
             </p>
-            <button type="button" className="cbtn" style={{ marginTop: 12, opacity: allDone ? 1 : 0.45, cursor: allDone ? 'pointer' : 'not-allowed' }} onClick={handleCheckout} disabled={isLoading || !allDone}>
+            <p style={{ fontSize: 12, color: '#8A6840', fontWeight: 600, lineHeight: 1.6, marginTop: 14 }}>
+              {tx.next_note}
+            </p>
+            <button type="button" className="cbtn" style={{ marginTop: 10, opacity: allDone ? 1 : 0.45, cursor: allDone ? 'pointer' : 'not-allowed' }} onClick={handleCheckout} disabled={isLoading || !allDone}>
               {isLoading ? tx.cta_loading : tx.cta}
             </button>
+            <p style={{ fontSize: 11, color: '#B8866A', fontWeight: 700, textAlign: 'center', marginTop: 10, letterSpacing: '.01em' }}>
+              {tx.trust}
+            </p>
           </div>
 
         </section>

@@ -30,14 +30,6 @@ const translations = {
     t2: 'ready in 60 sec',
     t3: 'papers never stored',
     t4: 'refund if it doesn\'t help',
-    dec_t: 'your furbrief decodes things like this…',
-    dec_live: 'LIVE',
-    dec_sub: 'from your papers → into plain english',
-    d1: 'watch for the <strong>wound opening back up</strong> — gaps in stitches or skin separating. call vet immediately.',
-    d2: 'give <strong>one pain tablet twice a day, always with a meal.</strong> never on an empty stomach.',
-    d3: 'stitches are <strong>under the skin</strong> — they <strong>dissolve on their own.</strong> no removal needed.',
-    d4: 'a <strong>soft squishy fluid pocket</strong> may form near the wound. usually harmless.',
-    d5: '<strong>no running, jumping, or stairs.</strong> leash walks only — even when they look fine.',
     pf1n: '60s',
     pf1l: 'average turnaround',
     pf2n: 'any vet',
@@ -92,19 +84,15 @@ const translations = {
     w3d: '"call your vet if you see this" — specific to your surgery. only the flags that actually apply to your situation.',
     w4n: "don't panic section",
     w4d: 'things that look scary but are completely expected. know what\'s normal so you can actually sleep tonight.',
+    mini1_p: 'pain pill — twice a day, with food',
+    mini2_p: 'watch for wound opening or stitches separating',
+    mini_lbl: 'clinical jargon → plain language',
     samp_ey: 'real example',
     samp_h: 'this is what you get',
-    samp_sub: 'Luna had a spay. Here\'s a condensed version of her furbrief — generated from a real discharge sheet.',
-    samp_pet: 'Luna · dog · spay',
-    samp_med_name: 'pain relief tablet',
-    samp_med_clin: 'Carprofen 25mg',
-    samp_med_dose: '1 tablet · twice a day · 5 days',
-    samp_med_note: 'Always give with food — never on an empty stomach.',
-    samp_w1: 'Wound opening or stitches separating',
-    samp_w2: 'Yellow or green discharge from incision',
-    samp_w3: 'Not eating after 24 hours',
-    samp_n1: 'Groggy for 12–24 hours after surgery — this is the anaesthesia wearing off, not a problem.',
-    samp_n2: 'Small amount of redness right at the incision edge — normal in the first 48 hours.',
+    samp_sub: 'pick a surgery type to see a sample furbrief from a real discharge sheet.',
+    samp_warn: '⚠️ warning signs',
+    samp_ok: '✅ don\'t panic',
+    samp_with_food: 'with food',
     samp_cta: 'get a furbrief for your pet →',
     obj_ey: 'fair questions',
     obj_h: 'a few things worth knowing',
@@ -152,14 +140,6 @@ const translations = {
     t2: 'listo en 60 seg',
     t3: 'papeles no almacenados',
     t4: 'reembolso si no ayuda',
-    dec_t: 'tu furbrief descifra cosas como esta…',
-    dec_live: 'EN VIVO',
-    dec_sub: 'de tus papeles → en lenguaje claro',
-    d1: 'vigila que la <strong>herida no se abra</strong> — separación en puntos. llama al vet inmediatamente.',
-    d2: 'da <strong>una pastilla dos veces al día, siempre con comida.</strong> nunca con el estómago vacío.',
-    d3: 'los puntos están <strong>bajo la piel</strong> — se <strong>disuelven solos.</strong> no hace falta quitarlos.',
-    d4: 'puede formarse una <strong>bolsa suave de líquido</strong> cerca de la herida. normalmente inofensiva.',
-    d5: '<strong>nada de correr, saltar ni escaleras.</strong> solo paseos con correa.',
     pf1n: '60s',
     pf1l: 'tiempo promedio',
     pf2n: 'cualquier vet',
@@ -214,19 +194,15 @@ const translations = {
     w3d: '"llama al vet si ves esto" — específico para tu cirugía. solo las señales que aplican.',
     w4n: 'sección no te asustes',
     w4d: 'cosas que parecen aterradoras pero son normales. sabe qué esperar para poder dormir.',
+    mini1_p: 'pastilla para el dolor — dos veces al día, con comida',
+    mini2_p: 'vigila si la herida se abre o los puntos se separan',
+    mini_lbl: 'jerga clínica → lenguaje claro',
     samp_ey: 'ejemplo real',
     samp_h: 'esto es lo que obtienes',
-    samp_sub: 'Luna tuvo una esterilización. Aquí tienes una versión condensada de su furbrief — generada a partir de un papel de alta real.',
-    samp_pet: 'Luna · perra · esterilización',
-    samp_med_name: 'pastilla para el dolor',
-    samp_med_clin: 'Carprofen 25mg',
-    samp_med_dose: '1 pastilla · dos veces al día · 5 días',
-    samp_med_note: 'Da siempre con comida — nunca con el estómago vacío.',
-    samp_w1: 'La herida se abre o los puntos se separan',
-    samp_w2: 'Secreción amarilla o verde en la incisión',
-    samp_w3: 'Sin comer después de 24 horas',
-    samp_n1: 'Aturdida 12–24 horas después de la cirugía — es la anestesia pasando, no un problema.',
-    samp_n2: 'Algo de enrojecimiento en el borde de la incisión — normal en las primeras 48 horas.',
+    samp_sub: 'elige un tipo de cirugía para ver un ejemplo de furbrief de un papel de alta real.',
+    samp_warn: '⚠️ señales de alerta',
+    samp_ok: '✅ no te asustes',
+    samp_with_food: 'con comida',
     samp_cta: 'obtener un furbrief para tu mascota →',
     obj_ey: 'preguntas frecuentes',
     obj_h: 'algunas cosas que vale la pena saber',
@@ -274,14 +250,6 @@ const translations = {
     t2: '60초 안에 완성',
     t3: '서류 저장 안 함',
     t4: '불만족 시 환불',
-    dec_t: '퍼브리프가 이런 것들을 해석해드려요…',
-    dec_live: '실제 예시',
-    dec_sub: '서류 → 쉬운 말로',
-    d1: '<strong>상처가 벌어지는지</strong> 확인하세요. 봉합 분리 시 즉시 수의사에게 연락.',
-    d2: '<strong>매일 두 번, 반드시 식사와 함께</strong> 진통제를 주세요. 공복에는 절대 안 됩니다.',
-    d3: '봉합실은 <strong>피부 아래</strong> — <strong>저절로 녹습니다.</strong> 제거 불필요.',
-    d4: '상처 근처에 <strong>말랑말랑한 체액 주머니</strong>가 생길 수 있어요. 보통 무해합니다.',
-    d5: '<strong>달리기, 점프, 계단 금지.</strong> 배변 시에만 짧은 줄로 산책.',
     pf1n: '60초',
     pf1l: '평균 처리 시간',
     pf2n: '모든 병원',
@@ -336,19 +304,15 @@ const translations = {
     w3d: '"이럴 때는 바로 수의사에게 전화하세요" — 수술에 맞게 맞춤화. 실제로 해당하는 신호만.',
     w4n: '걱정 마세요 섹션',
     w4d: '무섭게 보이지만 완전히 정상적인 것들. 미리 알아두면 잠을 잘 수 있어요.',
+    mini1_p: '진통제 — 하루 두 번, 식사와 함께',
+    mini2_p: '상처가 벌어지거나 봉합사가 분리되는지 확인',
+    mini_lbl: '의학 용어 → 쉬운 말',
     samp_ey: '실제 예시',
     samp_h: '이런 결과물을 받게 돼요',
-    samp_sub: '루나는 중성화 수술을 받았어요. 실제 퇴원 서류로 만든 퍼브리프의 축약 버전입니다.',
-    samp_pet: '루나 · 강아지 · 중성화',
-    samp_med_name: '진통제',
-    samp_med_clin: 'Carprofen 25mg',
-    samp_med_dose: '1정 · 하루 2회 · 5일',
-    samp_med_note: '항상 음식과 함께 주세요 — 절대 공복에 주지 마세요.',
-    samp_w1: '상처가 벌어지거나 봉합사가 분리됨',
-    samp_w2: '절개 부위에서 노란색 또는 초록색 분비물',
-    samp_w3: '24시간 후에도 식욕 없음',
-    samp_n1: '수술 후 12–24시간 동안 멍한 것 — 마취가 깨는 과정이에요, 문제가 아니에요.',
-    samp_n2: '절개 부위 가장자리의 약간의 발적 — 처음 48시간 동안은 정상이에요.',
+    samp_sub: '수술 유형을 선택하면 실제 퇴원 서류로 만든 퍼브리프 예시를 볼 수 있어요.',
+    samp_warn: '⚠️ 주의 신호',
+    samp_ok: '✅ 걱정 마세요',
+    samp_with_food: '식사와 함께',
     samp_cta: '우리 반려동물 퍼브리프 받기 →',
     obj_ey: '자주 묻는 질문',
     obj_h: '알아두면 좋은 것들',
@@ -396,14 +360,6 @@ const translations = {
     t2: '60秒内完成',
     t3: '文件不存储',
     t4: '不满意可退款',
-    dec_t: '您的毛简报会解读这类内容…',
-    dec_live: '实际示例',
-    dec_sub: '从文件 → 转为通俗语言',
-    d1: '观察<strong>伤口是否裂开</strong> — 缝合处分离请立即联系兽医。',
-    d2: '<strong>每天两次随餐服用</strong>一片止痛药。切勿空腹服用。',
-    d3: '缝合线在<strong>皮肤下方</strong> — 会<strong>自行溶解</strong>，无需拆线。',
-    d4: '伤口附近可能出现<strong>柔软的液体囊肿</strong>，通常无害。',
-    d5: '<strong>禁止奔跑、跳跃和爬楼梯。</strong>只能短绳遛弯。',
     pf1n: '60秒',
     pf1l: '平均处理时间',
     pf2n: '任何诊所',
@@ -458,19 +414,15 @@ const translations = {
     w3d: '"出现这种情况请立即联系兽医" — 针对您的手术定制，非通用清单。',
     w4n: '别担心专区',
     w4d: '看起来吓人但其实完全正常的情况。提前了解，才能安心入睡。',
+    mini1_p: '止痛药片 — 每天两次，随餐服用',
+    mini2_p: '观察伤口是否裂开或缝线是否分离',
+    mini_lbl: '临床术语 → 通俗语言',
     samp_ey: '真实示例',
     samp_h: '这就是您将获得的内容',
-    samp_sub: '露娜接受了绝育手术。这是根据真实出院文件生成的毛简报浓缩版。',
-    samp_pet: '露娜 · 狗 · 绝育',
-    samp_med_name: '止痛片',
-    samp_med_clin: 'Carprofen 25mg',
-    samp_med_dose: '1片 · 每天两次 · 5天',
-    samp_med_note: '必须随餐服用 — 绝不能空腹服用。',
-    samp_w1: '伤口裂开或缝线脱落',
-    samp_w2: '切口处出现黄色或绿色分泌物',
-    samp_w3: '24小时后仍不进食',
-    samp_n1: '术后12–24小时昏昏沉沉 — 这是麻醉代谢的过程，不是问题。',
-    samp_n2: '切口边缘轻微发红 — 前48小时内属于正常现象。',
+    samp_sub: '选择手术类型，查看来自真实出院文件的毛简报示例。',
+    samp_warn: '⚠️ 警示信号',
+    samp_ok: '✅ 别担心',
+    samp_with_food: '随餐服用',
     samp_cta: '为您的宠物获取毛简报 →',
     obj_ey: '常见问题',
     obj_h: '几点值得了解的事',
@@ -503,8 +455,322 @@ const translations = {
   },
 };
 
+type SampleTab = {
+  tabLabel: string;
+  petTitle: string;
+  petSub: string;
+  schedTitle: string;
+  days: Array<{ tag: string; txt: string }>;
+  medName: string;
+  medDose: string;
+  medClin: string;
+  medNote: string;
+  warnings: Array<{ txt: string; yellow?: boolean }>;
+  normals: string[];
+};
+
+const SAMPLE_TABS: Record<Lang, SampleTab[]> = {
+  en: [
+    {
+      tabLabel: 'dog · spay',
+      petTitle: "Luna's recovery plan",
+      petSub: 'Luna · dog · spay',
+      schedTitle: 'today — days 4–7',
+      days: [
+        { tag: 'today', txt: 'may be groggy for hours. half meal. e-collar on always.' },
+        { tag: 'days 1–3', txt: 'leash walks only. check incision twice. carprofen with food.' },
+        { tag: 'days 4–7', txt: "may seem fine — don't be fooled. still no running or jumping." },
+      ],
+      medName: 'pain relief tablet',
+      medDose: '1 tablet · twice a day · 5 days',
+      medClin: 'Carprofen 25mg',
+      medNote: 'Always give with food — never on an empty stomach.',
+      warnings: [
+        { txt: 'Wound opening or stitches separating' },
+        { txt: 'Yellow or green discharge from incision' },
+        { txt: 'Not eating after 24 hours', yellow: true },
+      ],
+      normals: [
+        'Groggy for 12–24 hours — the anaesthesia wearing off, not a problem.',
+        'Small amount of redness at the incision edge — normal in the first 48 hours.',
+      ],
+    },
+    {
+      tabLabel: 'cat · dental',
+      petTitle: "Mochi's recovery plan",
+      petSub: 'Mochi · cat · dental extraction',
+      schedTitle: 'today — days 4–7',
+      days: [
+        { tag: 'today', txt: 'soft food only. keep warm and quiet. e-collar on.' },
+        { tag: 'days 1–3', txt: 'wet or soft food only. check mouth for bleeding. give pain medication.' },
+        { tag: 'days 4–7', txt: 'gradually reintroduce dry food. monitor eating and drinking.' },
+      ],
+      medName: 'pain relief liquid',
+      medDose: '0.1ml · twice a day · 3 days',
+      medClin: 'Buprenorphine 0.3mg/ml',
+      medNote: 'Draw into the dropper and apply inside the cheek — not swallowed directly.',
+      warnings: [
+        { txt: 'Bleeding from mouth beyond light spotting' },
+        { txt: 'Swelling in the face or jaw' },
+        { txt: 'Refusing soft food after 48 hours', yellow: true },
+      ],
+      normals: [
+        'Some drooling for the first 24 hours — normal after dental work.',
+        'Sleeping more than usual for 1–2 days — the anaesthesia clearing.',
+      ],
+    },
+    {
+      tabLabel: 'dog · TPLO',
+      petTitle: "Bear's recovery plan",
+      petSub: 'Bear · dog · TPLO knee surgery',
+      schedTitle: 'today — weeks 3–8',
+      days: [
+        { tag: 'today', txt: 'rest only. carry on stairs. no weight-bearing expected yet.' },
+        { tag: 'days 1–14', txt: 'sling-assisted short walks only. ice pack 10 min 3×/day. carprofen daily with food.' },
+        { tag: 'weeks 3–8', txt: 'gradually increase walk length. physio exercises begin. recheck at week 8.' },
+      ],
+      medName: 'anti-inflammatory tablet',
+      medDose: '1 tablet · once a day · 14 days',
+      medClin: 'Carprofen 100mg',
+      medNote: 'Always give with a full meal — stop immediately if vomiting occurs.',
+      warnings: [
+        { txt: 'Sudden complete non-weight bearing after initial improvement' },
+        { txt: 'Hot, hard swelling at the knee joint' },
+        { txt: 'Fever over 39.5°C / 103°F', yellow: true },
+      ],
+      normals: [
+        'Swelling at the surgical site for 2–3 weeks — expected after bone surgery.',
+        'Reluctance to use the leg for the first few days — normal, not a setback.',
+      ],
+    },
+  ],
+  es: [
+    {
+      tabLabel: 'perra · esterilización',
+      petTitle: 'Plan de recuperación de Luna',
+      petSub: 'Luna · perra · esterilización',
+      schedTitle: 'hoy — días 4–7',
+      days: [
+        { tag: 'hoy', txt: 'puede estar aturdida horas. mitad de comida. collar isabelino siempre.' },
+        { tag: 'días 1–3', txt: 'solo paseos con correa. revisa la incisión dos veces. carprofen con comida.' },
+        { tag: 'días 4–7', txt: 'puede parecer recuperada — no te confíes. aún nada de correr.' },
+      ],
+      medName: 'pastilla para el dolor',
+      medDose: '1 pastilla · dos veces al día · 5 días',
+      medClin: 'Carprofen 25mg',
+      medNote: 'Da siempre con comida — nunca con el estómago vacío.',
+      warnings: [
+        { txt: 'La herida se abre o los puntos se separan' },
+        { txt: 'Secreción amarilla o verde en la incisión' },
+        { txt: 'Sin comer después de 24 horas', yellow: true },
+      ],
+      normals: [
+        'Aturdida 12–24 horas — la anestesia pasando, no un problema.',
+        'Algo de enrojecimiento en el borde de la incisión — normal en las primeras 48 horas.',
+      ],
+    },
+    {
+      tabLabel: 'gato · dental',
+      petTitle: 'Plan de recuperación de Mochi',
+      petSub: 'Mochi · gato · extracción dental',
+      schedTitle: 'hoy — días 4–7',
+      days: [
+        { tag: 'hoy', txt: 'solo comida blanda. mantener abrigado y tranquilo. collar isabelino.' },
+        { tag: 'días 1–3', txt: 'solo comida húmeda o blanda. revisar la boca. dar medicación para el dolor.' },
+        { tag: 'días 4–7', txt: 'reintroducir gradualmente comida seca. vigilar que coma y beba.' },
+      ],
+      medName: 'líquido para el dolor',
+      medDose: '0.1ml · dos veces al día · 3 días',
+      medClin: 'Buprenorfina 0.3mg/ml',
+      medNote: 'Extraer con el gotero y aplicar dentro de la mejilla — no tragar directamente.',
+      warnings: [
+        { txt: 'Sangrado de la boca más que manchas leves' },
+        { txt: 'Inflamación en la cara o mandíbula' },
+        { txt: 'No comer comida blanda después de 48 horas', yellow: true },
+      ],
+      normals: [
+        'Algo de babeo las primeras 24 horas — normal después del trabajo dental.',
+        'Dormir más de lo habitual 1–2 días — la anestesia desapareciendo.',
+      ],
+    },
+    {
+      tabLabel: 'perro · TPLO',
+      petTitle: 'Plan de recuperación de Bear',
+      petSub: 'Bear · perro · cirugía de rodilla TPLO',
+      schedTitle: 'hoy — semanas 3–8',
+      days: [
+        { tag: 'hoy', txt: 'solo descanso. cargarlo en las escaleras. no se espera apoyo en la pata todavía.' },
+        { tag: 'días 1–14', txt: 'paseos cortos con arnés de soporte. bolsa de hielo 10 min 3×/día. carprofen con comida.' },
+        { tag: 'semanas 3–8', txt: 'aumentar gradualmente la duración del paseo. comenzar fisioterapia. revisión en la semana 8.' },
+      ],
+      medName: 'pastilla antiinflamatoria',
+      medDose: '1 pastilla · una vez al día · 14 días',
+      medClin: 'Carprofen 100mg',
+      medNote: 'Da siempre con una comida completa — detener inmediatamente si vomita.',
+      warnings: [
+        { txt: 'No apoyar la pata de repente tras mejoría inicial' },
+        { txt: 'Inflamación caliente y dura en la rodilla' },
+        { txt: 'Fiebre sobre 39.5°C / 103°F', yellow: true },
+      ],
+      normals: [
+        'Inflamación en el sitio quirúrgico 2–3 semanas — esperado tras cirugía ósea.',
+        'No querer apoyar la pata los primeros días — normal, no un retroceso.',
+      ],
+    },
+  ],
+  ko: [
+    {
+      tabLabel: '강아지 · 중성화',
+      petTitle: 'Luna의 회복 계획',
+      petSub: 'Luna · 강아지 · 중성화 수술',
+      schedTitle: '오늘 — 4–7일째',
+      days: [
+        { tag: '오늘', txt: '몇 시간 동안 비틀거릴 수 있어요. 반 끼 식사. 넥카라 항상 착용.' },
+        { tag: '1–3일째', txt: '리드줄 산책만. 절개 부위 하루 두 번 확인. 카르프로펜은 식후 복용.' },
+        { tag: '4–7일째', txt: '괜찮아 보여도 방심 금물. 달리기나 점프는 아직 안 돼요.' },
+      ],
+      medName: '진통제 (정제)',
+      medDose: '1정 · 하루 두 번 · 5일',
+      medClin: 'Carprofen 25mg',
+      medNote: '반드시 식후 복용 — 공복에는 절대 금지.',
+      warnings: [
+        { txt: '상처가 벌어지거나 봉합사가 분리됨' },
+        { txt: '절개 부위에서 노란색 또는 녹색 분비물' },
+        { txt: '24시간 후에도 식사를 하지 않음', yellow: true },
+      ],
+      normals: [
+        '수술 후 12–24시간 동안 비틀거림 — 마취가 빠지는 것으로 정상이에요.',
+        '절개 부위 가장자리에 약간의 발적 — 처음 48시간 동안은 정상이에요.',
+      ],
+    },
+    {
+      tabLabel: '고양이 · 치과',
+      petTitle: 'Mochi의 회복 계획',
+      petSub: 'Mochi · 고양이 · 치아 발치',
+      schedTitle: '오늘 — 4–7일째',
+      days: [
+        { tag: '오늘', txt: '부드러운 음식만. 따뜻하고 조용한 환경 유지. 넥카라 착용.' },
+        { tag: '1–3일째', txt: '촉촉하거나 부드러운 음식만. 입 안 출혈 확인. 진통제 투여.' },
+        { tag: '4–7일째', txt: '건식 사료 서서히 재도입. 식사와 음수 모니터링.' },
+      ],
+      medName: '진통제 (액체)',
+      medDose: '0.1ml · 하루 두 번 · 3일',
+      medClin: 'Buprenorphine 0.3mg/ml',
+      medNote: '스포이드로 뽑아 볼 안쪽에 발라줍니다 — 직접 삼키지 않도록.',
+      warnings: [
+        { txt: '가벼운 출혈 이상의 구강 출혈' },
+        { txt: '얼굴이나 턱 부위 부종' },
+        { txt: '48시간 후에도 부드러운 음식을 거부', yellow: true },
+      ],
+      normals: [
+        '처음 24시간 동안 약간의 침 흘림 — 치과 치료 후 정상이에요.',
+        '1–2일 동안 평소보다 많은 수면 — 마취가 빠지는 과정이에요.',
+      ],
+    },
+    {
+      tabLabel: '강아지 · TPLO',
+      petTitle: 'Bear의 회복 계획',
+      petSub: 'Bear · 강아지 · TPLO 무릎 수술',
+      schedTitle: '오늘 — 3–8주째',
+      days: [
+        { tag: '오늘', txt: '완전 휴식. 계단은 안아서. 아직 체중 부하 없음.' },
+        { tag: '1–14일째', txt: '슬링 보조 짧은 산책만. 하루 3회 10분 아이스팩. 카르프로펜 식후 복용.' },
+        { tag: '3–8주째', txt: '산책 시간 서서히 늘리기. 물리치료 시작. 8주 후 재검.' },
+      ],
+      medName: '소염제 (정제)',
+      medDose: '1정 · 하루 한 번 · 14일',
+      medClin: 'Carprofen 100mg',
+      medNote: '반드시 식사와 함께 — 구토 시 즉시 중단.',
+      warnings: [
+        { txt: '초기 호전 후 갑자기 다리를 전혀 사용하지 않음' },
+        { txt: '무릎 관절 부위의 뜨겁고 단단한 부종' },
+        { txt: '39.5°C / 103°F 이상의 발열', yellow: true },
+      ],
+      normals: [
+        '수술 부위 2–3주 부종 — 뼈 수술 후 예상되는 정상 반응이에요.',
+        '처음 며칠간 다리 사용 꺼림 — 정상이며 후퇴가 아니에요.',
+      ],
+    },
+  ],
+  zh: [
+    {
+      tabLabel: '狗 · 绝育',
+      petTitle: 'Luna 的康复计划',
+      petSub: 'Luna · 狗 · 绝育手术',
+      schedTitle: '今天 — 第 4–7 天',
+      days: [
+        { tag: '今天', txt: '可能会嗜睡数小时。半量喂食。伊丽莎白圈随时佩戴。' },
+        { tag: '第 1–3 天', txt: '仅限牵引绳散步。每天检查伤口两次。卡洛芬随餐服用。' },
+        { tag: '第 4–7 天', txt: '看起来状态不错——别掉以轻心。仍然不能跑跳。' },
+      ],
+      medName: '止痛药片',
+      medDose: '1 片 · 每天两次 · 5 天',
+      medClin: 'Carprofen 25mg',
+      medNote: '务必随餐服用——切勿空腹服用。',
+      warnings: [
+        { txt: '伤口裂开或缝线分离' },
+        { txt: '切口处有黄色或绿色分泌物' },
+        { txt: '24 小时后仍不进食', yellow: true },
+      ],
+      normals: [
+        '术后 12–24 小时嗜睡——麻醉药代谢中，属正常现象。',
+        '切口边缘轻微发红——术后 48 小时内正常。',
+      ],
+    },
+    {
+      tabLabel: '猫 · 口腔',
+      petTitle: 'Mochi 的康复计划',
+      petSub: 'Mochi · 猫 · 牙齿拔除',
+      schedTitle: '今天 — 第 4–7 天',
+      days: [
+        { tag: '今天', txt: '只喂软食。保持温暖安静。佩戴伊丽莎白圈。' },
+        { tag: '第 1–3 天', txt: '只喂湿粮或软食。检查口腔是否出血。按时给药。' },
+        { tag: '第 4–7 天', txt: '逐步重新引入干粮。观察进食和饮水情况。' },
+      ],
+      medName: '止痛液体',
+      medDose: '0.1ml · 每天两次 · 3 天',
+      medClin: 'Buprenorphine 0.3mg/ml',
+      medNote: '用滴管吸取，涂抹在脸颊内侧——不要直接吞服。',
+      warnings: [
+        { txt: '口腔出血超过轻微渗血' },
+        { txt: '面部或下颌肿胀' },
+        { txt: '48 小时后仍拒绝吃软食', yellow: true },
+      ],
+      normals: [
+        '前 24 小时轻微流涎——口腔手术后正常现象。',
+        '1–2 天内比平时睡得多——麻醉药代谢中。',
+      ],
+    },
+    {
+      tabLabel: '狗 · TPLO',
+      petTitle: 'Bear 的康复计划',
+      petSub: 'Bear · 狗 · TPLO 膝关节手术',
+      schedTitle: '今天 — 第 3–8 周',
+      days: [
+        { tag: '今天', txt: '完全休息。上下楼梯需要抱。暂不要求负重。' },
+        { tag: '第 1–14 天', txt: '仅限用吊带辅助短距离散步。每天冰敷 3 次每次 10 分钟。随餐服用卡洛芬。' },
+        { tag: '第 3–8 周', txt: '逐渐增加散步时间。开始物理治疗。第 8 周复查。' },
+      ],
+      medName: '消炎药片',
+      medDose: '1 片 · 每天一次 · 14 天',
+      medClin: 'Carprofen 100mg',
+      medNote: '务必随正餐服用——如出现呕吐立即停药。',
+      warnings: [
+        { txt: '初期好转后突然完全不能负重' },
+        { txt: '膝关节处发热、硬性肿胀' },
+        { txt: '体温超过 39.5°C / 103°F', yellow: true },
+      ],
+      normals: [
+        '手术部位肿胀持续 2–3 周——骨科手术后的正常现象。',
+        '最初几天不愿使用患肢——属正常，并非病情反弹。',
+      ],
+    },
+  ],
+};
+
 export default function HomePage() {
   const [lang, setLang] = useLanguage();
+  const [activeTab, setActiveTab] = useState(0);
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -611,7 +877,7 @@ useEffect(() => {
             </div>
           </div>
           <a href="/upload" className="nav-cta">
-            <span>{t.nav_cta}</span>
+            <span className="nav-cta-label">{t.nav_cta}</span>
             <span className="nprice">$6</span>
           </a>
         </div>
@@ -720,64 +986,42 @@ useEffect(() => {
                 <span>{t.t3}</span>
               </div>
             </div>
-          </div>
 
-          <div className="hero-r fu2">
-            <div className="mascot-wrap">
-              <div style={{ position: 'relative', display: 'inline-block' }}>
-                <svg viewBox="0 0 100 100" width="100" height="100">
-                  <use href="#cat" />
-                </svg>
-                <svg viewBox="0 0 16 16" width="18" height="18" style={{ position: 'absolute', top: -4, right: -8 }}>
-                  <use href="#spark" />
-                </svg>
-                <svg viewBox="0 0 16 16" width="13" height="13" style={{ position: 'absolute', top: 10, right: -18, fill: '#C4837A' }}>
-                  <use href="#spark" />
-                </svg>
+            {/* ── cat + before/after card ── */}
+            <div style={{ marginTop: 20, display: 'flex', alignItems: 'stretch', borderRadius: 16, border: '1.5px solid #E8D098', overflow: 'hidden', background: '#FFFBEE' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 10px 12px 12px', background: '#FCF0C8', borderRight: '1.5px solid #E8D098', flexShrink: 0 }}>
+                <div style={{ position: 'relative' }}>
+                  <svg viewBox="0 0 100 100" width="68" height="68">
+                    <use href="#cat" />
+                  </svg>
+                  <svg viewBox="0 0 16 16" width="13" height="13" style={{ position: 'absolute', top: -4, right: -6 }}>
+                    <use href="#spark" />
+                  </svg>
+                  <svg viewBox="0 0 16 16" width="9" height="9" style={{ position: 'absolute', bottom: 6, left: -8, fill: '#C4837A' }}>
+                    <use href="#spark" />
+                  </svg>
+                </div>
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ padding: '7px 12px', background: '#FCF0C8', borderBottom: '1px solid #E8D098' }}>
+                  <span style={{ fontSize: 10, fontWeight: 800, color: '#B8866A', letterSpacing: '.08em', textTransform: 'uppercase' as const }}>{t.mini_lbl}</span>
+                </div>
+                {[
+                  { jargon: 'Carprofen 25mg BID with food', plain: t.mini1_p },
+                  { jargon: 'monitor for dehiscence', plain: t.mini2_p },
+                ].map((row, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '9px 12px', borderBottom: i === 0 ? '1px solid #F0E0B0' : 'none' }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, fontFamily: 'monospace', color: '#A86840', background: '#FAE0B8', padding: '3px 7px', borderRadius: 6, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const, minWidth: 0, flexShrink: 1 }}>{row.jargon}</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C4837A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                      <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                    </svg>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: '#3A2010', lineHeight: 1.4 }}>{row.plain}</span>
+                  </div>
+                ))}
               </div>
             </div>
-
-            <div className="decoder">
-              <div className="dec-head">
-                <span className="dec-title">{t.dec_t}</span>
-                <span className="dec-live">{t.dec_live}</span>
-              </div>
-              <p className="dec-sub">{t.dec_sub}</p>
-              <div className="dec-body">
-                <div className="drow">
-                  <div>
-                    <span className="jtag">monitor for dehiscence</span>
-                  </div>
-                  <p className="dplain" dangerouslySetInnerHTML={{ __html: t.d1 }} />
-                </div>
-                <div className="drow">
-                  <div>
-                    <span className="jtag">Carprofen 25mg BID with food</span>
-                  </div>
-                  <p className="dplain" dangerouslySetInnerHTML={{ __html: t.d2 }} />
-                </div>
-                <div className="drow">
-                  <div>
-                    <span className="jtag">subcutaneous sutures</span>
-                  </div>
-                  <p className="dplain" dangerouslySetInnerHTML={{ __html: t.d3 }} />
-                </div>
-                <div className="drow">
-                  <div>
-                    <span className="jtag">seroma may develop</span>
-                  </div>
-                  <p className="dplain" dangerouslySetInnerHTML={{ __html: t.d4 }} />
-                </div>
-                <div className="drow">
-                  <div>
-                    <span className="jtag">restrict activity 10–14 days</span>
-                  </div>
-                  <p className="dplain" dangerouslySetInnerHTML={{ __html: t.d5 }} />
-                </div>
-              </div>
-            </div>
-
           </div>
+
         </div>
       </section>
 
@@ -849,80 +1093,98 @@ useEffect(() => {
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <div className="sec-ey">{t.samp_ey}</div>
           <h2 className="sec-h" style={{ marginBottom: 8 }}>{t.samp_h}</h2>
-          <p style={{ fontSize: 15, color: '#8A6840', fontWeight: 600, marginBottom: 36, lineHeight: 1.6 }}>{t.samp_sub}</p>
+          <p style={{ fontSize: 15, color: '#8A6840', fontWeight: 600, marginBottom: 24, lineHeight: 1.6 }}>{t.samp_sub}</p>
 
-          {/* mock brief card */}
-          <div style={{ background: '#FFFBEE', borderRadius: 28, border: '2px solid #E8D098', overflow: 'hidden', boxShadow: '0 8px 40px rgba(58,32,16,.08)' }}>
-
-            {/* brief header */}
-            <div style={{ background: '#FCF0C8', padding: '20px 28px', borderBottom: '2px solid #E8D098', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-              <div>
-                <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 22, color: '#3A2010' }}>Luna's recovery plan</p>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#8A6840', marginTop: 2 }}>{t.samp_pet}</p>
-              </div>
-              <span style={{ fontSize: 11, fontWeight: 800, background: '#C4837A', color: '#fff', padding: '5px 14px', borderRadius: 50, letterSpacing: '.04em', textTransform: 'uppercase' as const }}>
-                sample
-              </span>
-            </div>
-
-            <div style={{ padding: '24px 28px', display: 'grid', gap: 20 }}>
-
-              {/* day schedule */}
-              <div style={{ background: '#FFF6DC', borderRadius: 20, overflow: 'hidden', border: '1.5px solid #E8D098' }}>
-                <div style={{ padding: '14px 20px', background: '#FCF0C8', borderBottom: '1px solid #E8D098' }}>
-                  <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 16, color: '#3A2010' }}>{t.d_today.charAt(0).toUpperCase() + t.d_today.slice(1)} — {t.d_4_7}</p>
-                </div>
-                {[
-                  { tag: t.d_today, txt: t.d_today_t },
-                  { tag: t.d_1_3, txt: t.d_1_3_t },
-                  { tag: t.d_4_7, txt: t.d_4_7_t },
-                ].map((row, i) => (
-                  <div key={i} style={{ display: 'flex', gap: 12, padding: '12px 20px', borderBottom: i < 2 ? '1px solid #ECC888' : 'none', alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, background: '#B8866A', color: '#fff', padding: '3px 10px', borderRadius: 50, whiteSpace: 'nowrap' as const, flexShrink: 0, marginTop: 2 }}>{row.tag}</span>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: '#3A2010', lineHeight: 1.6 }}>{row.txt}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* medication */}
-              <div style={{ background: '#fff', borderRadius: 20, padding: '18px 20px', border: '1.5px solid #F9E8E4' }}>
-                <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 17, color: '#C4837A', marginBottom: 4 }}>{t.samp_med_name}</p>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#3A2010', marginBottom: 10 }}>{t.samp_med_dose}</p>
-                <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, background: '#FAE0B8', color: '#8A5A40', padding: '3px 10px', borderRadius: 8, fontFamily: 'monospace' }}>{t.samp_med_clin}</span>
-                  <span style={{ fontSize: 11, fontWeight: 700, background: '#E4F4EC', color: '#3D7A58', padding: '3px 10px', borderRadius: 50 }}>with food</span>
-                </div>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#8A6840', paddingTop: 10, borderTop: '1px solid #FAE0B8' }}>{t.samp_med_note}</p>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                {/* warning signs */}
-                <div>
-                  <p style={{ fontSize: 12, fontWeight: 800, color: '#8A6840', textTransform: 'uppercase' as const, letterSpacing: '.06em', marginBottom: 10 }}>⚠️ warning signs</p>
-                  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 8 }}>
-                    {[
-                      { txt: t.samp_w1, color: '#C4837A', bg: '#F9E8E4' },
-                      { txt: t.samp_w2, color: '#C4837A', bg: '#F9E8E4' },
-                      { txt: t.samp_w3, color: '#D4A030', bg: '#FEF9EE' },
-                    ].map((w, i) => (
-                      <div key={i} style={{ background: w.bg, borderRadius: 12, padding: '10px 14px', border: `1.5px solid ${w.color}30`, fontSize: 13, fontWeight: 700, color: '#3A2010', lineHeight: 1.5 }}>{w.txt}</div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* don't panic */}
-                <div>
-                  <p style={{ fontSize: 12, fontWeight: 800, color: '#8A6840', textTransform: 'uppercase' as const, letterSpacing: '.06em', marginBottom: 10 }}>✅ don't panic</p>
-                  <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 8 }}>
-                    {[t.samp_n1, t.samp_n2].map((n, i) => (
-                      <div key={i} style={{ background: '#E4F4EC', borderRadius: 12, padding: '10px 14px', border: '1.5px solid #B8E4CA', fontSize: 13, fontWeight: 600, color: '#1A3325', lineHeight: 1.5 }}>{n}</div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-            </div>
+          {/* tab buttons */}
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' as const, marginBottom: 20 }}>
+            {SAMPLE_TABS[lang].map((tab, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveTab(i)}
+                style={{
+                  fontFamily: 'Nunito, sans-serif',
+                  fontSize: 13,
+                  fontWeight: 800,
+                  padding: '8px 18px',
+                  borderRadius: 50,
+                  border: `2px solid ${activeTab === i ? '#C4837A' : '#E8D098'}`,
+                  background: activeTab === i ? '#C4837A' : '#FCF0C8',
+                  color: activeTab === i ? '#fff' : '#8A6840',
+                  cursor: 'pointer',
+                  transition: 'all .2s',
+                }}
+              >
+                {tab.tabLabel}
+              </button>
+            ))}
           </div>
+
+          {/* card */}
+          {(() => {
+            const tab = SAMPLE_TABS[lang][activeTab];
+            return (
+              <div style={{ background: '#FFFBEE', borderRadius: 28, border: '2px solid #E8D098', overflow: 'hidden', boxShadow: '0 8px 40px rgba(58,32,16,.08)' }}>
+                {/* brief header */}
+                <div style={{ background: '#FCF0C8', padding: '20px 28px', borderBottom: '2px solid #E8D098', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+                  <div>
+                    <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 22, color: '#3A2010' }}>{tab.petTitle}</p>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: '#8A6840', marginTop: 2 }}>{tab.petSub}</p>
+                  </div>
+                  <span style={{ fontSize: 11, fontWeight: 800, background: '#C4837A', color: '#fff', padding: '5px 14px', borderRadius: 50, letterSpacing: '.04em', textTransform: 'uppercase' as const }}>
+                    sample
+                  </span>
+                </div>
+
+                <div style={{ padding: '24px 28px', display: 'grid', gap: 20 }}>
+                  {/* day schedule */}
+                  <div style={{ background: '#FFF6DC', borderRadius: 20, overflow: 'hidden', border: '1.5px solid #E8D098' }}>
+                    <div style={{ padding: '14px 20px', background: '#FCF0C8', borderBottom: '1px solid #E8D098' }}>
+                      <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 16, color: '#3A2010' }}>{tab.schedTitle}</p>
+                    </div>
+                    {tab.days.map((row, i) => (
+                      <div key={i} style={{ display: 'flex', gap: 12, padding: '12px 20px', borderBottom: i < tab.days.length - 1 ? '1px solid #ECC888' : 'none', alignItems: 'flex-start' }}>
+                        <span style={{ fontSize: 11, fontWeight: 800, background: '#B8866A', color: '#fff', padding: '3px 10px', borderRadius: 50, whiteSpace: 'nowrap' as const, flexShrink: 0, marginTop: 2 }}>{row.tag}</span>
+                        <span style={{ fontSize: 14, fontWeight: 600, color: '#3A2010', lineHeight: 1.6 }}>{row.txt}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* medication */}
+                  <div style={{ background: '#fff', borderRadius: 20, padding: '18px 20px', border: '1.5px solid #F9E8E4' }}>
+                    <p style={{ fontFamily: 'Fredoka One, sans-serif', fontSize: 17, color: '#C4837A', marginBottom: 4 }}>{tab.medName}</p>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: '#3A2010', marginBottom: 10 }}>{tab.medDose}</p>
+                    <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, background: '#FAE0B8', color: '#8A5A40', padding: '3px 10px', borderRadius: 8, fontFamily: 'monospace' }}>{tab.medClin}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, background: '#E4F4EC', color: '#3D7A58', padding: '3px 10px', borderRadius: 50 }}>{t.samp_with_food}</span>
+                    </div>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: '#8A6840', paddingTop: 10, borderTop: '1px solid #FAE0B8' }}>{tab.medNote}</p>
+                  </div>
+
+                  <div className="samp-warn-grid">
+                    {/* warning signs */}
+                    <div>
+                      <p style={{ fontSize: 12, fontWeight: 800, color: '#8A6840', textTransform: 'uppercase' as const, letterSpacing: '.06em', marginBottom: 10 }}>{t.samp_warn}</p>
+                      <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 8 }}>
+                        {tab.warnings.map((w, i) => (
+                          <div key={i} style={{ background: w.yellow ? '#FEF9EE' : '#F9E8E4', borderRadius: 12, padding: '10px 14px', border: `1.5px solid ${w.yellow ? '#D4A03044' : '#C4837A44'}`, fontSize: 13, fontWeight: 700, color: '#3A2010', lineHeight: 1.5 }}>{w.txt}</div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* don't panic */}
+                    <div>
+                      <p style={{ fontSize: 12, fontWeight: 800, color: '#8A6840', textTransform: 'uppercase' as const, letterSpacing: '.06em', marginBottom: 10 }}>{t.samp_ok}</p>
+                      <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 8 }}>
+                        {tab.normals.map((n, i) => (
+                          <div key={i} style={{ background: '#E4F4EC', borderRadius: 12, padding: '10px 14px', border: '1.5px solid #B8E4CA', fontSize: 13, fontWeight: 600, color: '#1A3325', lineHeight: 1.5 }}>{n}</div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
 
         </div>
       </section>
