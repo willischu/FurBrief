@@ -87,6 +87,7 @@ export const footerStrings = {
     disc: 'furbrief translates vet discharge papers for pet owners. not veterinary advice. not a substitute for professional care. always contact your vet in an emergency.',
     links: [
       { label: 'home', href: '/' },
+      { label: 'about', href: '/about' },
       { label: 'get a furbrief', href: '/upload' },
       { label: 'privacy', href: '/privacy' },
       { label: 'help & contact', href: 'https://mail.google.com/mail/?view=cm&to=furbrief@proton.me' },
@@ -97,6 +98,7 @@ export const footerStrings = {
     disc: 'furbrief traduce papeles de alta veterinaria. no es consejo médico. no reemplaza la atención profesional. en emergencias contacta a tu vet.',
     links: [
       { label: 'inicio', href: '/' },
+      { label: 'acerca de', href: '/about' },
       { label: 'obtener un furbrief', href: '/upload' },
       { label: 'privacidad', href: '/privacy' },
       { label: 'ayuda y contacto', href: 'https://mail.google.com/mail/?view=cm&to=furbrief@proton.me' },
@@ -107,6 +109,7 @@ export const footerStrings = {
     disc: '퍼브리프는 수의사 퇴원 서류를 번역합니다. 수의학적 조언이 아닙니다. 응급 상황에서는 반드시 수의사에게 연락하세요.',
     links: [
       { label: '홈', href: '/' },
+      { label: '소개', href: '/about' },
       { label: '퍼브리프 받기', href: '/upload' },
       { label: '개인정보처리방침', href: '/privacy' },
       { label: '도움말 및 문의', href: 'https://mail.google.com/mail/?view=cm&to=furbrief@proton.me' },
@@ -117,6 +120,7 @@ export const footerStrings = {
     disc: '毛简报翻译兽医出院文件。非兽医建议。不能替代专业医疗护理。紧急情况请务必联系您的兽医。',
     links: [
       { label: '首页', href: '/' },
+      { label: '关于', href: '/about' },
       { label: '获取毛简报', href: '/upload' },
       { label: '隐私政策', href: '/privacy' },
       { label: '帮助与联系', href: 'https://mail.google.com/mail/?view=cm&to=furbrief@proton.me' },

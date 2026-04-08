@@ -585,6 +585,7 @@ useEffect(() => {
           </span>
         </a>
         <div className="nav-r">
+          <a href="/about" style={{ fontSize: 14, fontWeight: 700, color: '#8A6840', textDecoration: 'none', marginRight: 8 }}>about</a>
           <div className="lang-wrap">
             <button className="globe-btn" type="button" onClick={() => setShowLangMenu(!showLangMenu)}>
               <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -777,20 +778,6 @@ useEffect(() => {
               </div>
             </div>
 
-            <div className="stat-row">
-              <div className="stat-card">
-                <div className="stat-n">{t.p1n}</div>
-                <div className="stat-l">{t.p1l}</div>
-              </div>
-              <div className="stat-card">
-                <div className="stat-n">{t.p2n}</div>
-                <div className="stat-l">{t.p2l}</div>
-              </div>
-              <div className="stat-card accent">
-                <div className="stat-n">$6</div>
-                <div className="stat-l">{t.p3l}</div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -817,40 +804,6 @@ useEffect(() => {
           <span className="pfl">{t.pf4l}</span>
         </div>
       </div>
-
-      <section className="problem">
-        <div className="prob-inner">
-          <div className="sec-ey">{t.prob_ey}</div>
-          <h2 className="sec-h" style={{ marginBottom: 20 }}>
-            <span>{t.prob_h1}</span>
-            <br />
-            <em>{t.prob_h2}</em>
-          </h2>
-          <div className="prob-body">
-            <p>{t.prob_p1}</p>
-            <p>{t.prob_p2}</p>
-            <p>
-              <strong>{t.prob_p3}</strong>
-            </p>
-          </div>
-          <div className="paper-card">
-            <div className="paper-top">{t.paper_lbl}</div>
-            <p className="pline">
-              administer <span className="phl">Carprofen 25mg PO BID</span> with food × 5 days. do not give if{' '}
-              <span className="phl">anorexic or vomiting.</span>
-            </p>
-            <p className="pline">
-              monitor surgical site for <span className="phl">erythema, exudate,</span> or <span className="phl">dehiscence.</span> e-collar to remain in place.
-            </p>
-            <p className="pline">
-              <span className="phl">restrict activity</span> 10–14 days. <span className="phl">leash walks only</span> for elimination.
-            </p>
-            <p className="pline">
-              <span className="phl">amoxicillin 250mg BID</span> × 7 days. <span className="phl">recheck</span> in 14 days.
-            </p>
-          </div>
-        </div>
-      </section>
 
       <section className="steps-sec">
         <div className="sec-ey">{t.how_ey}</div>
@@ -887,77 +840,6 @@ useEffect(() => {
               <span className="stag">{t.st_sched}</span>
               <span className="stag">{t.st_meds}</span>
               <span className="stag">{t.st_warn}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="wyg">
-        <div className="wyg-inner">
-          <div className="sec-ey">{t.wyg_ey}</div>
-          <h2 className="sec-h">{t.wyg_h}</h2>
-          <div className="wyg-grid">
-            <div className="wcard big">
-              <div>
-                <div className="wico">
-                  <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="4" width="18" height="18" rx="2" />
-                    <line x1="16" y1="2" x2="16" y2="6" />
-                    <line x1="8" y1="2" x2="8" y2="6" />
-                    <line x1="3" y1="10" x2="21" y2="10" />
-                  </svg>
-                </div>
-                <p className="wname">{t.w1n}</p>
-                <p className="wdesc">{t.w1d}</p>
-              </div>
-              <div className="dprev">
-                <div className="dday">
-                  <span className="ddtag">{t.d_today}</span>
-                  <span className="ddtxt">{t.d_today_t}</span>
-                </div>
-                <div className="dday">
-                  <span className="ddtag">{t.d_1_3}</span>
-                  <span className="ddtxt">{t.d_1_3_t}</span>
-                </div>
-                <div className="dday">
-                  <span className="ddtag">{t.d_4_7}</span>
-                  <span className="ddtxt">{t.d_4_7_t}</span>
-                </div>
-                <div className="dday">
-                  <span className="ddtag">{t.d_8_14}</span>
-                  <span className="ddtxt">{t.d_8_14_t}</span>
-                </div>
-              </div>
-            </div>
-            <div className="wcard rose-card">
-              <div className="wico">
-                <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                </svg>
-              </div>
-              <p className="wname">{t.w2n}</p>
-              <p className="wdesc">{t.w2d}</p>
-            </div>
-            <div className="wcard honey-card">
-              <div className="wico">
-                <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-              </div>
-              <p className="wname">{t.w3n}</p>
-              <p className="wdesc">{t.w3d}</p>
-            </div>
-            <div className="wcard mint-card">
-              <div className="wico">
-                <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 11 12 14 22 4" />
-                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-                </svg>
-              </div>
-              <p className="wname">{t.w4n}</p>
-              <p className="wdesc">{t.w4d}</p>
             </div>
           </div>
         </div>
@@ -1043,104 +925,6 @@ useEffect(() => {
             </div>
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: 32 }}>
-            <a href="/upload" className="cbtn" style={{ display: 'inline-flex' }}>{t.samp_cta}</a>
-          </div>
-        </div>
-      </section>
-
-      <section className="obj-sec">
-        <div className="sec-ey">{t.obj_ey}</div>
-        <h2 className="sec-h" style={{ marginBottom: 20 }}>
-          {t.obj_h}
-        </h2>
-        <div className="obj-grid">
-          <div className="obj">
-            <p className="oq">{t.oq1}</p>
-            <p className="oa" dangerouslySetInnerHTML={{ __html: t.oa1 }} />
-          </div>
-          <div className="obj">
-            <p className="oq">{t.oq2}</p>
-            <p className="oa" dangerouslySetInnerHTML={{ __html: t.oa2 }} />
-          </div>
-          <div className="obj">
-            <p className="oq">{t.oq3}</p>
-            <p className="oa" dangerouslySetInnerHTML={{ __html: t.oa3 }} />
-          </div>
-          <div className="obj">
-            <p className="oq">{t.oq4}</p>
-            <p className="oa" dangerouslySetInnerHTML={{ __html: t.oa4 }} />
-          </div>
-        </div>
-      </section>
-
-      <div className="ins">
-        <div className="ins-inner">
-          <div className="ins-ico">
-            <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            </svg>
-          </div>
-          <div className="ins-body">
-            <p className="ins-t">{t.ins_t}</p>
-            <p className="ins-d">{t.ins_d}</p>
-          </div>
-          <a href="#upload" className="ins-btn">
-            {t.ins_btn}
-          </a>
-        </div>
-      </div>
-
-      <section className="faq-sec">
-        <div className="faq-inner">
-          <div className="sec-ey">{t.faq_ey}</div>
-          <h2 className="sec-h" style={{ marginBottom: 20 }}>
-            {t.faq_h}
-          </h2>
-          <div className="fitem">
-            <div className="fq">
-              <span>{t.fq1}</span>
-              <div className="fchk">
-                <svg viewBox="0 0 24 24" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-            </div>
-            <p className="fa">{t.fa1}</p>
-          </div>
-          <div className="fitem">
-            <div className="fq">
-              <span>{t.fq2}</span>
-              <div className="fchk">
-                <svg viewBox="0 0 24 24" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-            </div>
-            <p className="fa">{t.fa2}</p>
-          </div>
-          <div className="fitem">
-            <div className="fq">
-              <span>{t.fq3}</span>
-              <div className="fchk">
-                <svg viewBox="0 0 24 24" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-            </div>
-            <p className="fa">{t.fa3}</p>
-          </div>
-          <div className="fitem">
-            <div className="fq">
-              <span>{t.fq4}</span>
-              <div className="fchk">
-                <svg viewBox="0 0 24 24" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-            </div>
-            <p className="fa">{t.fa4}</p>
-          </div>
         </div>
       </section>
 
