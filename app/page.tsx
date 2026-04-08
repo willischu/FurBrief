@@ -14,7 +14,7 @@ const langLabels: Record<typeof languages[number], string> = {
 
 const translations = {
   en: {
-    nav_cta: 'get my furbrief',
+    nav_cta: 'translate my vet papers',
     eyebrow: 'the briefing your vet forgot to give you',
     h1a: 'everything',
     h1b: 'your vet said.',
@@ -24,7 +24,7 @@ const translations = {
     upload_t: 'drop your discharge papers here',
     upload_h: 'PDF, photo, or screenshot · any clinic · any format',
     blang_lbl: 'furbrief language:',
-    cta: 'get my furbrief',
+    cta: 'translate my vet papers',
     price: '$6 one-time',
     t1: 'no subscription',
     t2: 'ready in 60 sec',
@@ -136,7 +136,7 @@ const translations = {
     foot_disc: 'furbrief translates vet discharge papers for pet owners. not veterinary advice. not a substitute for professional care. always contact your vet in an emergency.',
   },
   es: {
-    nav_cta: 'obtener mi furbrief',
+    nav_cta: 'traducir mis papeles',
     eyebrow: 'el resumen que tu vet olvidó darte',
     h1a: 'todo',
     h1b: 'lo que dijo tu vet.',
@@ -146,7 +146,7 @@ const translations = {
     upload_t: 'arrastra tus papeles aquí',
     upload_h: 'PDF, foto o captura · cualquier clínica · cualquier formato',
     blang_lbl: 'idioma del furbrief:',
-    cta: 'obtener mi furbrief',
+    cta: 'traducir mis papeles',
     price: '$6 pago único',
     t1: 'sin suscripción',
     t2: 'listo en 60 seg',
@@ -258,7 +258,7 @@ const translations = {
     foot_disc: 'furbrief traduce papeles de alta veterinaria. no es consejo médico. no reemplaza la atención profesional. en emergencias contacta a tu vet.',
   },
   ko: {
-    nav_cta: '퍼브리프 받기',
+    nav_cta: '퇴원 서류 번역하기',
     eyebrow: '수의사가 설명 못한 내용',
     h1a: '수의사가',
     h1b: '한 말, 전부.',
@@ -268,7 +268,7 @@ const translations = {
     upload_t: '퇴원 서류를 여기에 끌어다 놓으세요',
     upload_h: 'PDF · 사진 · 스크린샷 · 모든 클리닉',
     blang_lbl: '퍼브리프 언어:',
-    cta: '퍼브리프 받기',
+    cta: '퇴원 서류 번역하기',
     price: '$6 일회 결제',
     t1: '정기결제 없음',
     t2: '60초 안에 완성',
@@ -380,7 +380,7 @@ const translations = {
     foot_disc: '퍼브리프는 수의사 퇴원 서류를 번역합니다. 수의학적 조언이 아닙니다. 응급 상황에서는 반드시 수의사에게 연락하세요.',
   },
   zh: {
-    nav_cta: '获取我的毛简报',
+    nav_cta: '翻译我的出院文件',
     eyebrow: '兽医忘记解释的那部分',
     h1a: '兽医说的',
     h1b: '一切。',
@@ -390,7 +390,7 @@ const translations = {
     upload_t: '将出院文件拖放到这里',
     upload_h: 'PDF · 照片 · 截图 · 任何诊所',
     blang_lbl: '毛简报语言：',
-    cta: '获取我的毛简报',
+    cta: '翻译我的出院文件',
     price: '$6 一次性付款',
     t1: '无需订阅',
     t2: '60秒内完成',

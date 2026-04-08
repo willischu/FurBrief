@@ -14,7 +14,7 @@ const langLabels: Record<typeof languages[number], string> = {
 
 const translations = {
   en: {
-    nav_cta: 'get my furbrief',
+    nav_cta: 'translate my vet papers',
     prob_ey: 'the problem',
     prob_h1: 'vets are brilliant.',
     prob_h2: 'their paperwork is not written for you.',
@@ -65,7 +65,7 @@ const translations = {
     fa4: 'probably not! furbrief is for the 90% of discharge papers written in clinical shorthand.',
   },
   es: {
-    nav_cta: 'obtener mi furbrief',
+    nav_cta: 'traducir mis papeles',
     prob_ey: 'el problema',
     prob_h1: 'los vets son brillantes.',
     prob_h2: 'sus papeles no están escritos para ti.',
@@ -116,7 +116,7 @@ const translations = {
     fa4: '¡probablemente no! furbrief es para los papeles escritos en jerga clínica.',
   },
   ko: {
-    nav_cta: '퍼브리프 받기',
+    nav_cta: '퇴원 서류 번역하기',
     prob_ey: '문제',
     prob_h1: '수의사는 훌륭해요.',
     prob_h2: '하지만 서류는 다른 수의사를 위해 쓰여졌어요.',
@@ -167,7 +167,7 @@ const translations = {
     fa4: '아마 필요 없을 거예요! 퍼브리프는 의학 전문 용어로 가득한 서류를 위한 거예요.',
   },
   zh: {
-    nav_cta: '获取我的毛简报',
+    nav_cta: '翻译我的出院文件',
     prob_ey: '问题所在',
     prob_h1: '兽医很专业。',
     prob_h2: '但他们的文件是写给其他兽医看的。',
