@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   console.log('STRIPE_PRICE_ID:', process.env.STRIPE_PRICE_ID)
   console.log('NEXT_PUBLIC_APP_URL:', process.env.NEXT_PUBLIC_APP_URL)
   const body = await request.json();
-  const { blobUrl, petName, species, surgeryType, language } = body;
+  const { blobUrl, petName, species, surgeryType, language, referral } = body;
 
   if (!blobUrl || !petName || !species || !language) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -34,10 +34,11 @@ export async function POST(request: Request) {
   const orderId = insertResult.data.id;
   const origin = process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
 
-  const session = await (stripe() as any).checkout.sessions.create({
+  const sessionParams: Record<string, any> = {
     payment_method_types: ['card'],
     line_items: [{ price: process.env.STRIPE_PRICE_ID, quantity: 1 }],
     mode: 'payment',
+    customer_creation: 'always',
     success_url: `${origin}/processing/${orderId}`,
     cancel_url: `${origin}/upload?step=3`,
     metadata: {
@@ -49,7 +50,13 @@ export async function POST(request: Request) {
       surgery_type: surgeryType || '',
       language,
     },
-  });
+  };
+
+  if (referral) {
+    sessionParams.client_reference_id = referral;
+  }
+
+  const session = await (stripe() as any).checkout.sessions.create(sessionParams);
 
   await (supabaseAdmin() as any)
     .from('orders')

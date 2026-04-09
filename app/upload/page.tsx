@@ -281,10 +281,11 @@ export default function UploadPage() {
     setIsLoading(true);
     setCheckoutError(null);
     try {
+      const referral = (window as any).Rewardful?.referral ?? null;
       const response = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ blobUrl, petName, species, surgeryType, language }),
+        body: JSON.stringify({ blobUrl, petName, species, surgeryType, language, referral }),
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data?.error || 'Checkout failed');
