@@ -20,7 +20,7 @@ export async function sendBriefEmail(
 
   const url = `${process.env.NEXT_PUBLIC_APP_URL}/brief/${token}`;
   const subject = getSubject(language, name);
-  const text = `Your furbrief is ready. View it here: ${url}\n\nIt's shareable — send it to anyone helping with ${name}'s recovery.`;
+  const text = `Your furbrief is ready. View it here: ${url}\n\nIt's shareable — send it to anyone helping with ${name}'s recovery.\n\n---\nLove furbrief? Share it and earn $2 per referral.\nJoin our affiliate program (free, no approval needed): https://furbrief.getrewardful.com/signup`;
 
   await fetch('https://api.resend.com/emails', {
     method: 'POST',
